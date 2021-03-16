@@ -4,110 +4,15 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
-const HomeScreen = ({navigation}) =>{
-  return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home screen</Text>
-      <Button title="Go to Report"
-       onPress={() => navigation.navigate("Report")}
-      />
-      <Button title="Go to Console"
-       onPress={() => navigation.navigate("Console")}
-      />
-      <Button title="Go to Access and Control"
-       onPress={() => navigation.navigate("AccessControl")}
-      />
-      <Button title="Go to Tehnician"
-       onPress={() => navigation.navigate("Tehnician")}
-      />
-    </View>
-  );
-};
-
-
-const ReportScreen = ({navigation}) =>{
-  return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Report Screen</Text>
-      <Button title="Go to Report"
-       onPress={() => navigation.navigate("Report")}
-      />
-      <Button title="Go to Console"
-       onPress={() => navigation.navigate("Console")}
-      />
-      <Button title="Go to Access and Control"
-       onPress={() => navigation.navigate("AccessControl")}
-      />
-      <Button title="Go to Tehnician"
-       onPress={() => navigation.navigate("Tehnician")}
-      />
-    </View>
-  );
-};
-
-const ConsoleScreen = ({navigation}) =>{
-  return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Console Screen</Text>
-      <Button title="Go to Report"
-       onPress={() => navigation.navigate("Report")}
-      />
-      <Button title="Go to Console"
-       onPress={() => navigation.navigate("Console")}
-      />
-      <Button title="Go to Access and Control"
-       onPress={() => navigation.navigate("AccessControl")}
-      />
-      <Button title="Go to Tehnician"
-       onPress={() => navigation.navigate("Tehnician")}
-      />
-    </View>
-  );
-};
-
-const AccessControlScreen = ({navigation}) =>{
-  return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Access Control Screen</Text>
-      <Button title="Go to Report"
-       onPress={() => navigation.navigate("Report")}
-      />
-      <Button title="Go to Console"
-       onPress={() => navigation.navigate("Console")}
-      />
-      <Button title="Go to Access and Control"
-       onPress={() => navigation.navigate("AccessControl")}
-      />
-      <Button title="Go to Tehnician"
-       onPress={() => navigation.navigate("Tehnician")}
-      />
-    </View>
-  );
-};
-
-const TehnicianScreen = ({navigation}) =>{
-  return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Tehnician Screen</Text>
-      <Button title="Go to Report"
-       onPress={() => navigation.navigate("Report")}
-      />
-      <Button title="Go to Console"
-       onPress={() => navigation.navigate("Console")}
-      />
-      <Button title="Go to Access and Control"
-       onPress={() => navigation.navigate("AccessControl")}
-      />
-      <Button title="Go to Tehnician"
-       onPress={() => navigation.navigate("Tehnician")}
-      />
-    </View>
-  );
-};
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MainTabScreen from './screens/MainTabScreen/MainTabScreen';
 
 
 const Stack = createStackNavigator();
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
@@ -121,13 +26,9 @@ export default function App() {
           fontWeight: 'bold',
         }
       }}>
-        <Stack.Screen name="Home" component={HomeScreen} options={{
+        <Stack.Screen name="Home" component={MainTabScreen} options={{
           title: 'Monitor',
         }}/>
-        <Stack.Screen name="Report" component={ReportScreen} />
-        <Stack.Screen name="Console" component={ConsoleScreen} />
-        <Stack.Screen name="AccessControl" component={AccessControlScreen} />
-        <Stack.Screen name="Tehnician" component={TehnicianScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
