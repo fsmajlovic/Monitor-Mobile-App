@@ -4,15 +4,12 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MainTabScreen from './screens/MainTabScreen/MainTabScreen';
 
 
 const Stack = createStackNavigator();
 
-const Tab = createBottomTabNavigator();
+
 
 export default function App() {
   return (
@@ -27,6 +24,7 @@ export default function App() {
         }
       }}>
         <Stack.Screen name="Home" component={MainTabScreen} options={{
+          headerTitleStyle: { alignSelf: 'center', fontWeight: 'bold', fontStyle: 'italic', },
           title: 'Monitor',
         }}/>
       </Stack.Navigator>

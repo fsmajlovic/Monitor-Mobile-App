@@ -97,9 +97,11 @@ export default MainTabScreen;
 const HomeStackScreen = ({navigation}) => (
     <HomeStack.Navigator screenOptions={{
             headerStyle: {
-            backgroundColor: '#009387',
+            backgroundColor: 'transparent',
+            shadowOpacity: 0,
+            elevation: 0,
             },
-            headerTintColor: '#fff',
+            headerTintColor: 'black',
             headerTitleStyle: {
             fontWeight: 'bold'
             }
@@ -113,9 +115,11 @@ const HomeStackScreen = ({navigation}) => (
     const ConsoleStackScreen = ({navigation}) => (
       <ConsoleStack.Navigator screenOptions={{
               headerStyle: {
-              backgroundColor: '#009387',
+              backgroundColor: 'transparent',
+              shadowOpacity: 0,
+              elevation: 0,
               },
-              headerTintColor: '#fff',
+              headerTintColor: 'black',
               headerTitleStyle: {
               fontWeight: 'bold'
               }
@@ -129,9 +133,11 @@ const HomeStackScreen = ({navigation}) => (
       const ReportStackScreen = ({navigation}) => (
         <ReportStack.Navigator screenOptions={{
                 headerStyle: {
-                backgroundColor: '#009387',
+                backgroundColor: 'transparent',
+                shadowOpacity: 0,
+                elevation: 0,
                 },
-                headerTintColor: '#fff',
+                headerTintColor: 'black',
                 headerTitleStyle: {
                 fontWeight: 'bold'
                 }
@@ -145,9 +151,11 @@ const HomeStackScreen = ({navigation}) => (
         const AccessControlStackScreen = ({navigation}) => (
           <AccessControlStack.Navigator screenOptions={{
                   headerStyle: {
-                  backgroundColor: '#009387',
+                  backgroundColor: 'transparent',
+                  shadowOpacity: 0,
+                  elevation: 0,
                   },
-                  headerTintColor: '#fff',
+                  headerTintColor: 'black',
                   headerTitleStyle: {
                   fontWeight: 'bold'
                   }
@@ -161,9 +169,11 @@ const HomeStackScreen = ({navigation}) => (
           const TehnicianStackScreen = ({navigation}) => (
             <TehnicianStack.Navigator screenOptions={{
                     headerStyle: {
-                    backgroundColor: '#009387',
+                    backgroundColor: 'transparent',
+                    shadowOpacity: 0,
+                    elevation: 0,
                     },
-                    headerTintColor: '#fff',
+                    headerTintColor: 'black',
                     headerTitleStyle: {
                     fontWeight: 'bold'
                     }
