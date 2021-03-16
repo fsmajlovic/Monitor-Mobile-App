@@ -112,8 +112,18 @@ const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Navigator screenOptions={{
+        headerStyle: {
+          backgroundColor: 'turquoise',
+        },
+        headerTintColor: 'black',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        }
+      }}>
+        <Stack.Screen name="Home" component={HomeScreen} options={{
+          title: 'Monitor',
+        }}/>
         <Stack.Screen name="Report" component={ReportScreen} />
         <Stack.Screen name="Console" component={ConsoleScreen} />
         <Stack.Screen name="AccessControl" component={AccessControlScreen} />
