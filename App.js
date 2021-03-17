@@ -10,8 +10,7 @@ import LoginScreen from './screens/LoginScreen/LoginScreen';
 
 export default function App() {
   return (
-    <NavigationContainer>
-         
+    <NavigationContainer>   
         <MainTabScreen/>
     </NavigationContainer>
     
