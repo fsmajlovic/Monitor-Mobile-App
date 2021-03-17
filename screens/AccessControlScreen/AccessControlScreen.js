@@ -6,6 +6,7 @@ export default function AccessControlScreen({navigation}) {
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
           <Text>AccessControl screen</Text>
           <Button title="Screenshot"/>
+          <Button title="novo dugme"/>
         </View>
       );
 }
