@@ -6,13 +6,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import MainTabScreen from './screens/MainTabScreen/MainTabScreen';
 import LoginScreen from './screens/LoginScreen/LoginScreen';
 
-//Ukljuciti MainTabScreen za ostale screenove
+//Ukljuciti LoginScreen
 
 export default function App() {
   return (
     <NavigationContainer>
-        <LoginScreen/>  
-
+         
+        <MainTabScreen/>
     </NavigationContainer>
     
   );
