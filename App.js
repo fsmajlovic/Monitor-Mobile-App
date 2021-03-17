@@ -4,11 +4,15 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import MainTabScreen from './screens/MainTabScreen/MainTabScreen';
+import LoginScreen from './screens/LoginScreen/LoginScreen';
+
+//Ukljuciti MainTabScreen za ostale screenove
 
 export default function App() {
   return (
     <NavigationContainer>
-       <MainTabScreen/>
+        <LoginScreen/>  
+
     </NavigationContainer>
     
   );
