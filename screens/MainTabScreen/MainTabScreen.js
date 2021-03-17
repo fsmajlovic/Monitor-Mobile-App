@@ -74,7 +74,7 @@ const MainTabScreen = () => (
         component={TehnicianStackScreen}
         options={{
           tabBarLabel: 'Tech',
-          tabBarColor: '#d02860',
+          tabBarColor: '#e06d1b',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-person" color={color} size={26} />
           ),
@@ -160,7 +160,7 @@ const HomeStackScreen = ({navigation}) => (
                   fontWeight: 'bold'
                   }
               }}>
-                  <AccessControlStack.Screen name="AccessControl" component={ReportScreen} options={{
+                  <AccessControlStack.Screen name="AccessControl" component={AccessControlScreen} options={{
                     
                   }} />
           </AccessControlStack.Navigator>
@@ -178,7 +178,7 @@ const HomeStackScreen = ({navigation}) => (
                     fontWeight: 'bold'
                     }
                 }}>
-                    <TehnicianStack.Screen name="Tehnician" component={ReportScreen} options={{
+                    <TehnicianStack.Screen name="Tehnician" component={TehnicianScreen} options={{
                       
                     }} />
             </TehnicianStack.Navigator>
