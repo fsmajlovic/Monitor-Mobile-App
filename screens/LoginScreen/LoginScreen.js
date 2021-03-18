@@ -1,8 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, View, Button, TextInput} from 'react-native';
+import {AuthContext} from '../../contexts/authContext';
 
 export default function LoginScreen() {
-    return(
+  const {signIn} = React.useContext(AuthContext);
+  
+  return(
         <View style={styles.container}>
         <TextInput
           //value={this.state.username}
@@ -21,7 +24,7 @@ export default function LoginScreen() {
         <Button
           title={'Login'}
           style={styles.input}
-          //onPress={this.onLogin.bind(this)}
+          onPress={() => {signIn()}}
         />
       </View>
       );
