@@ -11,17 +11,40 @@ import {AuthContext} from './contexts/authContext';
 
 
 export default function App() {
-  const [isLoading, setIsLoading] = React.useState(true);
+  //const [isLoading, setIsLoading] = React.useState(true);
+  const initialLoginState={
+    isLoading:true,
+  };
+
+  const loginReducer = (prevState, action) =>{
+    switch(action.type){
+      case 'RETRIEVE_TOKEN':
+        return{};
+      case 'LOGIN':
+        return{
+          ... prevState,
+          isLoading: action.isLoading,
+        };
+      case 'LOGOUT':
+        return{
+          ... prevState,
+          isLoading:action.isLoading,
+        };       
+    }
+  };
   
+  const [loginState, dispatch] = React.useReducer(loginReducer,initialLoginState);
+
   const authContext = React.useMemo(()=>({
     signIn: () => {
-      setIsLoading(false)
+      dispatch({type: 'LOGIN',isLoading: false });
     },
     signOut: () =>{
-      setIsLoading(true);  
+      console.log()
+      dispatch({type: 'LOGOUT', isLoading: true}) 
     },
 
-  }));
+  }),[]);
 
   // React.useEffect(()=>{
   //     setTimeout(()=>{
@@ -35,10 +58,11 @@ export default function App() {
     
     <AuthContext.Provider value={authContext}>
     <NavigationContainer>   
-        {isLoading!==true ?
-          (<MainTabScreen/>
+        {loginState.isLoading!==true ?
+          (
+            <MainTabScreen/>
           ):(
-           <LoginScreen/>
+            <LoginScreen/>
           )}
     </NavigationContainer>
     </AuthContext.Provider>
