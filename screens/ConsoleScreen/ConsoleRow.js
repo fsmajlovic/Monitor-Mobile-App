@@ -10,7 +10,8 @@ export default function ConsoleRow({rows}) {
   return(
     <View>
         {rows.map((row,index) => {
-          let args = row.split(" ");
+          let input = row.replace(/ +/g, ' ').trim();
+          let args = input.split(" ");
           let command = "";
           command = args[0].toLowerCase();
 
