@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Text, View} from 'react-native';
 import {styles} from './Styles' 
   
@@ -6,6 +6,20 @@ export default function ConsoleRow({rows}) {
 
   const group1 = ["?", "clear", "ls"];
   const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set"];
+
+  const sendRequest = (command) => {
+    fetch('http://109.237.36.76:25565/komanda/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                command: {
+                    komanda: "cd desktop",
+                }
+            })
+          }).then(response => response.text()).then(res => console.log(res));
+         };
 
   return(
     <View>
@@ -18,13 +32,15 @@ export default function ConsoleRow({rows}) {
           //komanda iz grupe 1 i nije uneseno ništa iza nje || komanda iz grupe 2 i unesen 1 parametar
           if( (group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length == 2) ) {
             //komanda validna
+            sendRequest();
             return(
+
               <View key={index}>
                 <View style={styles.row}>
                   <Text style={styles.textArea}> IWM console > {row}</Text>
                 </View>
                 <View style={styles.row}>
-                  <Text style={styles.textArea}> Valid Command! </Text>
+                  <Text style={styles.textArea}> Invalid command! </Text>
               </View>
             </View>
             ) 
