@@ -12,7 +12,7 @@ export default function ConsoleRow({rows}) {
         {rows.map((row,index) => {
           let args = row.split(" ");
           let command = "";
-          command = args[0];
+          command = args[0].toLowerCase();
 
           //komanda iz grupe 1 i nije uneseno ništa iza nje || komanda iz grupe 2 i unesen 1 parametar
           if( (group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length == 2) ) {
