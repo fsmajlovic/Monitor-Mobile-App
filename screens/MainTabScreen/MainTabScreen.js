@@ -9,6 +9,8 @@ import ConsoleScreen from '../ConsoleScreen/ConsoleScreen';
 import ReportScreen from '../ReportScreen/ReportScreen';
 import AccessControlScreen from '../AccessControlScreen/AccessControlScreen';
 import TehnicianScreen from '../TehnicianScreen/TehnicianScreen';
+import AddTask from '../TehnicianScreen/screens/AddTask';
+import Schedule from '../TehnicianScreen/screens/Schedule';
 
 
 const HomeStack = createStackNavigator();
@@ -180,6 +182,12 @@ const HomeStackScreen = ({navigation}) => (
                 }}>
                     <TehnicianStack.Screen name="Tehnician" component={TehnicianScreen} options={{
                       
+                    }} />
+                     <TehnicianStack.Screen name = "AddTask" component={AddTask} options={{
+                      
+                    }} />
+                    <TehnicianStack.Screen name = "Schedule" component={Schedule} options={{
+                    
                     }} />
             </TehnicianStack.Navigator>
             );

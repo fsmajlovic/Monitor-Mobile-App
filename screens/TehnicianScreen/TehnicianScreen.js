@@ -1,10 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, View, Button } from 'react-native';
+
 
 export default function TehnicianScreen({navigation}) {
     return(
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-          <Text>Tehnician screen</Text>
+           <Button title="Add task" onPress={() => navigation.push("AddTask")}></Button>
+          <Button title="Schedule" onPress={() => navigation.push("Schedule")}></Button>
         </View>
       );
 }
