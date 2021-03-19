@@ -11,24 +11,27 @@ import {AuthContext} from './contexts/authContext';
 
 
 export default function App() {
-  //const [isLoading, setIsLoading] = React.useState(true);
   const initialLoginState={
     isLoading:true,
+    isSignedIn:false,
   };
 
   const loginReducer = (prevState, action) =>{
     switch(action.type){
       case 'RETRIEVE_TOKEN':
-        return{};
+        return{
+          ...prevState,
+          isLoading:action.isLoading,
+        };
       case 'LOGIN':
         return{
           ... prevState,
-          isLoading: action.isLoading,
+          isSignedIn: action.isSignedIn,
         };
       case 'LOGOUT':
         return{
           ... prevState,
-          isLoading:action.isLoading,
+          isSignedIn:action.isSignedIn,
         };       
     }
   };
@@ -37,33 +40,31 @@ export default function App() {
 
   const authContext = React.useMemo(()=>({
     signIn: () => {
-      dispatch({type: 'LOGIN',isLoading: false });
+      dispatch({type: 'LOGIN',isSignedIn: true });
     },
     signOut: () =>{
       console.log()
-      dispatch({type: 'LOGOUT', isLoading: true}) 
+      dispatch({type: 'LOGOUT', isSignedIn: false}) 
     },
 
   }),[]);
 
-  // React.useEffect(()=>{
-  //     setTimeout(()=>{
-  //       setIsLoading(false)
-  //     },1000);
-  // },[]);
+  React.useEffect(()=>{
+      setTimeout(()=>{
+        dispatch({type:'RETRIEVE_TOKEN',isLoading:false})
+      },1000);
+  },[]);
   
-
+ 
 
   return (
     
     <AuthContext.Provider value={authContext}>
-    <NavigationContainer>   
-        {loginState.isLoading!==true ?
-          (
-            <MainTabScreen/>
-          ):(
-            <LoginScreen/>
-          )}
+    <NavigationContainer>
+        {loginState.isLoading==true ? 
+          (<LoadingScreen/>) :
+          (loginState.isSignedIn!==true ? <LoginScreen/>:( <MainTabScreen/>)) 
+        }
     </NavigationContainer>
     </AuthContext.Provider>
     
