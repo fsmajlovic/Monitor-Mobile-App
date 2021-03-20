@@ -12,28 +12,22 @@ var base64Icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAo
 
 
 async function postScreenshot(token){
-  console.log("TOKEN: " + token);
-  const requestOptions2 = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({  name: 'Lawson Luke',
-                            email: 'email@yahoo.com',
-                            password: '123',}),
-    headers: {"Authorization" : "Bearer "+ token}
-  };
-  
-  try{
-    var odgovor = await
-    fetch('https://109.237.36.76:25565/screenshot',
-    requestOptions2,
-    );
-    console.log(odgovor);
-  }
-  catch(e){
-    console.log("greska " + e)
-  }
-  
 
+  var odg = fetch('http://109.237.36.76:25565/screenshot', {
+    method: 'POST',
+    headers: {
+      Accept: 'text/html',
+      'Content-Type': 'application/json'
+    },
+    headers: {"Authorization" : "Bearer "+ token},
+    
+  })
+  .then(response=>response.text())
+  .then(response => {
+    console.log("odg"+response)
+  })
+  
+  console.log("Odgovor " + odg);
 }
 
 
