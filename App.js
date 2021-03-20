@@ -8,6 +8,8 @@ import LoginScreen from './screens/LoginScreen/LoginScreen';
 import LoadingScreen from './screens/LoginScreen/LoadingScreen';
 import {AuthContext} from './contexts/authContext';
 import * as SecureStore from 'expo-secure-store'
+import axios from 'axios'
+import {URL} from './appConfig'
 
 async function saveToken(key,value){
   await SecureStore.setItemAsync(key,value);
@@ -51,11 +53,19 @@ export default function App() {
 
   const authContext = React.useMemo(()=>({
     signIn: async (username,password) => {
-        await saveToken('userToken',password);
-        dispatch({type: 'LOGIN',isSignedIn: true});
+      try {
+        const response = await axios.post(URL+'login',{
+          email:username,
+          password:password
+        });        
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+      //dispatch({type: 'LOGIN',isSignedIn: true});
     },
     signOut: async () =>{
-      //await SecureStore.deleteItemAsync('Sifra');
+      await SecureStore.deleteItemAsync('userToken');
       dispatch({type: 'LOGOUT', isSignedIn: false}) 
     },
 
@@ -66,9 +76,8 @@ export default function App() {
   }),[]);
 
   React.useEffect(()=>{
-    const token = async () => {
+    const tokenFunction = async () => {
       let userToken;
-
       try {
         userToken = await getToken('userToken');
       } catch (e) {
@@ -79,7 +88,7 @@ export default function App() {
       else
         dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:true});
       };
-      token();       
+      tokenFunction();       
   },[]);
   
  
