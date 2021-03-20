@@ -7,28 +7,42 @@ import MainTabScreen from './screens/MainTabScreen/MainTabScreen';
 import LoginScreen from './screens/LoginScreen/LoginScreen';
 import LoadingScreen from './screens/LoginScreen/LoadingScreen';
 import {AuthContext} from './contexts/authContext';
+import * as SecureStore from 'expo-secure-store'
 
+async function saveToken(key,value){
+  await SecureStore.setItemAsync(key,value);
+}
+
+async function getToken(key){
+      let userToken = await SecureStore.getItemAsync(key);
+      console.log(userToken);
+      return userToken;
+}
 
 
 export default function App() {
-  //const [isLoading, setIsLoading] = React.useState(true);
   const initialLoginState={
     isLoading:true,
+    isSignedIn:false,
   };
 
   const loginReducer = (prevState, action) =>{
     switch(action.type){
       case 'RETRIEVE_TOKEN':
-        return{};
+        return{
+          ...prevState,
+          isLoading:action.isLoading,
+          isSignedIn:action.isSignedIn,
+        };
       case 'LOGIN':
         return{
           ... prevState,
-          isLoading: action.isLoading,
+          isSignedIn: action.isSignedIn,
         };
       case 'LOGOUT':
         return{
           ... prevState,
-          isLoading:action.isLoading,
+          isSignedIn:action.isSignedIn,
         };       
     }
   };
@@ -36,34 +50,48 @@ export default function App() {
   const [loginState, dispatch] = React.useReducer(loginReducer,initialLoginState);
 
   const authContext = React.useMemo(()=>({
-    signIn: () => {
-      dispatch({type: 'LOGIN',isLoading: false });
+    signIn: async (username,password) => {
+        await saveToken('userToken',password);
+        dispatch({type: 'LOGIN',isSignedIn: true});
     },
-    signOut: () =>{
-      console.log()
-      dispatch({type: 'LOGOUT', isLoading: true}) 
+    signOut: async () =>{
+      //await SecureStore.deleteItemAsync('Sifra');
+      dispatch({type: 'LOGOUT', isSignedIn: false}) 
     },
+
+    getSavedToken: async () =>{
+      return await getToken('userToken');
+    }
 
   }),[]);
 
-  // React.useEffect(()=>{
-  //     setTimeout(()=>{
-  //       setIsLoading(false)
-  //     },1000);
-  // },[]);
-  
+  React.useEffect(()=>{
+    const token = async () => {
+      let userToken;
 
+      try {
+        userToken = await getToken('userToken');
+      } catch (e) {
+        console.log(e);
+      }
+      if(userToken===null)
+        dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:false});
+      else
+        dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:true});
+      };
+      token();       
+  },[]);
+  
+ 
 
   return (
     
     <AuthContext.Provider value={authContext}>
-    <NavigationContainer>   
-        {loginState.isLoading!==true ?
-          (
-            <MainTabScreen/>
-          ):(
-            <LoginScreen/>
-          )}
+    <NavigationContainer>
+        {loginState.isLoading==true ? 
+          (<LoadingScreen/>) :
+          (loginState.isSignedIn!==true ? <LoginScreen/>:( <MainTabScreen/>)) 
+        }
     </NavigationContainer>
     </AuthContext.Provider>
     
