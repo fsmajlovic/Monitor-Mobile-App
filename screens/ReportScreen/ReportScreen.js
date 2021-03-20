@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native';
 import ListView from './components/ListView';
-//import StatisticsView from './components/StatisticsView';
+import StatisticsView from './components/StatisticsView';
 
 const dataSet = [
   {
@@ -74,13 +74,11 @@ const dataSet = [
 
 export default function ReportScreen({navigation}) {
   return(
-    <ScrollView>
+    <ScrollView horizontal={true}>
       <ListView
         itemList={dataSet}
       />
-       {
-         //<StatisticsView dataSet={dataSet}/>
-       }
+      <StatisticsView dataSet={dataSet}/>
     </ScrollView>
   );
 }
