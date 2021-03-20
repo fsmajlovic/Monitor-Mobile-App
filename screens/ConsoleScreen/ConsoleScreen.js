@@ -21,22 +21,55 @@ export default function ConsoleScreen({navigation}) {
     })
   }
 
-  const sendRequest = async (command) => {
+  const sendRequest = async (command, token) => {
 
-    fetch('http://109.237.36.76:25565/komanda/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                command: {
-                    komanda: command,
-                }
-            })
-          }).then(response => response.text()).then(res => {
-              addRows(res);
-          });
-         };
+         fetch('http://109.237.36.76:25565/command', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            "Authorization" : "Bearer " + token,
+          },
+          body: JSON.stringify({
+            name: 'Lejla',
+            location: 'Lokacija',
+            command: command
+        })})
+        .then(res => res.text())
+        .then(res => { 
+          console.log("DAAAA");
+          addRows(res);
+        });
+    }
+
+    const sendRequestToken = async (command) => {
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'whoso@whoso.com', password:  'sifra123'})
+  };
+ 
+  try {
+      var response = await fetch('http://167.99.244.168:3333/login', requestOptions);
+     //console.log(response.status)
+ 
+            //console.log(x);
+            if(response.status == 200)
+            {
+                var x = await response.json();
+                token = x.accessToken;
+                console.log(token);
+                sendRequest(command,token);
+            }
+            else{
+              //console.log("Error");
+            }
+        }catch(e){
+      
+        }
+
+  } 
 
   return(
     <View style={styles.container}>
@@ -62,7 +95,8 @@ export default function ConsoleScreen({navigation}) {
                 if(group2.includes(command)){
                   command += " " + args[1];
                 }
-                sendRequest(command);
+                sendRequestToken(command);
+             //   sendRequest(command);
                 console.log("validna komanda");
               } else {
                 //nevalidna komanda
