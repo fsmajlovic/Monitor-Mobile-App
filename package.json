@@ -14,7 +14,9 @@
     "@react-navigation/material-bottom-tabs": "^5.3.14",
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
+    "axios": "^0.21.1",
     "expo": "^40.0.1",
+    "expo-secure-store": "~9.3.0",
     "expo-status-bar": "~1.0.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -25,8 +27,7 @@
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^2.18.1",
     "react-native-table-component": "^1.2.1",
-    "react-native-web": "~0.13.12",
-    "expo-secure-store": "~9.3.0"
+    "react-native-web": "^0.15.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

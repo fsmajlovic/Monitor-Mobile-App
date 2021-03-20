@@ -17,7 +17,6 @@ async function saveToken(key,value){
 
 async function getToken(key){
       let userToken = await SecureStore.getItemAsync(key);
-      console.log(userToken);
       return userToken;
 }
 
@@ -58,11 +57,17 @@ export default function App() {
           email:username,
           password:password
         });        
-        console.log(response);
+        if(response.status==200){
+          await saveToken('userToken',response.data.accessToken);
+          dispatch({type: 'LOGIN',isSignedIn: true});
+        }else{
+          alert("Greška!");
+          dispatch({type: 'LOGIN',isSignedIn: false});
+        }
       } catch (error) {
-        console.error(error);
+        alert("Pogrešni podaci!")
+        dispatch({type: 'LOGIN',isSignedIn: false});
       }
-      //dispatch({type: 'LOGIN',isSignedIn: true});
     },
     signOut: async () =>{
       await SecureStore.deleteItemAsync('userToken');
@@ -78,15 +83,21 @@ export default function App() {
   React.useEffect(()=>{
     const tokenFunction = async () => {
       let userToken;
+      let check;
       try {
         userToken = await getToken('userToken');
-      } catch (e) {
-        console.log(e);
-      }
-      if(userToken===null)
-        dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:false});
-      else
+        check = await axios.get(URL+'jwt/verify',{
+          headers:{
+            'Authorization': `Bearer ${userToken}`
+             }
+          }
+        )
+        await saveToken('userToken',check.data.accessToken)
         dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:true});
+      } catch (e) {
+        dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:false});
+      }
+       
       };
       tokenFunction();       
   },[]);
