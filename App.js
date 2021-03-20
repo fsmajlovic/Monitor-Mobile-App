@@ -7,7 +7,17 @@ import MainTabScreen from './screens/MainTabScreen/MainTabScreen';
 import LoginScreen from './screens/LoginScreen/LoginScreen';
 import LoadingScreen from './screens/LoginScreen/LoadingScreen';
 import {AuthContext} from './contexts/authContext';
+import * as SecureStore from 'expo-secure-store'
 
+async function saveToken(key,value){
+  await SecureStore.setItemAsync(key,value);
+}
+
+async function getToken(key){
+      let userToken = await SecureStore.getItemAsync(key);
+      console.log(userToken);
+      return userToken;
+}
 
 
 export default function App() {
@@ -22,6 +32,7 @@ export default function App() {
         return{
           ...prevState,
           isLoading:action.isLoading,
+          isSignedIn:action.isSignedIn,
         };
       case 'LOGIN':
         return{
@@ -39,20 +50,36 @@ export default function App() {
   const [loginState, dispatch] = React.useReducer(loginReducer,initialLoginState);
 
   const authContext = React.useMemo(()=>({
-    signIn: () => {
-      dispatch({type: 'LOGIN',isSignedIn: true });
+    signIn: async (username,password) => {
+        await saveToken('userToken',password);
+        dispatch({type: 'LOGIN',isSignedIn: true});
     },
-    signOut: () =>{
-      console.log()
+    signOut: async () =>{
+      //await SecureStore.deleteItemAsync('Sifra');
       dispatch({type: 'LOGOUT', isSignedIn: false}) 
     },
+
+    getSavedToken: async () =>{
+      return await getToken('userToken');
+    }
 
   }),[]);
 
   React.useEffect(()=>{
-      setTimeout(()=>{
-        dispatch({type:'RETRIEVE_TOKEN',isLoading:false})
-      },1000);
+    const token = async () => {
+      let userToken;
+
+      try {
+        userToken = await getToken('userToken');
+      } catch (e) {
+        console.log(e);
+      }
+      if(userToken===null)
+        dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:false});
+      else
+        dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:true});
+      };
+      token();       
   },[]);
   
  

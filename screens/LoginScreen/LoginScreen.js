@@ -3,19 +3,22 @@ import { StyleSheet, Text, View, Button, TextInput} from 'react-native';
 import {AuthContext} from '../../contexts/authContext';
 
 export default function LoginScreen() {
+  const [username,setUsername] = React.useState('');
+  const [password,setPassword] = React.useState('');
+  
   const {signIn} = React.useContext(AuthContext);
   
   return(
         <View style={styles.container}>
         <TextInput
-          //value={this.state.username}
-          //onChangeText={(username) => this.setState({ username })}
+          value={username}
+          onChangeText={text => setUsername(text)}
           placeholder={'Username'}
           style={styles.input}
         />
         <TextInput
-          //value={this.state.password}
-          //onChangeText={(password) => this.setState({ password })}
+          value={password}
+          onChangeText={text => setPassword(text)}
           placeholder={'Password'}
           secureTextEntry={true}
           style={styles.input}
@@ -24,7 +27,8 @@ export default function LoginScreen() {
         <Button
           title={'Login'}
           style={styles.input}
-          onPress={() => {signIn()}}
+          onPress={() => {
+            signIn(username,password)}}
         />
       </View>
       );
