@@ -8,6 +8,8 @@ import LoginScreen from './screens/LoginScreen/LoginScreen';
 import LoadingScreen from './screens/LoginScreen/LoadingScreen';
 import {AuthContext} from './contexts/authContext';
 import * as SecureStore from 'expo-secure-store'
+import axios from 'axios'
+import {URL} from './appConfig'
 
 async function saveToken(key,value){
   await SecureStore.setItemAsync(key,value);
@@ -15,7 +17,6 @@ async function saveToken(key,value){
 
 async function getToken(key){
       let userToken = await SecureStore.getItemAsync(key);
-      console.log(userToken);
       return userToken;
 }
 
@@ -51,11 +52,25 @@ export default function App() {
 
   const authContext = React.useMemo(()=>({
     signIn: async (username,password) => {
-        await saveToken('userToken',password);
-        dispatch({type: 'LOGIN',isSignedIn: true});
+      try {
+        const response = await axios.post(URL+'login',{
+          email:username,
+          password:password
+        });        
+        if(response.status==200){
+          await saveToken('userToken',response.data.accessToken);
+          dispatch({type: 'LOGIN',isSignedIn: true});
+        }else{
+          alert("Greška!");
+          dispatch({type: 'LOGIN',isSignedIn: false});
+        }
+      } catch (error) {
+        alert("Pogrešni podaci!")
+        dispatch({type: 'LOGIN',isSignedIn: false});
+      }
     },
     signOut: async () =>{
-      //await SecureStore.deleteItemAsync('Sifra');
+      await SecureStore.deleteItemAsync('userToken');
       dispatch({type: 'LOGOUT', isSignedIn: false}) 
     },
 
@@ -66,20 +81,25 @@ export default function App() {
   }),[]);
 
   React.useEffect(()=>{
-    const token = async () => {
+    const tokenFunction = async () => {
       let userToken;
-
+      let check;
       try {
         userToken = await getToken('userToken');
-      } catch (e) {
-        console.log(e);
-      }
-      if(userToken===null)
-        dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:false});
-      else
+        check = await axios.get(URL+'jwt/verify',{
+          headers:{
+            'Authorization': `Bearer ${userToken}`
+             }
+          }
+        )
+        await saveToken('userToken',check.data.accessToken)
         dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:true});
+      } catch (e) {
+        dispatch({ type: 'RETRIEVE_TOKEN', isLoading:false,isSignedIn:false});
+      }
+       
       };
-      token();       
+      tokenFunction();       
   },[]);
   
  

@@ -1,6 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import ListView from './components/ListView';
+//import StatisticsView from './components/StatisticsView';
 
 const dataSet = [
   {
@@ -11,13 +12,13 @@ const dataSet = [
   },
   {
     key: '2',
-    title: 'Mašina 2',
+    title: 'Mašina 1',
     description: 'Aktivna prije 10 minuta',
     image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
   },
   {
     key: '3',
-    title: 'Mašina 3',
+    title: 'Mašina 1',
     description: 'Aktivna prije 35 minuta',
     image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
   },
@@ -72,13 +73,16 @@ const dataSet = [
 ]
 
 export default function ReportScreen({navigation}) {
-    return(
-        <View style={styles.container}>
-          <ListView
-            itemList={dataSet}
-          />
-        </View>
-      );
+  return(
+    <ScrollView>
+      <ListView
+        itemList={dataSet}
+      />
+       {
+         //<StatisticsView dataSet={dataSet}/>
+       }
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
