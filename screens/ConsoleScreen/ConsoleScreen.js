@@ -59,7 +59,10 @@ export default function ConsoleScreen({navigation}) {
               addRows("IWM console > " + event.nativeEvent.text);
 
               if( (group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length == 2) ) {
-                sendRequest(command + " " + args[1]);
+                if(group2.includes(command)){
+                  command += " " + args[1];
+                }
+                sendRequest(command);
                 console.log("validna komanda");
               } else {
                 //nevalidna komanda
