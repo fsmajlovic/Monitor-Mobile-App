@@ -25,7 +25,7 @@ export default function ConsoleScreen({ navigation }) {
 
   const sendRequest = async (command, token) => {
 
-    fetch('http://109.237.36.76:25565/api/command', {
+    fetch('https://si-grupa5.herokuapp.com/api/command', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -33,10 +33,8 @@ export default function ConsoleScreen({ navigation }) {
         "Authorization": "Bearer " + token,
       },
       body: JSON.stringify({
-      //  name: 'DESKTOP-SCC',
-      //  location: 'Sarajevo - SCC',
-        name : 'jasmin',
-        location : 'sarajevo',
+        name: 'DESKTOP-SCC',
+        location: 'Sarajevo - SCC',
         command: command
       })
     })
@@ -44,12 +42,12 @@ export default function ConsoleScreen({ navigation }) {
       .then(res => {
         Token = res.token;
         console.log(Token);
-        console.log(res.message)
-        addRows(res);
+        console.log("poruka" + res.message)
+        addRows(res.message);
       });
   }
 
-/*  const sendRequestToken = async (command) => {
+  const sendRequestToken = async (command) => {
 
     const requestOptions = {
       method: 'POST',
@@ -61,8 +59,10 @@ export default function ConsoleScreen({ navigation }) {
       var response = await fetch('http://167.99.244.168:3333/login', requestOptions);
       if (response.status == 200) {
         var x = await response.json();
-        token = x.accessToken;
-        sendRequest(command, token);
+        Token = x.accessToken;
+        console.log("dobavljen token");
+        console.log(Token);
+        sendRequest(command, Token);
       }
       else {
         //ERROR
@@ -71,7 +71,7 @@ export default function ConsoleScreen({ navigation }) {
 
     }
 
-  } */
+  } 
 
   return (
     <View style={styles.container}>
@@ -97,7 +97,9 @@ export default function ConsoleScreen({ navigation }) {
                 if (group2.includes(command)) {
                   command += " " + args[1];
                 }
-                sendRequest(command, Token);
+                  sendRequestToken(command);
+                
+              //  sendRequest(command, Token);
               } else {
                 //nevalidna komanda
                 addRows("Invalid command!");
