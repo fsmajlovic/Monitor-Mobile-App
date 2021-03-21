@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, Button } from 'react-native';
 import ListView from './components/ListView';
 import StatisticsView from './components/StatisticsView';
 import {AuthContext} from '../../contexts/authContext';
@@ -97,16 +97,44 @@ export default function ReportScreen({navigation}) {
                 console.error(error);
           });
     }
-    getData(getSavedToken);
+    if(state==-1) getData(getSavedToken);
   });
-  return(
-      <ScrollView horizontal={true}>
-        <ListView
+  
+  if(state==0){
+    return(
+      <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+        <Button onPress={()=>{setState(1)}} title="Prikaz racunara"/>
+        <Button onPress={()=>{setState(2)}} title="Statistika"/>
+      </View>
+    );
+    }
+    else if(state==1){
+      return(
+        <View style={{ flex: 1 }}>
+          <ListView
             itemList={dataSet}
-        />
-        <StatisticsView dataSet={data}/>
-      </ScrollView>
-  );
+          />
+          <Button style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}
+           onPress={()=>{setState(0)}} title="Povratak nazad"/>
+        </View>
+      );
+    }
+    else if(state==2){
+      return(
+        <View style={{ flex: 1 }}>
+          <StatisticsView dataSet={data}/>
+          <Button style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}
+           onPress={()=>{setState(0)}} title="Povratak nazad"/>
+        </View>
+      );
+    }
+    else if(state==-1){
+      return(
+        <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+          <Text>Učitavanje podataka</Text>
+        </View>
+      );
+    }
 }
 
 const styles = StyleSheet.create({
