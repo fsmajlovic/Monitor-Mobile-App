@@ -10,6 +10,7 @@ var base64Icon = 'data:image/png;base64,';
 
 
 async function postScreenshot(token) {
+  console.log("token je "+token)
   try {
     let response = await fetch(serverURL + "api/screenshot", {
       method: 'POST',
@@ -19,8 +20,8 @@ async function postScreenshot(token) {
         'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({
-        name: 'jasmin',
-        location: 'sarajevo'
+        name: 'DESKTOP-SCC',
+        location: 'Sarajevo - SCC'
       })
     });
     var json = await response.json();
@@ -55,7 +56,7 @@ export default function AccessControlScreen({navigation}) {
         }
       }}/>
       <Image source={{ uri: image }}
-        style={{ width: 200, height: 200 }}
+        style={{ width: 400, height: 200 }}
       />
     </View>
   );
