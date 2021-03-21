@@ -13,6 +13,8 @@ export default function ConsoleScreen({ navigation }) {
   const group1 = ["?", "clear", "ls"];
   const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set"];
 
+  let Token = "";
+
   const addRows = (tekst) => {
     setRows((prevRows) => {
       return (
@@ -23,7 +25,7 @@ export default function ConsoleScreen({ navigation }) {
 
   const sendRequest = async (command, token) => {
 
-    fetch('http://109.237.36.76:25565/command', {
+    fetch('http://109.237.36.76:25565/api/command', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -31,18 +33,23 @@ export default function ConsoleScreen({ navigation }) {
         "Authorization": "Bearer " + token,
       },
       body: JSON.stringify({
-        name: 'Lejla',
-        location: 'Lokacija',
+      //  name: 'DESKTOP-SCC',
+      //  location: 'Sarajevo - SCC',
+        name : 'jasmin',
+        location : 'sarajevo',
         command: command
       })
     })
-      .then(res => res.text())
+      .then(res => res.json())
       .then(res => {
+        Token = res.token;
+        console.log(Token);
+        console.log(res.message)
         addRows(res);
       });
   }
 
-  const sendRequestToken = async (command) => {
+/*  const sendRequestToken = async (command) => {
 
     const requestOptions = {
       method: 'POST',
@@ -64,7 +71,7 @@ export default function ConsoleScreen({ navigation }) {
 
     }
 
-  }
+  } */
 
   return (
     <View style={styles.container}>
@@ -90,7 +97,7 @@ export default function ConsoleScreen({ navigation }) {
                 if (group2.includes(command)) {
                   command += " " + args[1];
                 }
-                sendRequestToken(command);
+                sendRequest(command, Token);
               } else {
                 //nevalidna komanda
                 addRows("Invalid command!");
