@@ -13,6 +13,23 @@ const ReportScreen = ({ navigation }) => {
   const { getSavedToken } = React.useContext(AuthContext);
   const { setDevices, devices } = useContext(DeviceContext);
 
+  useEffect(() => {
+    async function getData(getSavedToken) {
+      let token = await getSavedToken();
+      fetch("https://si-2021.167.99.244.168.nip.io/api/device/AllDevices", {
+        method: 'GET',
+        headers: { "Authorization": "Bearer " + token },
+      }).then((response) => {
+        return response.json();
+      }).then((responseJson) => {
+        setDevices(responseJson.data);
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+    getData(getSavedToken);
+  }, []);
+
 
   return (
     <View style={styles.container}>
