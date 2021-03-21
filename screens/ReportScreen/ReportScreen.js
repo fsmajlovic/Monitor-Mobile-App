@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import { StyleSheet, ScrollView } from 'react-native';
 import ListView from './components/ListView';
 import StatisticsView from './components/StatisticsView';
+import {AuthContext} from '../../contexts/authContext';
 
 const dataSet = [
   {
@@ -72,14 +73,39 @@ const dataSet = [
   }
 ]
 
+let data=[];
+
+
 export default function ReportScreen({navigation}) {
+  const [state,setState]=useState(-1);
+  const {getSavedToken} = React.useContext(AuthContext);
+
+  useEffect(()=>{
+    async function getData(getSavedToken){
+      let token = await getSavedToken();
+      let body=[];
+      fetch("https://si-2021.167.99.244.168.nip.io/api/device/AllDevices", {
+        method: 'GET',
+        headers: {"Authorization" : "Bearer "+ token},
+      }).then((response) => {
+            return response.json();
+        }).then((responseJson) => {
+            body=responseJson.data;
+            data=body;
+            setState(0);
+          }).catch((error) => {
+                console.error(error);
+          });
+    }
+    getData(getSavedToken);
+  });
   return(
-    <ScrollView horizontal={true}>
-      <ListView
-        itemList={dataSet}
-      />
-      <StatisticsView dataSet={dataSet}/>
-    </ScrollView>
+      <ScrollView horizontal={true}>
+        <ListView
+            itemList={dataSet}
+        />
+        <StatisticsView dataSet={data}/>
+      </ScrollView>
   );
 }
 
