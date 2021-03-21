@@ -106,7 +106,6 @@ export default function App() {
  
 
   return (
-    
     <AuthContext.Provider value={authContext}>
       <DeviceProvider>
         <NavigationContainer>
