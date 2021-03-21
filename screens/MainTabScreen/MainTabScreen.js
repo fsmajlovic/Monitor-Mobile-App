@@ -11,6 +11,8 @@ import AccessControlScreen from '../AccessControlScreen/AccessControlScreen';
 import TehnicianScreen from '../TehnicianScreen/TehnicianScreen';
 import AddTask from '../TehnicianScreen/screens/AddTask';
 import Schedule from '../TehnicianScreen/screens/Schedule';
+import StatisticScreen from '../ReportScreen/screens/StatisticScreen';
+import { Button } from 'react-native';
 
 
 const HomeStack = createStackNavigator();
@@ -133,19 +135,30 @@ const HomeStackScreen = ({navigation}) => (
       );
   
       const ReportStackScreen = ({navigation}) => (
-        <ReportStack.Navigator screenOptions={{
+        <ReportStack.Navigator screenOptions={{ 
                 headerStyle: {
-                backgroundColor: 'transparent',
-                shadowOpacity: 0,
-                elevation: 0,
+                  backgroundColor: 'transparent',
+                  shadowOpacity: 0,
+                  elevation: 0,
                 },
                 headerTintColor: 'black',
                 headerTitleStyle: {
                 fontWeight: 'bold'
                 }
             }}>
+              
                 <ReportStack.Screen name="Report" component={ReportScreen} options={{
-  
+                  headerRight: () => (
+                    <Button
+                      onPress={() => navigation.navigate("Statistic")}
+                      title="Statistic >"
+                      color="black"
+                      fontWeight="bold"
+                    />
+                  ),
+                }} />
+                <ReportStack.Screen name="Statistic" component={StatisticScreen} options={{
+
                 }} />
         </ReportStack.Navigator>
         );
