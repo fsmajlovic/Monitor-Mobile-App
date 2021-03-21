@@ -34,15 +34,15 @@ const styles = StyleSheet.create({
     },
 });
 
-const ListItem = ({ title, description, image_url }) => (
+const ListItem = ({ name, lastTimeOnline }) => (
     <View style={styles.container}>
-        <Image source={{ uri: image_url }} style={styles.photo} />
+        <Image source={require('../../../assets/pc-icon.jpg')} style={styles.photo} />
         <View style={styles.container_text}>
             <Text style={styles.title}>
-                {title}
+                {name}
             </Text>
             <Text style={styles.description}>
-                {description}
+                {lastTimeOnline}
             </Text>
         </View>
 

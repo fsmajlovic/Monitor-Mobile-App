@@ -1,26 +1,30 @@
 import React from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet, Button } from 'react-native';
 import ListItem from './ListItem';
+
+
+const ListView = ({ itemList, navigation }) => (
+    <View style={styles.container}>
+        <FlatList
+            keyExtractor={(item) => item.deviceId.toString()}
+            data={itemList}
+            renderItem={({ item }) => <ListItem
+                name={item.name}
+                lastTimeOnline={item.lastTimeOnline}
+            />}
+        />
+        
+    </View>
+);
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    button: {
+        color: 'red',
+        padding: 5
+    }
 });
-
-
-const ListView = ({ itemList }) => (
-    <View style={styles.container}>
-        <FlatList
-            data={itemList}
-            renderItem={({ item }) => <ListItem
-                title={item.title}
-                description={item.description}
-                image_url={item.image_url}
-            />}
-        />
-
-    </View>
-);
 
 export default ListView;
