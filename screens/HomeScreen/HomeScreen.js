@@ -10,7 +10,7 @@ export default function HomeScreen({navigation}) {
 
     return(
         <View 
-        style={{flex: 1, alignItems: 'center', justifyContent: 'center'}} 
+        style={{flex: 1}} 
         >
         <ListView
           itemList={activeDevices}

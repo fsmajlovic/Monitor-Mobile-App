@@ -28,14 +28,16 @@ const Tab = createMaterialBottomTabNavigator();
 const MainTabScreen = () => (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#fff"
+      activeColor="#E50914"
+      inactiveColor="#cbbfa8"
+      barStyle={{backgroundColor: '#3D3D3D'}}
     >
       <Tab.Screen
         name="Home"
         component={HomeStackScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarColor: '#009387',
+          tabBarColor: '#E50914',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-home" color={color} size={26} />
           ),
@@ -116,13 +118,13 @@ const HomeStackScreen = ({navigation}) => (
       const ReportStackScreen = ({navigation}) => (
         <ReportStack.Navigator screenOptions={{ 
                 headerStyle: {
-                  backgroundColor: 'transparent',
+                  backgroundColor: '#3D3D3D',
                   shadowOpacity: 0,
                   elevation: 0,
                 },
-                headerTintColor: 'black',
+                headerTintColor: 'white',
                 headerTitleStyle: {
-                fontWeight: 'bold'
+                fontWeight: 'bold',
                 }
             }}>
               
@@ -131,7 +133,7 @@ const HomeStackScreen = ({navigation}) => (
                     <Button
                       onPress={() => navigation.navigate("Statistic")}
                       title="Statistic >"
-                      color="black"
+                      color="#121212"
                       fontWeight="bold"
                     />
                   ),
