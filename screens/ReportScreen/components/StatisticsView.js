@@ -7,12 +7,12 @@ function getStatisticalData(dataSet){
     let uniqueNames=[];
     for(let i=0;i<dataSet.length;i++){
         let object=dataSet[i];
-        uniqueNames.push(object.title);
+        uniqueNames.push(object.name);
     }
     uniqueNames = [...new Set(uniqueNames)];
     let numberOfOccurrences=[]
     for(let i=0;i<uniqueNames.length;i++){
-        let count=dataSet.filter(object=>object.title===uniqueNames[i]).length;
+        let count=dataSet.filter(object=>object.name===uniqueNames[i]).length;
         numberOfOccurrences.push([uniqueNames[i],count]);
     }
     return numberOfOccurrences;

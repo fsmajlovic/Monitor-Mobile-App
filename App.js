@@ -10,6 +10,7 @@ import {AuthContext} from './contexts/authContext';
 import * as SecureStore from 'expo-secure-store'
 import axios from 'axios'
 import {URL} from './appConfig'
+import { DeviceProvider } from './contexts/DeviceContext';
 
 async function saveToken(key,value){
   await SecureStore.setItemAsync(key,value);
@@ -106,12 +107,14 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={authContext}>
-    <NavigationContainer>
-        {loginState.isLoading==true ? 
-          (<LoadingScreen/>) :
-          (loginState.isSignedIn!==true ? <LoginScreen/>:( <MainTabScreen/>)) 
-        }
-    </NavigationContainer>
+      <DeviceProvider>
+        <NavigationContainer>
+            {loginState.isLoading==true ? 
+              (<LoadingScreen/>) :
+              (loginState.isSignedIn!==true ? <LoginScreen/>:( <MainTabScreen/>)) 
+            }
+        </NavigationContainer>
+      </DeviceProvider>
     </AuthContext.Provider>
     
   );
