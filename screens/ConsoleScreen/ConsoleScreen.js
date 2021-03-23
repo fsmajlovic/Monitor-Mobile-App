@@ -3,17 +3,18 @@ import { Text, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import ConsoleRow from './ConsoleRow'
 import { styles } from './Styles'
+import { AuthContext } from '../../contexts/authContext';
+import { serverURL } from '../../appConfig';
+import { useContext } from 'react';
 
 export default function ConsoleScreen({ navigation }) {
-  const [rows, setRows] = useState([]);
-
-  const [history, setHistory] = useState("console > ");
-  const [current, setCurrent] = useState("");
-
   const group1 = ["?", "clear", "ls"];
   const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set"];
 
-  let Token = "";
+  const [rows, setRows] = useState([]);
+  const [current, setCurrent] = useState("");
+
+  const { getSavedToken } = React.useContext(AuthContext);
 
   const addRows = (tekst) => {
     setRows((prevRows) => {
@@ -21,9 +22,13 @@ export default function ConsoleScreen({ navigation }) {
         [...prevRows, tekst]
       )
     })
-  }
+  };
 
   const sendRequest = async (command, token) => {
+
+    console.log("Token je " + token);
+
+    //serverURL+ 'api/command'
 
     fetch('https://si-grupa5.herokuapp.com/api/command', {
       method: 'POST',
@@ -40,38 +45,18 @@ export default function ConsoleScreen({ navigation }) {
     })
       .then(res => res.json())
       .then(res => {
-        Token = res.token;
-        console.log(Token);
-        console.log("poruka" + res.message)
-        addRows(res.message);
+        //  Token = res.token;
+
+        console.log("poruka " + res.message);
+
+        if (typeof res.message === 'undefined') {
+          addRows("Client server is not responding!");
+
+        } else {
+          addRows(res.message);
+        }
       });
   }
-
-  const sendRequestToken = async (command) => {
-
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'whoso@whoso.com', password: 'sifra123' })
-    };
-
-    try {
-      var response = await fetch('http://167.99.244.168:3333/login', requestOptions);
-      if (response.status == 200) {
-        var x = await response.json();
-        Token = x.accessToken;
-        console.log("dobavljen token");
-        console.log(Token);
-        sendRequest(command, Token);
-      }
-      else {
-        //ERROR
-      }
-    } catch (e) {
-
-    }
-
-  } 
 
   return (
     <View style={styles.container}>
@@ -85,7 +70,7 @@ export default function ConsoleScreen({ navigation }) {
             onChangeText={(e) => setCurrent(e)}
             placeholder="Enter your commands here"
             placeholderTextColor="#bbbbbb"
-            onSubmitEditing={(event) => {
+            onSubmitEditing={async (event) => {
               let input = event.nativeEvent.text.replace(/ +/g, ' ').trim();
               let args = input.split(" ");
               let command = "";
@@ -94,12 +79,13 @@ export default function ConsoleScreen({ navigation }) {
               addRows("IWM console > " + event.nativeEvent.text);
 
               if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length == 2)) {
+                //validna komanda
                 if (group2.includes(command)) {
                   command += " " + args[1];
                 }
-                  sendRequestToken(command);
-                
-              //  sendRequest(command, Token);
+
+                let token = await getSavedToken();
+                sendRequest(command, token);
               } else {
                 //nevalidna komanda
                 addRows("Invalid command!");
