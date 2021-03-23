@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { useContext } from 'react';
+import { View, Text, StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
+import { DeviceContext } from '../../../contexts/DeviceContext';
 
 const styles = StyleSheet.create({
     container: {
@@ -34,19 +36,23 @@ const styles = StyleSheet.create({
     },
 });
 
-const ListItem = ({ name, lastTimeOnline }) => (
-    <View style={styles.container}>
-        <Image source={require('../../../assets/pc-icon.jpg')} style={styles.photo} />
-        <View style={styles.container_text}>
-            <Text style={styles.title}>
-                {name}
-            </Text>
-            <Text style={styles.description}>
-                {lastTimeOnline}
-            </Text>
-        </View>
-
-    </View>
-);
+const ListItem = ({ item, navigation }) => {
+    const { setActiveDevice, addActiveDevice } = useContext(DeviceContext);
+    return (
+        <TouchableWithoutFeedback onPress={() => { navigation.push('Options'); setActiveDevice(item); addActiveDevice(item); }}>
+            <View style={styles.container}>
+                <Image source={require('../../../assets/pc-icon.jpg')} style={styles.photo} />
+                <View style={styles.container_text}>
+                    <Text style={styles.title}> 
+                        {item.name}
+                    </Text>
+                    <Text style={styles.description}>
+                        {item.lastTimeOnline}
+                    </Text>
+                </View>
+            </View>
+        </TouchableWithoutFeedback>
+    )
+};
 
 export default ListItem;
