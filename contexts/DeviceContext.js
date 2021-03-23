@@ -21,7 +21,7 @@ export const DeviceProvider = (props) => {
         activeDevices,
         addActiveDevice,
         activeDevice,
-        setActiveDevice,
+        setActiveDevice, 
         devices,
         setDevices
     }
