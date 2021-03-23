@@ -43,7 +43,7 @@ const ListItem = ({ item, navigation }) => {
             <View style={styles.container}>
                 <Image source={require('../../../assets/pc-icon.jpg')} style={styles.photo} />
                 <View style={styles.container_text}>
-                    <Text style={styles.title}>
+                    <Text style={styles.title}> 
                         {item.name}
                     </Text>
                     <Text style={styles.description}>

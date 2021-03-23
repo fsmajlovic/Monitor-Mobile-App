@@ -9,7 +9,7 @@ const StatisticScreen = () => {
     const { devices } = useContext(DeviceContext);
     return (
         <View>
-            <StatisticsView dataSet={devices} />
+            {<StatisticsView dataSet={devices} />}
         </View>
     )
 }
