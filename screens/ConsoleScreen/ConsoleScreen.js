@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { useContext } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import { DeviceContext } from '../../contexts/DeviceContext';
 import ConsoleRow from './ConsoleRow'
 import { styles } from './Styles'
 
@@ -75,6 +77,7 @@ export default function ConsoleScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+      
       <ScrollView>
         <ConsoleRow rows={rows} />
         <View style={styles.row}>

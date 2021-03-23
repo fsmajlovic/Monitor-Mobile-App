@@ -13,6 +13,7 @@ import AddTask from '../TehnicianScreen/screens/AddTask';
 import Schedule from '../TehnicianScreen/screens/Schedule';
 import StatisticScreen from '../ReportScreen/screens/StatisticScreen';
 import { Button } from 'react-native';
+import OptionScreen from '../ReportScreen/screens/OptionScreen';
 
 
 const HomeStack = createStackNavigator();
@@ -41,17 +42,6 @@ const MainTabScreen = () => (
         }}
       />
       <Tab.Screen
-        name="Console"
-        component={ConsoleStackScreen}
-        options={{
-          tabBarLabel: 'Console',
-          tabBarColor: '#1f65ff',
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-laptop" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Report"
         component={ReportStackScreen}
         options={{
@@ -59,17 +49,6 @@ const MainTabScreen = () => (
           tabBarColor: '#694fad',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-book" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="AccessControl"
-        component={AccessControlStackScreen}
-        options={{
-          tabBarLabel: 'Control',
-          tabBarColor: '#d02860',
-          tabBarIcon: ({ color }) => (
-            <Icon name="aperture" color={color} size={26} />
           ),
         }}
       />
@@ -157,7 +136,16 @@ const HomeStackScreen = ({navigation}) => (
                     />
                   ),
                 }} />
+                <ReportStack.Screen name="Options" component={OptionScreen} options={{
+
+                }} />
                 <ReportStack.Screen name="Statistic" component={StatisticScreen} options={{
+
+                }} />
+                <ReportStack.Screen name="Console" component={ConsoleScreen} options={{
+
+                }} />
+                <ReportStack.Screen name="AccessControl" component={AccessControlScreen} options={{
 
                 }} />
         </ReportStack.Navigator>

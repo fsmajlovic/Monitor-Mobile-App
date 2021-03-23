@@ -10,8 +10,18 @@ const URL = "https://si-2021.167.99.244.168.nip.io/api/device/AllDevices";
 export const DeviceProvider = (props) => {
     const { getSavedToken } = useContext(AuthContext);
     const [devices, setDevices] = useState([]);
+    const [activeDevice, setActiveDevice] = useState("nesto");
+    const [activeDevices, setActiveDevices] = useState([]);
+
+    const addActiveDevice = (device) => {
+        setActiveDevices([...activeDevices, device]);
+    }
 
     const values = {
+        activeDevices,
+        addActiveDevice,
+        activeDevice,
+        setActiveDevice,
         devices,
         setDevices
     }
