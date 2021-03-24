@@ -1,60 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { Agenda} from 'react-native-calendars';
+import { Agenda } from 'react-native-calendars';
 import { Text, View, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card } from 'react-native-paper';
+import { format } from 'date-fns';
+import {AuthContext} from '../../../contexts/authContext';
 
-const timeToString = (time) => {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
+
+const renderItem = (item) => {
+    return <TouchableOpacity style={{marginRight: 17, marginTop: 17}}>
+        <Card>
+            <Card.Content>
+                <View style={styles.item}>
+                    <Text>{format(Date.parse(item.time), 'HH:mm ')}</Text>
+                    <Text>{item.location}</Text>
+                </View>
+                <View>
+                    <Text>{item.description}</Text>
+                </View>
+            </Card.Content>
+        </Card>
+    </TouchableOpacity>
   }
 
-function Schedule() {
+
+function Schedule(props) {
     const [items, setItems] = useState({});
+    const {getSavedToken} = React.useContext(AuthContext);
 
-    const loadItems = (day) => {
-        setTimeout(() => {
-          for (let i = -10; i < 35; i++) {
-            const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-            const strTime = timeToString(time);
-            if (!items[strTime]) {
-              items[strTime] = [];
-              const numItems = Math.floor(Math.random() * 3 + 1);
-              for (let j = 0; j < numItems; j++) {
-                items[strTime].push({
-                  name: 'Item for ' + strTime + ' #' + j,
-                  height: Math.max(50, Math.floor(Math.random() * 150))
-                });
-              }
+      useEffect(()=>{
+        async function getData(getSavedToken){
+            try {
+                const token = await getSavedToken();
+                const response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks", {
+                    method: 'GET',
+                    headers: {"Authorization" : "Bearer "+ token},
+                  });
+                  var data = await response.json();
+
+                const mappedData = data.map((post) => {
+                      const date = new Date(post.time);
+                      return {
+                          ...post,
+                          date: format(date, 'yyyy-MM-dd'),
+                        }
+                    })
+
+                const reduced = mappedData.reduce((acc, currentItem) => {
+                    const { date, ...item } = currentItem;
+                    {acc[date] ? acc[date].push({...item}) : acc[date] = [item] }
+                    return acc;
+                }, {});
+                setItems(reduced);
+            } catch (error) {
+                console.error(error);
             }
-          }
-          const newItems = {};
-          Object.keys(items).forEach(key => {
-            newItems[key] = items[key];
-          });
-          setItems(newItems);
-        }, 1000);
-      }
+        }
+        getData(getSavedToken);
+      }, []);
 
-      const renderItem = (item) => {
-        return <TouchableOpacity style={{marginRight: 17, marginTop: 17}}>
-            <Card>
-                <Card.Content>
-                    <View style={styles.item}>
-                        <Text>Task</Text>
-                        <Text>{item.name}</Text>
-                    </View>
-                </Card.Content>
-            </Card>
-        </TouchableOpacity>
-      }
+
 
     return (
         <View style={{flex: 1}}>
             <Agenda
                 items={items}
-                loadItemsForMonth={loadItems}
-                selected={'2021-05-16'}
                 renderItem={renderItem}
             />
         </View>
