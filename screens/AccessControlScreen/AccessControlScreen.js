@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState, useContext} from 'react'
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import {AuthContext} from '../../contexts/authContext';
 import {serverURL} from '../../appConfig';
 import axios from 'axios'
+import { DeviceContext } from '../../contexts/DeviceContext';
  
 var loadedImageUri = 'https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350'; 
 var currentUri = ' ';
@@ -36,10 +37,12 @@ async function postScreenshot(token) {
 export default function AccessControlScreen({navigation}) {
   let [image, setImage] = useState(' ');
   var {getSavedToken} = React.useContext(AuthContext);
+  const { activeDevice } = useContext(DeviceContext);
 
   return(
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>AccessControl screen</Text>
+      
       <Button title="Load Screenshot" onPress = {async () => {
         let token = await getSavedToken();
         //console.log(token);
