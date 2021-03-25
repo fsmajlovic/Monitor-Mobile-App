@@ -9,8 +9,8 @@ const ListView = ({ itemList, navigation }) => (
             keyExtractor={(item) => item.deviceId.toString()}
             data={itemList}
             renderItem={({ item }) => <ListItem
-                name={item.name}
-                lastTimeOnline={item.lastTimeOnline}
+                item = {item}
+                navigation={navigation}
             />}
         />
         
