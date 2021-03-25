@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useContext } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { DeviceContext } from '../../contexts/DeviceContext';
