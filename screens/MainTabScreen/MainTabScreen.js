@@ -8,6 +8,7 @@ import HomeScreen from '../HomeScreen/HomeScreen';
 import ConsoleScreen from '../ConsoleScreen/ConsoleScreen';
 import ReportScreen from '../ReportScreen/ReportScreen';
 import AccessControlScreen from '../AccessControlScreen/AccessControlScreen';
+import FileManager from '../AccessControlScreen/screens/FileManager';
 import TehnicianScreen from '../TehnicianScreen/TehnicianScreen';
 
 
@@ -161,6 +162,10 @@ const HomeStackScreen = ({navigation}) => (
                   }
               }}>
                   <AccessControlStack.Screen name="AccessControl" component={AccessControlScreen} options={{
+                    
+                  }} />
+
+                  <AccessControlStack.Screen name="FileManager" component={FileManager} options={{
                     
                   }} />
           </AccessControlStack.Navigator>
