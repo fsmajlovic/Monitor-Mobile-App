@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        color: '#000',
+        color: '#0D47A1',
+        fontWeight: 'bold'
     },
     container_text: {
         flex: 1,
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
 const ListItemVertical = ({ name, image_url }) => (
     <TouchableOpacity>
     <View style={styles.container}>
-        <Image source={{ uri: image_url }} style={styles.photo} />
+        <Image source={require('../../../assets/file-icon.jpg')} style={styles.photo} />
         <View style={styles.container_text}>
             <Text style={styles.title}>
                 {name}

@@ -40,6 +40,10 @@ const ReportScreen = ({ navigation }) => {
         itemList={ devices }
         navigation={ navigation }
       />
+      <Button 
+          title={'access'}
+          onPress={()=>navigation.push('AccessControl')}
+        />
     </View>
   );
 }

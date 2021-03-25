@@ -8,12 +8,11 @@ var image_url = "https://static.thenounproject.com/png/59103-200.png";
 
 export default function App({navigation}) { 
   const dataSet = [
-    { name: 'Prvi fajl tutorijal', id: '1', image_url: image_url },
-    { name: 'Drugi fajl', id: '2', image_url: image_url },
-    { name: 'Treci fajl pdf', id: '3', image_url: image_url },
-    { name: 'Cetvrti fajl', id: '4', image_url: image_url },
-    { name: 'Peti fajl', id: '5', image_url: image_url },
-    
+    { name: 'File 1', id: '1', image_url: image_url },
+    { name: 'File 2', id: '2', image_url: image_url },
+    { name: 'File 3', id: '3', image_url: image_url },
+    { name: 'File 4', id: '4', image_url: image_url },
+    { name: 'File 5', id: '5', image_url: image_url },
   ];
 
   return( 
@@ -35,21 +34,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    //alignItems: 'center',
-    justifyContent: 'center',
-   // marginTop: 30,
     padding: 10,
-    marginTop: 40
-
   },
 
   text: {
     fontSize: 20,
-    marginBottom: 5
+    marginBottom: 5,
+    fontWeight: 'bold',
+    color: '#0D47A1'
   },
 
   items: {
-   // backgroundColor: "pink",
     padding: 20,
     marginTop: 4,
     borderBottomColor: "#bababa",

@@ -44,8 +44,7 @@ export default function AccessControlScreen({navigation}) {
 
   return(
   <View style={styles.container}>
-      
-      <View  style={styles.listView}>
+    <View  style={styles.listView}>
       <ScrollView style={styles.scrollView}>
         <TouchableOpacity onPress={() => navigation.push('FileManager')}>
           <Text style={styles.text}>Files</Text>
@@ -54,10 +53,10 @@ export default function AccessControlScreen({navigation}) {
             itemList={dataSet}
           />
       </ScrollView>
-      </View>
+    </View>
 
-      <View>
-        <TouchableOpacity onPress={async () => {
+    <View>
+      <TouchableOpacity onPress={async () => {
         let token = await getSavedToken();
         await postScreenshot(token);
     
@@ -70,17 +69,17 @@ export default function AccessControlScreen({navigation}) {
           setImage(currentUri);
         }
       }}>
-        <Text style={styles.loadScreenshotText}>Load Screenshot</Text></TouchableOpacity>
-      </View>
-      <View style={{alignItems: 'center'}}>
-        <Image  source={{ uri: 'https://c.files.bbci.co.uk/12A9B/production/_111434467_gettyimages-1143489763.jpg' }}
-          style={styles.imageView}
-        />
-      </View>
-      </View>
+      <Text style={styles.loadScreenshotText}>Load Screenshot</Text></TouchableOpacity>
+    </View>
+
+    <View style={{alignItems: 'center'}}>
+      <Image  source={{ uri: image }}
+        style={styles.imageView}
+      />
+    </View>
+  </View>
   ); 
 }
-
 
 const styles = StyleSheet.create({
   container: {

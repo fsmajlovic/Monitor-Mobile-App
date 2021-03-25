@@ -22,7 +22,6 @@ const ListViewVertical = ({ itemList }) => (
                 /> 
             }}
         />
-
     </View>
 );
 
