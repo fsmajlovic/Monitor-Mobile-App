@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
 });
 
 const ListItemVertical = ({ name, image_url }) => (
+    <TouchableOpacity>
     <View style={styles.container}>
         <Image source={{ uri: image_url }} style={styles.photo} />
         <View style={styles.container_text}>
@@ -45,8 +46,8 @@ const ListItemVertical = ({ name, image_url }) => (
                 {name}
             </Text>        
         </View>
-        <Text style={{backgroundColor: "#dae5e8", borderRadius: 5, padding: 10}}>Download</Text>
     </View>
+    </TouchableOpacity>
 );
 
 export default ListItemVertical;
