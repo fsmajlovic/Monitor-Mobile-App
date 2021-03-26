@@ -12,10 +12,17 @@ export const DeviceProvider = (props) => {
     const [devices, setDevices] = useState([]);
     const [activeDevice, setActiveDevice] = useState("nesto");
     const [activeDevices, setActiveDevices] = useState([]);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     const addActiveDevice = (device) => {
         setActiveDevices([...activeDevices, device]);
     }
+
+    const loadMore = () => {
+        setPage(page + 1);
+        setLoading(true);
+    };
 
     const values = {
         activeDevices,
@@ -23,7 +30,12 @@ export const DeviceProvider = (props) => {
         activeDevice,
         setActiveDevice, 
         devices,
-        setDevices
+        setDevices,
+        page,
+        setPage,
+        loading,
+        setLoading,
+        loadMore,
     }
 
     return (
