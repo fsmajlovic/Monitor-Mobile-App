@@ -92,6 +92,7 @@ export default function AddTask() {
                       is24Hour={true}
                       display="default"
                       onChange={onChange}
+                      minimumDate={new Date()}
                     />
                   )}
               

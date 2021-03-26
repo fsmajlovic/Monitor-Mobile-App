@@ -10,25 +10,18 @@ const URL = "https://si-2021.167.99.244.168.nip.io/api/device/AllDevices";
 export const DeviceProvider = (props) => {
     const { getSavedToken } = useContext(AuthContext);
     const [devices, setDevices] = useState([]);
+    const [activeDevice, setActiveDevice] = useState("nesto");
+    const [activeDevices, setActiveDevices] = useState([]);
 
-    useEffect(() => {
-        async function getData(getSavedToken) {
-            let token = await getSavedToken();
-            fetch("https://si-2021.167.99.244.168.nip.io/api/device/AllDevices", {
-                method: 'GET',
-                headers: { "Authorization": "Bearer " + token },
-            }).then((response) => {
-                return response.json();
-            }).then((responseJson) => {
-                setDevices(responseJson.data);
-            }).catch((error) => {
-                console.error(error);
-            });
-        }
-        getData(getSavedToken);
-    }, []);
+    const addActiveDevice = (device) => {
+        setActiveDevices([...activeDevices, device]);
+    }
 
     const values = {
+        activeDevices,
+        addActiveDevice,
+        activeDevice,
+        setActiveDevice, 
         devices,
         setDevices
     }
