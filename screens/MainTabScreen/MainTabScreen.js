@@ -134,7 +134,7 @@ const HomeStackScreen = ({navigation}) => (
                     <Button
                       onPress={() => navigation.navigate("Statistic")}
                       title="Statistic >"
-                      color="#121212"
+                      color="#595959"
                       fontWeight="bold"
                     />
                   ),

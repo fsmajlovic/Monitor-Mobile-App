@@ -34,16 +34,12 @@ const ReportScreen = ({ navigation }) => {
   return (
     
     <View style={styles.container}>
-      <Text style={{flex: 0.08, alignSelf: 'center', color: 'white', fontSize: 35, }}>Available</Text>
-      <Text style={{flex: 0.1, alignSelf: 'center', color: '#E50914', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
+      <Text style={{flex: 0.08, alignSelf: 'center', color: '#464646', fontSize: 35, }}>Available</Text>
+      <Text style={{flex: 0.1, alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
       <ListView
         itemList={ devices }
         navigation={ navigation }
       />
-      <Button 
-          title={'access'}
-          onPress={()=>navigation.push('AccessControl')}
-        />
     </View>
   );
 }
@@ -53,7 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     padding: 10,
-    backgroundColor: '#121212',
+    backgroundColor: '#FFFFFF',
     elevation: 2,
   }
 });
