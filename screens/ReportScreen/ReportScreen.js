@@ -32,14 +32,14 @@ const ReportScreen = ({ navigation }) => {
       });
     }
     getData(getSavedToken);
-  }, [page]); 
+  }, [page]);
 
 
 
   return (
-    
+
     <View style={styles.container}>
-      <Text style={{flex: 0.08, alignSelf: 'center', color: 'white', fontSize: 35}}>Available</Text>
+      <Text style={{flex: 0.1, alignSelf: 'center', color: 'white', fontSize: 35}}>Available</Text>
       <Text style={{flex: 0.1, alignSelf: 'center', color: '#E50914', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
       <FlatList style={{flex: 1}}
             keyExtractor={(item) => item.deviceId.toString()}
@@ -49,7 +49,7 @@ const ReportScreen = ({ navigation }) => {
                 navigation={navigation}
             />}
             ListFooterComponent={
-              loading ? 
+              loading ?
               <View>
                 <ActivityIndicator/>
               </View> : null

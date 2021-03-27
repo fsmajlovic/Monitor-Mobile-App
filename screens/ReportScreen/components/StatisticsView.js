@@ -27,9 +27,17 @@ const StatisticsView = (props) => {
     useEffect(() => {
         async function getData(getSavedToken) {
             let token = await getSavedToken();
-            fetch("https://si-2021.167.99.244.168.nip.io/api/device/GetAllDeviceLogs", {
+            //dobavljanje logova u zadnjih mjesec dana
+            let startDate=new Date();
+            startDate.setMonth(startDate.getMonth()-1);
+            let endDate=new Date();
+            let deviceId=22;
+            fetch("https://si-2021.167.99.244.168.nip.io/api/device/GetAllDeviceLogs"+
+                "?deviceId="+deviceId+"&startDate="+startDate.toISOString()+"&endDate="+endDate.toISOString(), {
                 method: 'GET',
-                headers: { "Authorization": "Bearer " + token },
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
             }).then((response) => {
                 return response.json();
             }).then((responseJson) => {
