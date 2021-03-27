@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native'; 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Formik } from 'formik';
@@ -40,6 +40,27 @@ export default function AddTask({navigation}) {
   const [durationHr, setDurationHr] = useState(0);
   const [durationMin, setDurationMin] = useState(0);
   var {getSavedToken} = React.useContext(AuthContext);
+  let deviceArray = ['No device selected'];
+
+  useEffect(()=>{
+    async function getData(getSavedToken){
+        try {
+            const token = await getSavedToken();
+            const response = await fetch("https://si-2021.167.99.244.168.nip.io/api/device/AllDevices", {
+                method: 'GET',
+                headers: {"Authorization" : "Bearer "+ token},
+              });
+              var data = await response.json();
+              var data = data.data;
+              for(let device of data) {
+                deviceArray.push(device.name);
+              }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    getData(getSavedToken);
+  }, []);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -68,11 +89,16 @@ export default function AddTask({navigation}) {
         >
           {props => (
             <View>
+              <ModalDropdown
+                options={deviceArray}/>
+
               <TextInput
                 style={styles.input}
-                placeholder='Location'
-                onChangeText={props.handleChange('location')}
-                value={props.values.title}
+                multiline
+                placeholder='Pick device to show location...'
+                onChangeText={props.handleChange('description')}
+                value={props.values.description}
+                editable={false}  
               />
 
               <TextInput
@@ -160,8 +186,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   input: {
-    width: 200,
-    height: 44,
+    width: 250,
+    height: 60,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
