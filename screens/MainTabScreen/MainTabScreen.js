@@ -14,6 +14,7 @@ import Schedule from '../TehnicianScreen/screens/Schedule';
 import StatisticScreen from '../ReportScreen/screens/StatisticScreen';
 import { Button } from 'react-native';
 import OptionScreen from '../ReportScreen/screens/OptionScreen';
+import EditTask from '../TehnicianScreen/screens/EditTask';
 
 
 const HomeStack = createStackNavigator();
@@ -192,5 +193,8 @@ const HomeStackScreen = ({navigation}) => (
                     <TehnicianStack.Screen name = "Schedule" component={Schedule} options={{
                     
                     }} />
+                    <TehnicianStack.Screen name = "EditTask" component={EditTask} options={{
+                    
+                  }} />
             </TehnicianStack.Navigator>
             );

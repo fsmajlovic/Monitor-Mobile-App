@@ -7,26 +7,25 @@ import { format } from 'date-fns';
 import {AuthContext} from '../../../contexts/authContext';
 
 
-const renderItem = (item) => {
-    return <TouchableOpacity style={{marginRight: 17, marginTop: 17}}>
-        <Card>
-            <Card.Content>
-                <View style={styles.item}>
-                    <Text>{format(Date.parse(item.time), 'HH:mm ')}</Text>
-                    <Text>{item.location}</Text>
-                </View>
-                <View>
-                    <Text>{item.description}</Text>
-                </View>
-            </Card.Content>
-        </Card>
-    </TouchableOpacity>
-  }
-
-
 function Schedule(props) {
     const [items, setItems] = useState({});
     const {getSavedToken} = React.useContext(AuthContext);
+
+    const renderItem = (item) => {
+        return <TouchableOpacity style={{marginRight: 17, marginTop: 17}} onPress={() => props.navigation.navigate("EditTask", {task: item})}>
+            <Card>
+                <Card.Content>
+                    <View style={styles.item}>
+                        <Text>{format(Date.parse(item.time), 'HH:mm ')}</Text>
+                        <Text>{item.location}</Text>
+                    </View>
+                    <View>
+                        <Text>{item.description}</Text>
+                    </View>
+                </Card.Content>
+            </Card>
+        </TouchableOpacity>
+      }
 
       useEffect(()=>{
         async function getData(getSavedToken){
