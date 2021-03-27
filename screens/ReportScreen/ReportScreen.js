@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     padding: 10,
-    backgroundColor: '#121212',
+    backgroundColor: 'white',
     elevation: 2,
   }
 });

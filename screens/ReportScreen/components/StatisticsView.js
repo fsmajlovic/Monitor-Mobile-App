@@ -1,7 +1,8 @@
-import React, { useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import {Table, Row, Rows} from 'react-native-table-component';
 import {AuthContext} from "../../../contexts/authContext";
+import { DeviceContext } from '../../../contexts/DeviceContext';
 
 
 function getStatisticalData(name,dataSet){
@@ -13,6 +14,7 @@ function getStatisticalData(name,dataSet){
 
 const StatisticsView = (props) => {
     const { getSavedToken } = React.useContext(AuthContext);
+    const { activeDevice } = useContext(DeviceContext);
     const [logs ,setLogs ] = useState([]);
 
     useEffect(() => {
@@ -27,7 +29,7 @@ const StatisticsView = (props) => {
             let deviceId=22;
             // +"&startDate="+startDate.toISOString()+"&endDate="+endDate.toISOString()
             fetch("https://si-2021.167.99.244.168.nip.io/api/device/GetDeviceLogs"+
-                "?deviceId="+deviceId, {
+                "?deviceId="+activeDevice.deviceId, {
                 method: 'GET',
                 headers: {
                     "Authorization": "Bearer " + token

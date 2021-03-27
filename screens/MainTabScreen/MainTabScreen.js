@@ -103,6 +103,9 @@ const HomeStackScreen = ({navigation}) => (
             <HomeStack.Screen name="Options" component={OptionScreen} options={{
 
             }} />
+            <HomeStack.Screen name="Statistic" component={StatisticScreen} options={{
+
+            }} />
     </HomeStack.Navigator>
     );
   
@@ -138,19 +141,8 @@ const HomeStackScreen = ({navigation}) => (
             }}>
               
                 <ReportStack.Screen name="Report" component={ReportScreen} options={{
-                  headerRight: () => (
-                    <Button
-                      onPress={() => navigation.navigate("Statistic")}
-                      title="Statistic >"
-                      color="#121212"
-                      fontWeight="bold"
-                    />
-                  ),
+                  
                 }} />
-                <ReportStack.Screen name="Statistic" component={StatisticScreen} options={{
-
-                }} />
-                
         </ReportStack.Navigator>
         );
   
