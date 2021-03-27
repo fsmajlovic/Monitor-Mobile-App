@@ -28,10 +28,12 @@
     "react-native-datepicker": "^1.7.2",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-material-date-picker": "^1.0.0",
+    "react-native-pager-view": "^5.1.2",
     "react-native-paper": "^4.7.2",
     "react-native-reanimated": "^2.0.0",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.18.1",
+    "react-native-tab-view": "^3.0.0",
     "react-native-table-component": "^1.2.1",
     "react-native-web": "^0.15.0"
   },

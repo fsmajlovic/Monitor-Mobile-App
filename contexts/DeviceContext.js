@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from './authContext';
-import axios from 'axios';
 
 export const DeviceContext = React.createContext();
 
@@ -12,10 +11,22 @@ export const DeviceProvider = (props) => {
     const [devices, setDevices] = useState([]);
     const [activeDevice, setActiveDevice] = useState("nesto");
     const [activeDevices, setActiveDevices] = useState([]);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
 
     const addActiveDevice = (device) => {
-        setActiveDevices([...activeDevices, device]);
+        if (!activeDevices.find(item => item.deviceId === device.deviceId)) {
+            setActiveDevices([...activeDevices, device]);
+            alert("Successfully added to active!")
+        } else {
+            alert("Device already exists in active!");
+        }
     }
+
+    const loadMore = () => {
+        setPage(page + 1);
+        setLoading(true);
+    };
 
     const values = {
         activeDevices,
@@ -23,7 +34,12 @@ export const DeviceProvider = (props) => {
         activeDevice,
         setActiveDevice, 
         devices,
-        setDevices
+        setDevices,
+        page,
+        setPage,
+        loading,
+        setLoading,
+        loadMore,
     }
 
     return (
