@@ -17,9 +17,11 @@ async function postScreenshot({token, location, description, date}) {
         'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({deviceId: null,
-      time: date,
+      startTime: date,
+      endTime: date,
       location: location,
-      description: description})
+      description: description,
+      statusId: 1})
     });
     var json = await response.json();
   } catch (error) {

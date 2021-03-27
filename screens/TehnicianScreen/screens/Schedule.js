@@ -16,7 +16,7 @@ function Schedule(props) {
             <Card>
                 <Card.Content>
                     <View style={styles.item}>
-                        <Text>{format(Date.parse(item.time), 'HH:mm ')}</Text>
+                        <Text>{format(Date.parse(item.startTime), 'HH:mm ')}</Text>
                         <Text>{item.location}</Text>
                     </View>
                     <View>
@@ -36,9 +36,9 @@ function Schedule(props) {
                     headers: {"Authorization" : "Bearer "+ token},
                   });
                   var data = await response.json();
-
+                  var data = data.data;
                 const mappedData = data.map((post) => {
-                      const date = new Date(post.time);
+                      const date = new Date(post.startTime);
                       return {
                           ...post,
                           date: format(date, 'yyyy-MM-dd'),

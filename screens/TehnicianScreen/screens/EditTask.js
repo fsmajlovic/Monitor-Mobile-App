@@ -8,21 +8,26 @@ import {AuthContext} from '../../../contexts/authContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 
-async function postScreenshot({token, location, description, date}) {
+async function postScreenshot({token, location, description, date, taskId}) {
   try {
-    let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks", {
-      method: 'POST',
+    console.log("Dosao");
+    console.log({location, description, date, taskId});
+    let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks/" + taskId, {
+      method: 'PUT',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({deviceId: null,
-      time: date,
-      location: location,
-      description: description})
+        startTime: date,
+        endTime: date,
+        location: location,
+        description: description,
+        statusId: 1})
     });
     var json = await response.json();
+    console.log(json);
   } catch (error) {
     console.error(error);
   }
@@ -60,7 +65,7 @@ export default function EditTask({route, navigation}) {
     <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
       <View style={styles.container}>
         <Formik
-          initialValues={{ location: '', description: ''}}
+          initialValues={{ location: task.location, description: task.description}}
         >
           {props => (
             <View>
@@ -68,8 +73,8 @@ export default function EditTask({route, navigation}) {
                 style={styles.input}
                 placeholder='Location'
                 onChangeText={props.handleChange('location')}
-                // value={props.values.title}
-                value={task.location}
+                value={props.values.location}
+                //value={task.location}
               />
 
               <TextInput
@@ -77,8 +82,8 @@ export default function EditTask({route, navigation}) {
                 multiline
                 placeholder='Description...'
                 onChangeText={props.handleChange('description')}
-                // value={props.values.description}
-                value={task.description}
+                value={props.values.description}
+                // value={task.description}
               />
 
 
@@ -104,7 +109,8 @@ export default function EditTask({route, navigation}) {
               <Button title="Save"  style={{display: 'flex', justifyContent: 'right'}} onPress={
                 async () => {
                   let token = await getSavedToken();
-                  await postScreenshot({token, description: props.values.description, location: props.values.location, date});
+                  await postScreenshot({token, description: props.values.description, location: props.values.location, date, taskId: task.taskId});
+                  navigation.popToTop()
               }} />
               <Button title="Cancel"  onPress={
                   (props) => { navigation.goBack(null) }    // srediti buttone
