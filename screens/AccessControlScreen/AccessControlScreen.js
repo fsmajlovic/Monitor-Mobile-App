@@ -3,8 +3,12 @@ import React, {useEffect, useState} from 'react'
 import {AuthContext} from '../../contexts/authContext';
 import {serverURL} from '../../appConfig';
 import ListView from './components/ListView';
+import ListViewVertical from './components/ListViewVertical';
+
 var currentUri = ' ';
 var image_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSXv3SprlcGxiV_248M-azw5lTzEYLKHXU5w&usqp=CAU';
+
+
 
 async function postScreenshot(token) {
   console.log("token je "+token)
@@ -44,16 +48,15 @@ export default function AccessControlScreen({navigation}) {
 
   return(
   <View style={styles.container}>
-    <View  style={styles.listView}>
-      <ScrollView style={styles.scrollView}>
-        <TouchableOpacity onPress={() => navigation.push('FileManager')}>
-          <Text style={styles.text}>Files</Text>
-        </TouchableOpacity>
-          <ListView 
-            itemList={dataSet}
-          />
+    <View style={styles.scrollViewStyle}>
+      <Text style={styles.text}>Files</Text>
+      <ScrollView>
+        <ListViewVertical
+              itemList={dataSet}
+        />       
       </ScrollView>
     </View>
+
 
     <View>
       <TouchableOpacity onPress={async () => {
@@ -86,6 +89,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 5,
     flex: 1,
+  },
+  scrollViewStyle: {
+    height: 200, 
   },
   listView: {
     padding: 10,

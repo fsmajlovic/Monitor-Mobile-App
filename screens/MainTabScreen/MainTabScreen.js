@@ -8,13 +8,13 @@ import HomeScreen from '../HomeScreen/HomeScreen';
 import ConsoleScreen from '../ConsoleScreen/ConsoleScreen';
 import ReportScreen from '../ReportScreen/ReportScreen';
 import AccessControlScreen from '../AccessControlScreen/AccessControlScreen';
-import FileManager from '../AccessControlScreen/screens/FileManager';
 import TehnicianScreen from '../TehnicianScreen/TehnicianScreen';
 import AddTask from '../TehnicianScreen/screens/AddTask';
 import Schedule from '../TehnicianScreen/screens/Schedule';
 import StatisticScreen from '../ReportScreen/screens/StatisticScreen';
 import { Button } from 'react-native';
 import OptionScreen from '../ReportScreen/screens/OptionScreen';
+import FileManager from '../AccessControlScreen/screens/FileManager'
 
 
 const HomeStack = createStackNavigator();
@@ -29,9 +29,9 @@ const Tab = createMaterialBottomTabNavigator();
 const MainTabScreen = () => (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#0D47A1"
-      inactiveColor="lightgrey"
-      barStyle={{backgroundColor: 'white'}}
+      activeColor="#E50914"
+      inactiveColor="#cbbfa8"
+      barStyle={{backgroundColor: '#3D3D3D'}}
     >
       <Tab.Screen
         name="Home"
@@ -95,6 +95,22 @@ const HomeStackScreen = ({navigation}) => (
             <HomeStack.Screen name="Home" component={HomeScreen} options={{
             title:'Home',
             }} />
+            <HomeStack.Screen name="Console" component={ConsoleScreen} options={{
+
+            }} />
+            <HomeStack.Screen name="AccessControl" component={AccessControlScreen} options={{
+
+            }} />
+            <HomeStack.Screen name="Options" component={OptionScreen} options={{
+
+            }} />
+            <HomeStack.Screen name="Statistic" component={StatisticScreen} options={{
+
+            }} />
+            <HomeStack.Screen name="FileManager" component={FileManager} options={{
+                  
+            }} />
+            
     </HomeStack.Navigator>
     );
   
@@ -119,7 +135,7 @@ const HomeStackScreen = ({navigation}) => (
       const ReportStackScreen = ({navigation}) => (
         <ReportStack.Navigator screenOptions={{ 
                 headerStyle: {
-                  backgroundColor: '#0D47A1',
+                  backgroundColor: '#3D3D3D',
                   shadowOpacity: 0,
                   elevation: 0,
                 },
@@ -130,28 +146,6 @@ const HomeStackScreen = ({navigation}) => (
             }}>
               
                 <ReportStack.Screen name="Report" component={ReportScreen} options={{
-                  headerRight: () => (
-                    <Button
-                      onPress={() => navigation.navigate("Statistic")}
-                      title="Statistic >"
-                      color="#595959"
-                      fontWeight="bold"
-                    />
-                  ),
-                }} />
-                <ReportStack.Screen name="Options" component={OptionScreen} options={{
-
-                }} />
-                <ReportStack.Screen name="Statistic" component={StatisticScreen} options={{
-
-                }} />
-                <ReportStack.Screen name="Console" component={ConsoleScreen} options={{
-
-                }} />
-                <ReportStack.Screen name="AccessControl" component={AccessControlScreen} options={{
-
-                }} />
-                <AccessControlStack.Screen name="FileManager" component={FileManager} options={{
                   
                 }} />
         </ReportStack.Navigator>
@@ -160,7 +154,7 @@ const HomeStackScreen = ({navigation}) => (
         const AccessControlStackScreen = ({navigation}) => (
           <AccessControlStack.Navigator screenOptions={{
                   headerStyle: {
-                  backgroundColor: '#00695C',
+                  backgroundColor: 'transparent',
                   shadowOpacity: 0,
                   elevation: 0,
                   },
@@ -172,10 +166,9 @@ const HomeStackScreen = ({navigation}) => (
                   <AccessControlStack.Screen name="AccessControl" component={AccessControlScreen} options={{
                     
                   }} />
-
                   <AccessControlStack.Screen name="FileManager" component={FileManager} options={{
-                    
-                  }} />
+                  
+                }} />
           </AccessControlStack.Navigator>
           );
   

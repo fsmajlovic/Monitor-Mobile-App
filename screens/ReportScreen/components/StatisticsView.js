@@ -1,35 +1,39 @@
-import React, { useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState} from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
 import {Table, Row, Rows} from 'react-native-table-component';
 import {AuthContext} from "../../../contexts/authContext";
+import { DeviceContext } from '../../../contexts/DeviceContext';
 
 
-function getStatisticalData(dataSet){
-    if(dataSet===undefined) return [];
-    let uniqueNames=[];
-    for(let i=0;i<dataSet.length;i++){
-        let object=dataSet[i];
-        uniqueNames.push(object.device.name);
-    }
-    uniqueNames = [...new Set(uniqueNames)];
-    let numberOfOccurrences=[]
-    for(let i=0;i<uniqueNames.length;i++){
-        let count=dataSet.filter(object=>object.device.name===uniqueNames[i]).length;
-        numberOfOccurrences.push([uniqueNames[i],count]);
-    }
+function getStatisticalData(name,dataSet){
+    if(dataSet===undefined || dataSet.length==0) return [];
+    let numberOfOccurrences=[];
+    numberOfOccurrences.push([name,dataSet.deviceStatusLogs.length]);
     return numberOfOccurrences;
 }
 
 const StatisticsView = (props) => {
     const { getSavedToken } = React.useContext(AuthContext);
+    const { activeDevice } = useContext(DeviceContext);
     const [logs ,setLogs ] = useState([]);
 
     useEffect(() => {
         async function getData(getSavedToken) {
             let token = await getSavedToken();
-            fetch("https://si-2021.167.99.244.168.nip.io/api/device/GetAllDeviceLogs", {
+            //dobavljanje logova u zadnjih mjesec dana
+            let startDate=new Date();
+            startDate.setMonth(startDate.getMonth()-1);
+            let endDate=new Date();
+            let s1=startDate.toString();
+            let s2=endDate.toString();
+            let deviceId=22;
+            // +"&startDate="+startDate.toISOString()+"&endDate="+endDate.toISOString()
+            fetch("https://si-2021.167.99.244.168.nip.io/api/device/GetDeviceLogs"+
+                "?deviceId="+activeDevice.deviceId, {
                 method: 'GET',
-                headers: { "Authorization": "Bearer " + token },
+                headers: {
+                    "Authorization": "Bearer " + token
+                },
             }).then((response) => {
                 return response.json();
             }).then((responseJson) => {
@@ -42,7 +46,7 @@ const StatisticsView = (props) => {
     }, []);
 
     const tableHead=["Računar", "Broj javljanja"];
-    const data=getStatisticalData(logs);
+    const data=getStatisticalData(props.dataSet.name,logs);
     return (
         <ScrollView horizontal={false}>
             <View style={styles.container}>

@@ -15,8 +15,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         backgroundColor: '#464646',
         elevation: 2,
-        borderWidth: 0.5,
-        borderColor: "red"
     },
     title: {
         fontSize: 16,
@@ -39,14 +37,14 @@ const styles = StyleSheet.create({
     },
 });
 
-const ListItem = ({ item, navigation }) => {
+const ActiveListItem = ({ item, navigation }) => {
     const { setActiveDevice, addActiveDevice } = useContext(DeviceContext);
     return (
-        <TouchableWithoutFeedback onPress={() => { addActiveDevice(item); }}>
+        <TouchableWithoutFeedback onPress={() => { navigation.push('Options'); setActiveDevice(item); }}>
             <View style={styles.container}>
                 <Image source={require('../../../assets/pc-icon.png')} style={styles.photo} />
                 <View style={styles.container_text}>
-                    <Text style={styles.title}> 
+                    <Text style={styles.title}>
                         {item.name}
                     </Text>
                     <Text style={styles.description}>
@@ -58,4 +56,4 @@ const ListItem = ({ item, navigation }) => {
     )
 };
 
-export default ListItem;
+export default ActiveListItem;

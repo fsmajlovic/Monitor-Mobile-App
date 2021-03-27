@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { StyleSheet, Text, View, Button } from 'react-native';
 import {AuthContext} from '../../contexts/authContext';
 import { DeviceContext } from '../../contexts/DeviceContext';
+import ActiveListView from '../ReportScreen/components/ActiveListView';
 import ListView from '../ReportScreen/components/ListView';
 
 export default function HomeScreen({navigation}) {
@@ -12,7 +13,7 @@ export default function HomeScreen({navigation}) {
         <View 
         style={{flex: 1}} 
         >
-        <ListView
+        <ActiveListView
           itemList={activeDevices}
           navigation={navigation}
         />
@@ -21,6 +22,7 @@ export default function HomeScreen({navigation}) {
         title={'LogOut'}
         onPress={() => {signOut()}}
          />
+
 
         </View>
       );
