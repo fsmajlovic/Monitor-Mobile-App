@@ -13,14 +13,12 @@ const styles = StyleSheet.create({
         marginTop: 8,
         marginBottom: 8,
         borderRadius: 5,
-        backgroundColor: '#464646',
+        backgroundColor: '#D3D3D3',
         elevation: 2,
-        borderWidth: 0.5,
-        borderColor: "red"
     },
     title: {
         fontSize: 16,
-        color: 'white',
+        color: 'black',
     },
     container_text: {
         flex: 1,
@@ -31,7 +29,8 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 11,
         fontStyle: 'italic',
-        color: '#cbbfa8',
+        color: '#0D47A1',
+        fontWeight: 'bold',
     },
     photo: {
         height: 50,
@@ -44,7 +43,7 @@ const ListItem = ({ item, navigation }) => {
     return (
         <TouchableWithoutFeedback onPress={() => { addActiveDevice(item); }}>
             <View style={styles.container}>
-                <Image source={require('../../../assets/pc-icon.png')} style={styles.photo} />
+                <Image source={require('../../../assets/monitor-icon.gif')} style={styles.photo} />
                 <View style={styles.container_text}>
                     <Text style={styles.title}> 
                         {item.name}

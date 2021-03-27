@@ -29,9 +29,9 @@ const Tab = createMaterialBottomTabNavigator();
 const MainTabScreen = () => (
     <Tab.Navigator
       initialRouteName="Home"
-      activeColor="#E50914"
-      inactiveColor="#cbbfa8"
-      barStyle={{backgroundColor: '#3D3D3D'}}
+      activeColor="#0D47A1"
+      inactiveColor="lightgrey"
+      barStyle={{backgroundColor: 'white'}}
     >
       <Tab.Screen
         name="Home"
@@ -83,11 +83,11 @@ export default MainTabScreen;
 const HomeStackScreen = ({navigation}) => (
     <HomeStack.Navigator screenOptions={{
             headerStyle: {
-            backgroundColor: 'transparent',
+            backgroundColor: '#0D47A1',
             shadowOpacity: 0,
             elevation: 0,
             },
-            headerTintColor: 'black',
+            headerTintColor: 'white',
             headerTitleStyle: {
             fontWeight: 'bold'
             }
@@ -135,7 +135,7 @@ const HomeStackScreen = ({navigation}) => (
       const ReportStackScreen = ({navigation}) => (
         <ReportStack.Navigator screenOptions={{ 
                 headerStyle: {
-                  backgroundColor: '#3D3D3D',
+                  backgroundColor: '#0D47A1',
                   shadowOpacity: 0,
                   elevation: 0,
                 },
@@ -175,11 +175,11 @@ const HomeStackScreen = ({navigation}) => (
           const TehnicianStackScreen = ({navigation}) => (
             <TehnicianStack.Navigator screenOptions={{
                     headerStyle: {
-                    backgroundColor: 'transparent',
+                    backgroundColor: '#0D47A1',
                     shadowOpacity: 0,
                     elevation: 0,
                     },
-                    headerTintColor: 'black',
+                    headerTintColor: 'white',
                     headerTitleStyle: {
                     fontWeight: 'bold'
                     }

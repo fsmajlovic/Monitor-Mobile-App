@@ -32,12 +32,11 @@ const ReportScreen = ({ navigation }) => {
   }, [page]);
 
 
-
   return (
 
     <View style={styles.container}>
-      <Text style={{flex: 0.1, alignSelf: 'center', color: 'red', fontSize: 35}}>Available</Text>
-      <Text style={{flex: 0.1, alignSelf: 'center', color: '#E50914', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
+      <Text style={{flex: 0.1, alignSelf: 'center', color: 'black', fontSize: 35}}>Available</Text>
+      <Text style={{flex: 0.1, alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
       <FlatList style={{flex: 1}}
             keyExtractor={(item) => item.deviceId.toString()}
             data={devices}
