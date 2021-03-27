@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'; 
+import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native'; 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Formik } from 'formik';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import {AuthContext} from '../../../contexts/authContext';
+import { Entypo } from '@expo/vector-icons';
+import ModalDropdown from 'react-native-modal-dropdown';
+import NumericInput from 'react-native-numeric-input';
 
 
 async function postScreenshot({token, location, description, date}) {
@@ -30,10 +33,12 @@ async function postScreenshot({token, location, description, date}) {
 };
 
 
-export default function AddTask() {
+export default function AddTask({navigation}) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+  const [durationHr, setDurationHr] = useState(0);
+  const [durationMin, setDurationMin] = useState(0);
   var {getSavedToken} = React.useContext(AuthContext);
 
   const onChange = (event, selectedDate) => {
@@ -98,10 +103,46 @@ export default function AddTask() {
                     />
                   )}
               
+                    <View style={styles.labels}>
+                    <Text style={styles.text2}>HOUR: </Text>
+                    <NumericInput 
+                              value={durationHr} 
+                              onChange={value => setDurationHr({value})} 
+                              totalWidth={140} 
+                              totalHeight={35} 
+                              iconSize={25}
+                              step={1}
+                              maxValue={24}
+                              valueType='real'
+                              rounded 
+                              textColor='#B0228C' 
+                              iconStyle={{ color: 'white' }} 
+                              rightButtonBackgroundColor='#EA3788' 
+                              leftButtonBackgroundColor='#E56B70'/>
+                    </View>
+                        <View style={styles.labels}>
+                        <Text style={styles.text2}>MINUTES: </Text>
+                    <NumericInput 
+                              value={durationMin} 
+                              onChange={value => setDurationMin({value})} 
+                              totalWidth={140} 
+                              totalHeight={35} 
+                              iconSize={25}
+                              step={5}
+                              maxValue={60}
+                              valueType='real'
+                              rounded 
+                              textColor='#B0228C' 
+                              iconStyle={{ color: 'white' }} 
+                              rightButtonBackgroundColor='#EA3788' 
+                              leftButtonBackgroundColor='#E56B70'/>
+                          </View>     
+                           
               <Button title="Add in calendar" onPress={
                 async () => {
                   let token = await getSavedToken();
                   await postScreenshot({token, description: props.values.description, location: props.values.location, date});
+                  navigation.goBack();
               }} />
             </View>
           )}
@@ -145,6 +186,14 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16
+  },
+  text2: {
+    marginRight: 20
+  },
+  labels: {
+    flexDirection: 'row',
+    alignItems:'center',
+    marginTop:7
   }
 });
 
