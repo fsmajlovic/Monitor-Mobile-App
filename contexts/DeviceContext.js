@@ -16,7 +16,12 @@ export const DeviceProvider = (props) => {
     const [loading, setLoading] = useState(false);
 
     const addActiveDevice = (device) => {
-        setActiveDevices([...activeDevices, device]);
+        if (!activeDevices.find(item => item.deviceId === device.deviceId)) {
+            setActiveDevices([...activeDevices, device]);
+            alert("Successfully added to active!")
+        } else {
+            alert("Device already exists in active!");
+        }
     }
 
     const loadMore = () => {

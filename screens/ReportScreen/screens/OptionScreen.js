@@ -11,6 +11,9 @@ const OptionScreen = ({ navigation }) => {
             <Text style={styles.title}>{activeDevice.name}</Text>
             <Button title="Access control" onPress={() => { navigation.push('AccessControl') }}></Button>
             <Button title="Console" onPress={() => { navigation.push('Console') }}></Button>
+            {
+                console.log(activeDevice.name + " " + activeDevice.location) // Ovako se pristupa lokaciji i imenu kliknutog uredjaja
+            }
         </View>
     )
 }

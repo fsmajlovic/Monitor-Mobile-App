@@ -94,6 +94,15 @@ const HomeStackScreen = ({navigation}) => (
             <HomeStack.Screen name="Home" component={HomeScreen} options={{
             title:'Home',
             }} />
+            <HomeStack.Screen name="Console" component={ConsoleScreen} options={{
+
+            }} />
+            <HomeStack.Screen name="AccessControl" component={AccessControlScreen} options={{
+
+            }} />
+            <HomeStack.Screen name="Options" component={OptionScreen} options={{
+
+            }} />
     </HomeStack.Navigator>
     );
   
@@ -138,18 +147,10 @@ const HomeStackScreen = ({navigation}) => (
                     />
                   ),
                 }} />
-                <ReportStack.Screen name="Options" component={OptionScreen} options={{
-
-                }} />
                 <ReportStack.Screen name="Statistic" component={StatisticScreen} options={{
 
                 }} />
-                <ReportStack.Screen name="Console" component={ConsoleScreen} options={{
-
-                }} />
-                <ReportStack.Screen name="AccessControl" component={AccessControlScreen} options={{
-
-                }} />
+                
         </ReportStack.Navigator>
         );
   
