@@ -23,6 +23,7 @@ export default function HomeScreen({navigation}) {
         onPress={() => {signOut()}}
          />
 
+
         </View>
       );
 }
