@@ -40,7 +40,7 @@ export default function AddTask({navigation}) {
   const [durationHr, setDurationHr] = useState(0);
   const [durationMin, setDurationMin] = useState(0);
   var {getSavedToken} = React.useContext(AuthContext);
-  let deviceArray = [];
+  let deviceArray = ['No device selected'];
 
   useEffect(()=>{
     async function getData(getSavedToken){
@@ -51,8 +51,10 @@ export default function AddTask({navigation}) {
                 headers: {"Authorization" : "Bearer "+ token},
               });
               var data = await response.json();
-              console.log(data.data);
               var data = data.data;
+              for(let device of data) {
+                deviceArray.push(device.name);
+              }
         } catch (error) {
             console.error(error);
         }
@@ -87,7 +89,17 @@ export default function AddTask({navigation}) {
         >
           {props => (
             <View>
-              <ModalDropdown style={styles.input} options={deviceArray}/>
+              <ModalDropdown
+                options={deviceArray}/>
+
+              <TextInput
+                style={styles.input}
+                multiline
+                placeholder='Pick device to show location...'
+                onChangeText={props.handleChange('description')}
+                value={props.values.description}
+                editable={false}  
+              />
 
               <TextInput
                 style={styles.input2}
@@ -174,8 +186,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   input: {
-    width: 200,
-    height: 44,
+    width: 250,
+    height: 60,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
