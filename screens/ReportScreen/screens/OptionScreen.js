@@ -9,8 +9,6 @@ const OptionScreen = ({ navigation }) => {
     return (
         <View>
             <Text style={styles.device}>{activeDevice.name}</Text>
-            <Button color="#0D47A1" title="Access control" onPress={() => { navigation.push('AccessControl') }}></Button>
-            <Button color="#0D47A1" title="Console" onPress={() => { navigation.push('Console') }}></Button>
         </View>
     )
 }
