@@ -6,10 +6,10 @@ import StatisticsView from '../components/StatisticsView';
 
 
 const StatisticScreen = () => {
-    const { devices } = useContext(DeviceContext);
+    const { activeDevice } = useContext(DeviceContext);
     return (
         <View>
-            {<StatisticsView dataSet={devices} />}
+            <StatisticsView dataSet={activeDevice} />
         </View>
     )
 }
