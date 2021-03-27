@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, ScrollView, Button, View, FlatList, ActivityIndicator, Text } from 'react-native';
-import ListView from './components/ListView';
+import { StyleSheet, View, FlatList, ActivityIndicator, Text } from 'react-native';
 import ListItem from './components/ListItem';
-import StatisticsView from './components/StatisticsView';
 import { AuthContext } from '../../contexts/authContext';
 import { useContext } from 'react';
 import { DeviceContext } from '../../contexts/DeviceContext';
-import axios from 'axios';
 
 
 const ReportScreen = ({ navigation }) => {
@@ -39,7 +36,7 @@ const ReportScreen = ({ navigation }) => {
   return (
 
     <View style={styles.container}>
-      <Text style={{flex: 0.1, alignSelf: 'center', color: 'white', fontSize: 35}}>Available</Text>
+      <Text style={{flex: 0.1, alignSelf: 'center', color: 'red', fontSize: 35}}>Available</Text>
       <Text style={{flex: 0.1, alignSelf: 'center', color: '#E50914', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
       <FlatList style={{flex: 1}}
             keyExtractor={(item) => item.deviceId.toString()}

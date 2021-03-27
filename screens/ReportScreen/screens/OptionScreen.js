@@ -5,6 +5,7 @@ import { TabView, SceneMap } from 'react-native-tab-view';
 import { useWindowDimensions } from 'react-native';
 import ConsoleScreen from '../../ConsoleScreen/ConsoleScreen';
 import AccessControlScreen from '../../AccessControlScreen/AccessControlScreen';
+import StatisticScreen from './StatisticScreen';
 
 
 const OptionScreen = ({ navigation }) => {
@@ -13,22 +14,20 @@ const OptionScreen = ({ navigation }) => {
     const [index, setIndex] = useState(0);
     const [routes] = React.useState([
         { key: 'first', title: 'Console' },
-        { key: 'second', title: 'Access Control' }
+        { key: 'second', title: 'Access Control' },
+        { key: 'third',  title: 'Statistic'}
     ]);
 
     const renderScene = SceneMap({
         first: ConsoleScreen,
         second: AccessControlScreen,
+        third: StatisticScreen
     });
 
     const { activeDevice } = useContext(DeviceContext);
     return (
         <View style={styles.container}>
-            {/*<Text style={styles.title}>{activeDevice.name}</Text>
-            <Text style={styles.title}>{ activeDevice.location }</Text>
-            <Button title="Access control" onPress={() => { navigation.push('AccessControl') }}></Button>
-            <Button title="Console" onPress={() => { navigation.push('Console') }}></Button>
-            <Button title="Statisctics" onPress={() => { navigation.push('Statistic') }}></Button>
+            {/*
             {
                 console.log(activeDevice.name + " " + activeDevice.location) // Ovako se pristupa lokaciji i imenu kliknutog uredjaja
             }*/}
