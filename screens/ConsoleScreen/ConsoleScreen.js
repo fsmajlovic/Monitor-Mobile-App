@@ -8,14 +8,15 @@ import { AuthContext } from '../../contexts/authContext';
 import { serverURL } from '../../appConfig';
 import { useContext } from 'react';
 
-export default function ConsoleScreen({ navigation, route }) {
-  naziv = route.params.dev;
-  console.log(naziv);
+export default function ConsoleScreen({ navigation }) {
+  //console.log(naziv);
   const group1 = ["?", "clear", "ls"];
   const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set"];
 
   const [rows, setRows] = useState([]);
   const [current, setCurrent] = useState("");
+//  const { activeDevice } = useContext(DeviceContext);
+//  console.log(activeDevice);
 
   const { getSavedToken } = React.useContext(AuthContext);
 
@@ -26,6 +27,23 @@ export default function ConsoleScreen({ navigation, route }) {
       )
     })
   };
+
+  const getActiveDevices = async (token) => {
+/*
+    console.log("Dosao neki zahtjev");
+
+    fetch('https://si-grupa5.herokuapp.com/api/agent/online', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        "Authorization": "Bearer " + token,
+      }
+    })
+      .then(res =>   {
+        console.log("bla");
+      }); */
+
+  }
 
   const sendRequest = async (command, token) => {
 
@@ -41,9 +59,12 @@ export default function ConsoleScreen({ navigation, route }) {
         "Authorization": "Bearer " + token,
       },
       body: JSON.stringify({
-        name: 'DESKTOP-SCC',
-        location: 'Sarajevo - SCC',
-        command: command
+        'name': activeDevice.name,
+        'location': activeDevice.location,
+        'ip': 'ip',
+        command: command,
+        parameters: [],
+        user: 'whoso@whoso.com'
       })
     })
       .then(res => res.json())
@@ -90,7 +111,8 @@ export default function ConsoleScreen({ navigation, route }) {
                 }
 
                 let token = await getSavedToken();
-                sendRequest(command, token);
+            //    getActiveDevices(token);
+              //  sendRequest(command, token);
               } else {
                 //nevalidna komanda
                 addRows("Invalid command!");
