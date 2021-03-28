@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
         marginBottom: 8,
         borderRadius: 5,
-        backgroundColor: '#D3D3D3',
+        backgroundColor: '#80D8FF',
         elevation: 2,
     },
     title: {
