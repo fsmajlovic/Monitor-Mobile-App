@@ -39,6 +39,10 @@ export default function AddTask({navigation}) {
   const [show, setShow] = useState(false);
   const [durationHr, setDurationHr] = useState(0);
   const [durationMin, setDurationMin] = useState(0);
+  const [deviceSelected, setDeviceSelected] = useState(false);
+  const [devices, setDevices] = useState([]);
+  const [locationName, setLocationName] = useState("");
+  const [locationArray, setLocationArray] = useState([]);
   var {getSavedToken} = React.useContext(AuthContext);
   let deviceArray = ['No device selected'];
 
@@ -52,9 +56,13 @@ export default function AddTask({navigation}) {
               });
               var data = await response.json();
               var data = data.data;
+              let locations = [];
               for(let device of data) {
                 deviceArray.push(device.name);
+                locations.push(device.location)
               }
+              setDevices(deviceArray);
+              setLocationArray(locations);
         } catch (error) {
             console.error(error);
         }
@@ -81,24 +89,39 @@ export default function AddTask({navigation}) {
     showMode('time');
   };
 
+  const onSelectDropDown = (index) => {
+    if(index == 0) {
+      setDeviceSelected(false);
+    }
+    else {
+      setDeviceSelected(true);
+      setLocationName(locationArray[index]);
+    }
+  };
+
+
   return (
     <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
       <View style={styles.container}>
         <Formik
-          initialValues={{ location: '', description: ''}}
+          initialValues={{description: ''}}
         >
           {props => (
             <View>
               <ModalDropdown
-                options={deviceArray}/>
+                style={styles.input}
+                dropdownStyle={styles.dropdown}
+                options={devices}
+                onSelect = {onSelectDropDown}
+                />
 
               <TextInput
                 style={styles.input}
                 multiline
                 placeholder='Pick device to show location...'
-                onChangeText={props.handleChange('description')}
-                value={props.values.description}
-                editable={false}  
+                onChangeText={text => setLocationName(text)}
+                value={locationName}
+                editable={!deviceSelected}  
               />
 
               <TextInput
@@ -220,6 +243,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems:'center',
     marginTop:7
+  },
+  dropdown: {
+    width: 230,
+    height: 240,
+    padding: 10,
   }
 });
 
