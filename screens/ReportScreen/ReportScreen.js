@@ -22,7 +22,7 @@ const ReportScreen = ({ navigation }) => {
       }).then((response) => {
         return response.json();
       }).then((responseJson) => {
-        setDevices(devices.concat(responseJson.data));
+        setDevices(devices.concat(responseJson.data.devices));
         setLoading(false);
       }).catch((error) => {
         console.error(error);
