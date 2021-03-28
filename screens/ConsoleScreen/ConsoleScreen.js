@@ -8,7 +8,9 @@ import { AuthContext } from '../../contexts/authContext';
 import { serverURL } from '../../appConfig';
 import { useContext } from 'react';
 
-export default function ConsoleScreen({ navigation }) {
+export default function ConsoleScreen({ navigation, route }) {
+  naziv = route.params.dev;
+  console.log(naziv);
   const group1 = ["?", "clear", "ls"];
   const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set"];
 
@@ -78,6 +80,7 @@ export default function ConsoleScreen({ navigation }) {
               let command = "";
               command = args[0].toLowerCase();
 
+              
               addRows("IWM console > " + event.nativeEvent.text);
 
               if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length == 2)) {

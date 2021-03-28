@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 const ListItem = ({ item, navigation }) => {
     const { setActiveDevice, addActiveDevice } = useContext(DeviceContext);
     return (
-        <TouchableWithoutFeedback onPress={() => { navigation.push('Options'); setActiveDevice(item); addActiveDevice(item); }}>
+        <TouchableWithoutFeedback onPress={() => { navigation.push('Options'); setActiveDevice(item); addActiveDevice(item); navigation.navigate('Console', {dev : item.name}); }}>
             <View style={styles.container}>
                 <Image source={require('../../../assets/pc-icon.png')} style={styles.photo} />
                 <View style={styles.container_text}>
