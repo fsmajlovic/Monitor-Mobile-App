@@ -7,13 +7,16 @@ import { Ionicons } from '@expo/vector-icons';
 import {AuthContext} from '../../../contexts/authContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ModalDropdown from 'react-native-modal-dropdown';
+import NumericInput from 'react-native-numeric-input';
 
 
 
-async function postScreenshot({token, location, description, date, taskId, status}) {
+async function postScreenshot({token, location, description, date, taskId, deviceId, duration, status}) {
   try {
-    console.log("Dosao");
-    console.log({location, description, date, taskId});
+    const endTime = new Date(date);
+    endTime.setHours(duration.durationHr);
+    endTime.setMinutes(duration.durationMin);
+    
     let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks/" + taskId, {
       method: 'PUT',
       headers: {
@@ -21,15 +24,14 @@ async function postScreenshot({token, location, description, date, taskId, statu
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({deviceId: null,
+      body: JSON.stringify({deviceId: deviceId,
         startTime: date,
-        endTime: date,
+        endTime: endTime,
         location: location,
         description: description,
         statusId: status})
     });
     var json = await response.json();
-    console.log(json);
   } catch (error) {
     console.error(error);
   }
@@ -37,15 +39,18 @@ async function postScreenshot({token, location, description, date, taskId, statu
 
 
 export default function EditTask({route, navigation}) {
-  const [date, setDate] = useState(new Date());
+  // let tempTime = new Date(Date.parse(route.params.task.endTime) - (Date.parse(route.params.task.startTime))); 
+  const [date, setDate] = useState(new Date(route.params.task.startTime));
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+  // const [durationHr, setDurationHr] = useState(new Date(route.params.task.endTime).getHours());
   const [durationHr, setDurationHr] = useState(0);
   const [durationMin, setDurationMin] = useState(0);
   const [deviceSelected, setDeviceSelected] = useState(false);
   const [devices, setDevices] = useState([]);
+  const [device, setDevice] = useState({});
+  const [devicesName, setDevicesName] = useState([]);
   const [locationName, setLocationName] = useState("");
-  const [locationArray, setLocationArray] = useState([]);
   var {getSavedToken} = React.useContext(AuthContext);
   let deviceArray = ['No device selected'];
   let statusArray = ["Not started", "In progress", "On hold", "Done"];
@@ -60,23 +65,22 @@ export default function EditTask({route, navigation}) {
               });
               var data = await response.json();
               var data = data.data;
-              let locations = [];
               for(let device of data) {
                 deviceArray.push(device.name);
-                locations.push(device.location)
               }
-              setDevices(deviceArray);
-              setLocationArray(locations);
+              setDevices(data);
+              setDevicesName(deviceArray);
         } catch (error) {
             console.error(error);
         }
     }
     getData(getSavedToken);
+    route.params.task.deviceId ? setLocationName(route.params.task.device.location) : setLocationName(route.params.task.location);
   }, []);
   
 
   const {task} = route.params;
-
+  
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
@@ -98,7 +102,6 @@ export default function EditTask({route, navigation}) {
 
   const onSelectDropDown2 = (index) => {
       task.statusId = index + 1;
-      console.log(task.statusId);
   };
 
   const onSelectDropDown = (index) => {
@@ -107,7 +110,8 @@ export default function EditTask({route, navigation}) {
     }
     else {
       setDeviceSelected(true);
-      setLocationName(locationArray[index]);
+      setDevice(devices[index-1]);
+      setLocationName(devices[index-1].location)
     }
   };
 
@@ -115,34 +119,26 @@ export default function EditTask({route, navigation}) {
     <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
       <View style={styles.container}>
         <Formik
-          initialValues={{ location: task.location, description: task.description}}
+          initialValues={{ description: task.description}}
         >
           {props => (
             <View>
-              
-            
               <ModalDropdown
                 style={styles.input}
                 dropdownStyle={styles.dropdown}
-                options={devices}
+                options={devicesName}
                 onSelect = {onSelectDropDown}
+                defaultValue = { "Pick device..." }
+                textStyle = {{fontSize: 16, color:"#aaa"}}
                 />
 
               <TextInput
                 style={styles.input}
                 multiline
-                placeholder='Pick device to show location...'
+                placeholder='Location...'
                 onChangeText={text => setLocationName(text)}
                 value={locationName}
                 editable={!deviceSelected}  
-              />
-
-              <TextInput
-                style={styles.input}
-                placeholder='Location'
-                onChangeText={props.handleChange('location')}
-                value={props.values.location}
-                //value={task.location}
               />
 
               <TextInput
@@ -151,23 +147,64 @@ export default function EditTask({route, navigation}) {
                 placeholder='Description...'
                 onChangeText={props.handleChange('description')}
                 value={props.values.description}
-                // value={task.description}
               />
 
-
-              <View style={styles.conainerIcon}>
-                <Text style={styles.text}>Select date: </Text>
-                <Fontisto name="date" onPress={showDatepicker} size={24} color="black" />
-              </View>
-              <View style={styles.conainerIcon}>
-                <Text style={styles.text}>Select time: </Text>
-                <Ionicons name="ios-time-outline" onPress={showTimepicker} size={24} color="black" />
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>  
+                <View style={styles.conainerIcon}>
+                  <Text style={styles.text}>Select date: </Text>
+                  <Fontisto name="date" onPress={showDatepicker} size={24} color="black" />
                 </View>
-              <View>
+                <View style={styles.conainerIcon}>
+                  <Text style={styles.text}>Select time: </Text>
+                  <Ionicons name="ios-time-outline" onPress={showTimepicker} size={24} color="black" />
+                </View>
+              </View>
+              <View style={{marginBottom: 10}}>
+              <Text style={styles.text}>Set duration: </Text>
+                    <View style={styles.labels}>
+                    <Text style={styles.text2}>HOUR: </Text>
+                    <NumericInput 
+                              value={durationHr} 
+                              onChange={value => setDurationHr(value)} 
+                              totalWidth={140} 
+                              totalHeight={35} 
+                              iconSize={25}
+                              step={1}
+                              maxValue={24}
+                              minValue={0}
+                              valueType='real'
+                              rounded 
+                              textColor='#0D47A1' 
+                              iconStyle={{ color: 'white' }} 
+                              rightButtonBackgroundColor='#0074e8' 
+                              leftButtonBackgroundColor='#0074e8'/>
+                    </View>
+                        <View style={styles.labels}>
+                        <Text style={styles.text2}>MINUTES: </Text>
+                    <NumericInput 
+                              value={durationMin} 
+                              onChange={value => setDurationMin(value)} 
+                              totalWidth={140} 
+                              totalHeight={35} 
+                              iconSize={25}
+                              step={5}
+                              maxValue={60}
+                              minValue={0}
+                              valueType='real'
+                              rounded 
+                              textColor='#0D47A1' 
+                              iconStyle={{ color: 'white' }} 
+                              rightButtonBackgroundColor='#0074e8' 
+                              leftButtonBackgroundColor='#0074e8'/>
+                          </View>
+              </View>
+              <View style={{marginBottom: 20}}>
                 <Text style={styles.text}>Select status: </Text>
                 <ModalDropdown
                 options={statusArray}
-                onSelect = {onSelectDropDown2}/>
+                onSelect = {onSelectDropDown2}
+                
+                defaultValue = { "Pick status..." }/>
 
               </View>
                 
@@ -188,7 +225,9 @@ export default function EditTask({route, navigation}) {
               <Button title="Save"  onPress={
                 async () => {
                   let token = await getSavedToken();
-                  await postScreenshot({token, description: props.values.description, location: props.values.location, date, taskId: task.taskId, status: task.statusId});
+                  deviceSelected ?
+                  await postScreenshot({token, description: props.values.description, location: null, date, taskId: task.taskId, deviceId: device.deviceId, duration: {durationHr, durationMin}, status: task.statusId})
+                  : await postScreenshot({token, description: props.values.description, location: locationName, date, taskId: task.taskId, deviceId: null, duration: {durationHr, durationMin}, status: task.statusId}); 
                   navigation.popToTop()
               }} />
              
@@ -207,7 +246,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: 20,
   },
   input: {
     width: 200,
@@ -221,7 +259,7 @@ const styles = StyleSheet.create({
   },
   input2: {
     width: 250,
-    height: 150,
+    height: 130,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
@@ -236,5 +274,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16
-  }
+  },
+  labels: {
+    flexDirection: 'row',
+    alignItems:'center',
+    marginVertical: 4,
+    justifyContent: 'space-between'
+  },
 });

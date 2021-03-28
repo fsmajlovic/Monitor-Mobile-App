@@ -15,7 +15,7 @@ export default function TehnicianScreen({navigation}) {
                       style={styles.touchableOpacity}
                   >
                       <View style={styles.containerIcon}>
-                          <MaterialIcons name="note-add" size={80} color="#E50914" />
+                          <MaterialIcons name="note-add" size={80} color="#0D47A1" />
                           <Text style={styles.iconText}>
                               Add Task
                           </Text>
@@ -26,7 +26,7 @@ export default function TehnicianScreen({navigation}) {
                       style={styles.touchableOpacity}
                   >
                       <View style={styles.containerIcon}>
-                          <Fontisto name="date" size={80} color="#E50914" />
+                          <Fontisto name="date" size={80} color="#0D47A1" />
                           <Text style={styles.iconText}>
                               Schedule
                           </Text>
@@ -45,7 +45,7 @@ container: {
 },
 containerTitle: {
   justifyContent: 'center',
-   backgroundColor:"#E50914",
+   backgroundColor:"#0D47A1",
    height:"10%",
    margin: 10,
    borderRadius:30,
