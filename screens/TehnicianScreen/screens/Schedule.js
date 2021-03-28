@@ -11,9 +11,25 @@ function Schedule(props) {
     const [items, setItems] = useState({});
     const {getSavedToken} = React.useContext(AuthContext);
 
+    const getColor = (item) => {
+        console.log("Status je " + item.statusId)
+        switch(item.statusId) {
+            case 1:
+              return "#fc6b5b"
+            case 2:
+              return "#7eddf7"
+            case 3:
+              return "#f8ff7d"
+            case 4:
+              return "#73ff98"
+        
+        }
+      }
+     
     const renderItem = (item) => {
+    
         return <TouchableOpacity style={{marginRight: 17, marginTop: 17}} onPress={() => props.navigation.navigate("EditTask", {task: item})}>
-            <Card>
+            <Card style={{ backgroundColor: getColor(item)}}>
                 <Card.Content>
                     <View style={styles.item}>
                         <Text>{format(Date.parse(item.startTime), 'HH:mm ')}</Text>
@@ -26,6 +42,8 @@ function Schedule(props) {
             </Card>
         </TouchableOpacity>
       }
+
+      
 
       useEffect(()=>{
         async function getData(getSavedToken){

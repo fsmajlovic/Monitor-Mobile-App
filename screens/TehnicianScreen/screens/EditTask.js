@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'; 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Formik } from 'formik';
@@ -6,9 +6,11 @@ import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import {AuthContext} from '../../../contexts/authContext';
 import DropDownPicker from 'react-native-dropdown-picker';
+import ModalDropdown from 'react-native-modal-dropdown';
 
 
-async function postScreenshot({token, location, description, date, taskId}) {
+
+async function postScreenshot({token, location, description, date, taskId, status}) {
   try {
     console.log("Dosao");
     console.log({location, description, date, taskId});
@@ -24,7 +26,7 @@ async function postScreenshot({token, location, description, date, taskId}) {
         endTime: date,
         location: location,
         description: description,
-        statusId: 1})
+        statusId: status})
     });
     var json = await response.json();
     console.log(json);
@@ -38,7 +40,40 @@ export default function EditTask({route, navigation}) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+  const [durationHr, setDurationHr] = useState(0);
+  const [durationMin, setDurationMin] = useState(0);
+  const [deviceSelected, setDeviceSelected] = useState(false);
+  const [devices, setDevices] = useState([]);
+  const [locationName, setLocationName] = useState("");
+  const [locationArray, setLocationArray] = useState([]);
   var {getSavedToken} = React.useContext(AuthContext);
+  let deviceArray = ['No device selected'];
+  let statusArray = ["Not started", "In progress", "On hold", "Done"];
+
+  useEffect(()=>{
+    async function getData(getSavedToken){
+        try {
+            const token = await getSavedToken();
+            const response = await fetch("https://si-2021.167.99.244.168.nip.io/api/device/AllDevices", {
+                method: 'GET',
+                headers: {"Authorization" : "Bearer "+ token},
+              });
+              var data = await response.json();
+              var data = data.data;
+              let locations = [];
+              for(let device of data) {
+                deviceArray.push(device.name);
+                locations.push(device.location)
+              }
+              setDevices(deviceArray);
+              setLocationArray(locations);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    getData(getSavedToken);
+  }, []);
+  
 
   const {task} = route.params;
 
@@ -61,6 +96,21 @@ export default function EditTask({route, navigation}) {
     showMode('time');
   };
 
+  const onSelectDropDown2 = (index) => {
+      task.statusId = index + 1;
+      console.log(task.statusId);
+  };
+
+  const onSelectDropDown = (index) => {
+    if(index == 0) {
+      setDeviceSelected(false);
+    }
+    else {
+      setDeviceSelected(true);
+      setLocationName(locationArray[index]);
+    }
+  };
+
   return (
     <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
       <View style={styles.container}>
@@ -69,6 +119,24 @@ export default function EditTask({route, navigation}) {
         >
           {props => (
             <View>
+              
+            
+              <ModalDropdown
+                style={styles.input}
+                dropdownStyle={styles.dropdown}
+                options={devices}
+                onSelect = {onSelectDropDown}
+                />
+
+              <TextInput
+                style={styles.input}
+                multiline
+                placeholder='Pick device to show location...'
+                onChangeText={text => setLocationName(text)}
+                value={locationName}
+                editable={!deviceSelected}  
+              />
+
               <TextInput
                 style={styles.input}
                 placeholder='Location'
@@ -94,7 +162,17 @@ export default function EditTask({route, navigation}) {
               <View style={styles.conainerIcon}>
                 <Text style={styles.text}>Select time: </Text>
                 <Ionicons name="ios-time-outline" onPress={showTimepicker} size={24} color="black" />
+                </View>
+              <View>
+                <Text style={styles.text}>Select status: </Text>
+                <ModalDropdown
+                options={statusArray}
+                onSelect = {onSelectDropDown2}/>
+
               </View>
+                
+              
+              
                   {show && (
                     <DateTimePicker
                       testID="dateTimePicker"
@@ -106,15 +184,14 @@ export default function EditTask({route, navigation}) {
                       minimumDate={new Date()}
                     />
                   )}
-              <Button title="Save"  style={{display: 'flex', justifyContent: 'right'}} onPress={
+                  
+              <Button title="Save"  onPress={
                 async () => {
                   let token = await getSavedToken();
-                  await postScreenshot({token, description: props.values.description, location: props.values.location, date, taskId: task.taskId});
+                  await postScreenshot({token, description: props.values.description, location: props.values.location, date, taskId: task.taskId, status: task.statusId});
                   navigation.popToTop()
               }} />
-              <Button title="Cancel"  onPress={
-                  (props) => { navigation.goBack(null) }    // srediti buttone
-              } />
+             
               
             </View>
             
@@ -161,6 +238,3 @@ const styles = StyleSheet.create({
     fontSize: 16
   }
 });
-
-
-
