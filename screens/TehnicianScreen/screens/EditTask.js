@@ -1,39 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native'; 
+import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'; 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Formik } from 'formik';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import {AuthContext} from '../../../contexts/authContext';
-import { Entypo } from '@expo/vector-icons';
+import DropDownPicker from 'react-native-dropdown-picker';
 import ModalDropdown from 'react-native-modal-dropdown';
-import NumericInput from 'react-native-numeric-input';
 
 
-async function postScreenshot({token, location, description, date}) {
+
+async function postScreenshot({token, location, description, date, taskId, status}) {
   try {
-    let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks", {
-      method: 'POST',
+    console.log("Dosao");
+    console.log({location, description, date, taskId});
+    let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks/" + taskId, {
+      method: 'PUT',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({deviceId: null,
-      startTime: date,
-      endTime: date,
-      location: location,
-      description: description,
-      statusId: 1})
+        startTime: date,
+        endTime: date,
+        location: location,
+        description: description,
+        statusId: status})
     });
     var json = await response.json();
+    console.log(json);
   } catch (error) {
     console.error(error);
   }
 };
 
 
-export default function AddTask({navigation}) {
+export default function EditTask({route, navigation}) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -45,6 +48,7 @@ export default function AddTask({navigation}) {
   const [locationArray, setLocationArray] = useState([]);
   var {getSavedToken} = React.useContext(AuthContext);
   let deviceArray = ['No device selected'];
+  let statusArray = ["Not started", "In progress", "On hold", "Done"];
 
   useEffect(()=>{
     async function getData(getSavedToken){
@@ -69,6 +73,9 @@ export default function AddTask({navigation}) {
     }
     getData(getSavedToken);
   }, []);
+  
+
+  const {task} = route.params;
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -89,6 +96,11 @@ export default function AddTask({navigation}) {
     showMode('time');
   };
 
+  const onSelectDropDown2 = (index) => {
+      task.statusId = index + 1;
+      console.log(task.statusId);
+  };
+
   const onSelectDropDown = (index) => {
     if(index == 0) {
       setDeviceSelected(false);
@@ -99,15 +111,16 @@ export default function AddTask({navigation}) {
     }
   };
 
-
   return (
     <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
       <View style={styles.container}>
         <Formik
-          initialValues={{description: ''}}
+          initialValues={{ location: task.location, description: task.description}}
         >
           {props => (
             <View>
+              
+            
               <ModalDropdown
                 style={styles.input}
                 dropdownStyle={styles.dropdown}
@@ -125,12 +138,22 @@ export default function AddTask({navigation}) {
               />
 
               <TextInput
+                style={styles.input}
+                placeholder='Location'
+                onChangeText={props.handleChange('location')}
+                value={props.values.location}
+                //value={task.location}
+              />
+
+              <TextInput
                 style={styles.input2}
                 multiline
                 placeholder='Description...'
                 onChangeText={props.handleChange('description')}
                 value={props.values.description}
+                // value={task.description}
               />
+
 
               <View style={styles.conainerIcon}>
                 <Text style={styles.text}>Select date: </Text>
@@ -139,7 +162,17 @@ export default function AddTask({navigation}) {
               <View style={styles.conainerIcon}>
                 <Text style={styles.text}>Select time: </Text>
                 <Ionicons name="ios-time-outline" onPress={showTimepicker} size={24} color="black" />
+                </View>
+              <View>
+                <Text style={styles.text}>Select status: </Text>
+                <ModalDropdown
+                options={statusArray}
+                onSelect = {onSelectDropDown2}/>
+
               </View>
+                
+              
+              
                   {show && (
                     <DateTimePicker
                       testID="dateTimePicker"
@@ -151,49 +184,17 @@ export default function AddTask({navigation}) {
                       minimumDate={new Date()}
                     />
                   )}
-              
-                    <View style={styles.labels}>
-                    <Text style={styles.text2}>HOUR: </Text>
-                    <NumericInput 
-                              value={durationHr} 
-                              onChange={value => setDurationHr({value})} 
-                              totalWidth={140} 
-                              totalHeight={35} 
-                              iconSize={25}
-                              step={1}
-                              maxValue={24}
-                              valueType='real'
-                              rounded 
-                              textColor='#B0228C' 
-                              iconStyle={{ color: 'white' }} 
-                              rightButtonBackgroundColor='#EA3788' 
-                              leftButtonBackgroundColor='#E56B70'/>
-                    </View>
-                        <View style={styles.labels}>
-                        <Text style={styles.text2}>MINUTES: </Text>
-                    <NumericInput 
-                              value={durationMin} 
-                              onChange={value => setDurationMin({value})} 
-                              totalWidth={140} 
-                              totalHeight={35} 
-                              iconSize={25}
-                              step={5}
-                              maxValue={60}
-                              valueType='real'
-                              rounded 
-                              textColor='#B0228C' 
-                              iconStyle={{ color: 'white' }} 
-                              rightButtonBackgroundColor='#EA3788' 
-                              leftButtonBackgroundColor='#E56B70'/>
-                          </View>     
-                           
-              <Button title="Add in calendar" onPress={
+                  
+              <Button title="Save"  onPress={
                 async () => {
                   let token = await getSavedToken();
-                  await postScreenshot({token, description: props.values.description, location: props.values.location, date});
-                  navigation.goBack();
+                  await postScreenshot({token, description: props.values.description, location: props.values.location, date, taskId: task.taskId, status: task.statusId});
+                  navigation.popToTop()
               }} />
+             
+              
             </View>
+            
           )}
         </Formik>
       </View>
@@ -209,8 +210,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   input: {
-    width: 250,
-    height: 60,
+    width: 200,
+    height: 44,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
@@ -235,19 +236,5 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16
-  },
-  text2: {
-    marginRight: 20
-  },
-  labels: {
-    flexDirection: 'row',
-    alignItems:'center',
-    marginTop:7
-  },
-  dropdown: {
-    width: 230,
-    height: 240,
-    padding: 10,
   }
 });
-
