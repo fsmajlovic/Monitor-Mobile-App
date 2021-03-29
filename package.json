@@ -36,14 +36,14 @@
     "react-native-modal-dropdown": "git+https://github.com/siemiatj/react-native-modal-dropdown.git",
     "react-native-numeric-input": "^1.8.3",
     "react-native-pager-view": "^5.1.2",
-
     "react-native-paper": "^4.7.2",
     "react-native-reanimated": "^2.0.0",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.18.1",
     "react-native-tab-view": "^3.0.0",
     "react-native-table-component": "^1.2.1",
-    "react-native-web": "^0.15.0"
+    "react-native-web": "^0.15.0",
+    "expo-location": "~10.0.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
