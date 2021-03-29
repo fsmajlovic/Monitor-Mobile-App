@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'; 
+import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Formik } from 'formik';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import {AuthContext} from '../../../contexts/authContext';
+import { AuthContext } from '../../../contexts/authContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ModalDropdown from 'react-native-modal-dropdown';
 import NumericInput from 'react-native-numeric-input';
 
 
 
-async function postScreenshot({token, location, description, date, taskId, deviceId, duration, status}) {
+async function postScreenshot({ token, location, description, date, taskId, deviceId, duration, status }) {
   try {
     const endTime = new Date(date);
     endTime.setHours(duration.durationHr);
     endTime.setMinutes(duration.durationMin);
-    
+
     let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks/" + taskId, {
       method: 'PUT',
       headers: {
@@ -24,12 +24,14 @@ async function postScreenshot({token, location, description, date, taskId, devic
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({deviceId: deviceId,
+      body: JSON.stringify({
+        deviceId: deviceId,
         startTime: date,
         endTime: endTime,
         location: location,
         description: description,
-        statusId: status})
+        statusId: status
+      })
     });
     var json = await response.json();
   } catch (error) {
@@ -38,7 +40,7 @@ async function postScreenshot({token, location, description, date, taskId, devic
 };
 
 
-export default function EditTask({route, navigation}) {
+export default function EditTask({ route, navigation }) {
   // let tempTime = new Date(Date.parse(route.params.task.endTime) - (Date.parse(route.params.task.startTime))); 
   const [date, setDate] = useState(new Date(route.params.task.startTime));
   const [mode, setMode] = useState('date');
@@ -51,28 +53,28 @@ export default function EditTask({route, navigation}) {
   const [device, setDevice] = useState(route.params.task.device);
   const [devicesName, setDevicesName] = useState([]);
   const [locationName, setLocationName] = useState("");
-  var {getSavedToken} = React.useContext(AuthContext);
+  var { getSavedToken } = React.useContext(AuthContext);
   let deviceArray = ['No device selected'];
   let statusArray = ["Not started", "In progress", "On hold", "Done"];
 
-  useEffect(()=>{
-    async function getData(getSavedToken){
-        try {
-            const token = await getSavedToken();
-            const response = await fetch("https://si-2021.167.99.244.168.nip.io/api/device/AllDevices", {
-                method: 'GET',
-                headers: {"Authorization" : "Bearer " + token},
-              });
-              var data = await response.json();
-              var data = data.data;
-              for(let device of data) {
-                deviceArray.push(device.name);
-              }
-              setDevices(data);
-              setDevicesName(deviceArray);
-        } catch (error) {
-            console.error(error);
+  useEffect(() => {
+    async function getData(getSavedToken) {
+      try {
+        const token = await getSavedToken();
+        const response = await fetch("https://si-2021.167.99.244.168.nip.io/api/device/AllDevices", {
+          method: 'GET',
+          headers: { "Authorization": "Bearer " + token },
+        });
+        var data = await response.json();
+        var data = data.data;
+        for (let device of data) {
+          deviceArray.push(device.name);
         }
+        setDevices(data);
+        setDevicesName(deviceArray);
+      } catch (error) {
+        console.error(error);
+      }
     }
     getData(getSavedToken);
     if (route.params.task.deviceId) {
@@ -82,10 +84,10 @@ export default function EditTask({route, navigation}) {
       setLocationName(route.params.task.location);
     }
   }, []);
-  
 
-  const {task} = route.params;
-  
+
+  const { task } = route.params;
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
@@ -106,17 +108,17 @@ export default function EditTask({route, navigation}) {
   };
 
   const onSelectDropDown2 = (index) => {
-      task.statusId = index + 1;
+    task.statusId = index + 1;
   };
 
   const onSelectDropDown = (index) => {
-    if(index == 0) {
+    if (index == 0) {
       setDeviceSelected(false);
     }
     else {
       setDeviceSelected(true);
-      setDevice(devices[index-1]);
-      setLocationName(devices[index-1].location)
+      setDevice(devices[index - 1]);
+      setLocationName(devices[index - 1].location)
     }
   };
 
@@ -124,7 +126,7 @@ export default function EditTask({route, navigation}) {
     <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
       <View style={styles.container}>
         <Formik
-          initialValues={{ description: task.description}}
+          initialValues={{ description: task.description }}
         >
           {props => (
             <View>
@@ -132,10 +134,10 @@ export default function EditTask({route, navigation}) {
                 style={styles.input}
                 dropdownStyle={styles.dropdown}
                 options={devicesName}
-                onSelect = {onSelectDropDown}
-                defaultValue = { device ? device.name : "Pick device..."  }
-                textStyle = {{fontSize: 16, color:"#aaa"}}
-                />
+                onSelect={onSelectDropDown}
+                defaultValue={device ? device.name : "Pick device..."}
+                textStyle={{ fontSize: 16, color: "#aaa" }}
+              />
 
               <TextInput
                 style={styles.input}
@@ -143,7 +145,7 @@ export default function EditTask({route, navigation}) {
                 placeholder='Location...'
                 onChangeText={text => setLocationName(text)}
                 value={locationName}
-                editable={!deviceSelected}  
+                editable={!deviceSelected}
               />
 
               <TextInput
@@ -154,7 +156,7 @@ export default function EditTask({route, navigation}) {
                 value={props.values.description}
               />
 
-              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>  
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <View style={styles.conainerIcon}>
                   <Text style={styles.text}>Select date: </Text>
                   <Fontisto name="date" onPress={showDatepicker} size={24} color="black" />
@@ -164,77 +166,89 @@ export default function EditTask({route, navigation}) {
                   <Ionicons name="ios-time-outline" onPress={showTimepicker} size={24} color="black" />
                 </View>
               </View>
-              <View style={{marginBottom: 10}}>
-              <Text style={styles.text}>Set duration: </Text>
-                    <View style={styles.labels}>
-                    <Text style={styles.text2}>HOUR: </Text>
-                    <NumericInput 
-                              value={durationHr} 
-                              onChange={value => setDurationHr(value)} 
-                              totalWidth={140} 
-                              totalHeight={35} 
-                              iconSize={25}
-                              step={1}
-                              maxValue={24}
-                              minValue={0}
-                              valueType='real'
-                              rounded 
-                              textColor='#0D47A1' 
-                              iconStyle={{ color: 'white' }} 
-                              rightButtonBackgroundColor='#0074e8' 
-                              leftButtonBackgroundColor='#0074e8'/>
-                    </View>
-                        <View style={styles.labels}>
-                        <Text style={styles.text2}>MINUTES: </Text>
-                    <NumericInput 
-                              value={durationMin} 
-                              onChange={value => setDurationMin(value)} 
-                              totalWidth={140} 
-                              totalHeight={35} 
-                              iconSize={25}
-                              step={5}
-                              maxValue={60}
-                              minValue={0}
-                              valueType='real'
-                              rounded 
-                              textColor='#0D47A1' 
-                              iconStyle={{ color: 'white' }} 
-                              rightButtonBackgroundColor='#0074e8' 
-                              leftButtonBackgroundColor='#0074e8'/>
-                          </View>
+              <View style={{ marginBottom: 10 }}>
+                <Text style={styles.text}>Set duration: </Text>
+                <View style={styles.labels}>
+                  <Text style={styles.text2}>HOUR: </Text>
+                  <NumericInput
+                    value={durationHr}
+                    onChange={value => setDurationHr(value)}
+                    totalWidth={140}
+                    totalHeight={35}
+                    iconSize={25}
+                    step={1}
+                    maxValue={24}
+                    minValue={0}
+                    valueType='real'
+                    rounded
+                    textColor='#0D47A1'
+                    iconStyle={{ color: 'white' }}
+                    rightButtonBackgroundColor='#0074e8'
+                    leftButtonBackgroundColor='#0074e8' />
+                </View>
+                <View style={styles.labels}>
+                  <Text style={styles.text2}>MINUTES: </Text>
+                  <NumericInput
+                    value={durationMin}
+                    onChange={value => setDurationMin(value)}
+                    totalWidth={140}
+                    totalHeight={35}
+                    iconSize={25}
+                    step={5}
+                    maxValue={60}
+                    minValue={0}
+                    valueType='real'
+                    rounded
+                    textColor='#0D47A1'
+                    iconStyle={{ color: 'white' }}
+                    rightButtonBackgroundColor='#0074e8'
+                    leftButtonBackgroundColor='#0074e8' />
+                </View>
               </View>
-              <View style={{marginBottom: 20}}>
+              <View style={{ marginBottom: 20 }}>
                 <Text style={styles.text}>Select status: </Text>
                 <ModalDropdown
-                options={statusArray}
-                onSelect = {onSelectDropDown2}
-                defaultValue = { "Pick status..." }/>
+                  options={statusArray}
+                  onSelect={onSelectDropDown2}
+                  defaultValue={"Pick status..."} />
               </View>
-                  {show && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={date}
-                      mode={mode}
-                      is24Hour={true}
-                      display="default"
-                      onChange={onChange}
-                      minimumDate={new Date()}
-                    />
-                  )}
-                  
-              <Button title="Save"  onPress={
+              {show && (
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode={mode}
+                  is24Hour={true}
+                  display="default"
+                  onChange={onChange}
+                  minimumDate={new Date()}
+                />
+              )}
+
+              <Button title="Save" onPress={
                 async () => {
                   let token = await getSavedToken();
                   deviceSelected ?
-                  await postScreenshot({token, description: props.values.description, location: null, date, taskId: task.taskId, deviceId: device.deviceId, duration: {durationHr, durationMin}, status: task.statusId})
-                  : await postScreenshot({token, description: props.values.description, location: locationName, date, taskId: task.taskId, deviceId: null, duration: {durationHr, durationMin}, status: task.statusId})
+                    await postScreenshot({ token, description: props.values.description, location: null, date, taskId: task.taskId, deviceId: device.deviceId, duration: { durationHr, durationMin }, status: task.statusId })
+                    : await postScreenshot({ token, description: props.values.description, location: locationName, date, taskId: task.taskId, deviceId: null, duration: { durationHr, durationMin }, status: task.statusId })
                   navigation.popToTop()
-              }} />
-             
-              
+                }} />
+
+              <View style={{ paddingTop: 15 }}>
+                <Button title="Prijava na lokaciju" onPress={
+                  async () => {
+                    let token = await getSavedToken();
+                    deviceSelected ?
+                      await postScreenshot({ token, description: props.values.description, location: null, date, taskId: task.taskId, deviceId: device.deviceId, duration: { durationHr, durationMin }, status: task.statusId })
+                      : await postScreenshot({ token, description: props.values.description, location: locationName, date, taskId: task.taskId, deviceId: null, duration: { durationHr, durationMin }, status: task.statusId })
+                    navigation.popToTop()
+                  }} />
+
+              </View>
             </View>
-            
+
           )}
+
+
         </Formik>
       </View>
     </TouchableWithoutFeedback>
@@ -277,7 +291,7 @@ const styles = StyleSheet.create({
   },
   labels: {
     flexDirection: 'row',
-    alignItems:'center',
+    alignItems: 'center',
     marginVertical: 4,
     justifyContent: 'space-between'
   },
