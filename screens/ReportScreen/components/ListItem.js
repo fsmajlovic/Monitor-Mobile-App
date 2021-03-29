@@ -49,7 +49,10 @@ const ListItem = ({ item, navigation }) => {
                         {item.name}
                     </Text>
                     <Text style={styles.description}>
-                        {item.lastTimeOnline}
+                        {item.location}
+                    </Text>
+                    <Text style={styles.description}>
+                        {new Date(item.lastTimeOnline).toGMTString()}
                     </Text>
                 </View>
             </View>

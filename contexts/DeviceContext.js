@@ -23,10 +23,10 @@ export const DeviceProvider = (props) => {
         }
     }
 
-    const loadMore = () => {
-        setPage(page + 1);
-        setLoading(true);
-    };
+    // const loadMore = () => {
+    //     setPage(page + 1);
+    //     setLoading(true);
+    // };
 
     const values = {
         activeDevices,
@@ -39,7 +39,7 @@ export const DeviceProvider = (props) => {
         setPage,
         loading,
         setLoading,
-        loadMore,
+        //Fali loadMore
     }
 
     return (

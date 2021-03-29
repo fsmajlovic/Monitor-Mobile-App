@@ -2,6 +2,7 @@ import { prepareDataForValidation } from "formik";
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
+import * as Sharing from "expo-sharing";
 import { AuthContext } from "../../../contexts/authContext";
 import { serverURL } from "../../../appConfig";
 import React from "react";
@@ -13,11 +14,11 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-
+ 
 expoFileLocation = "";
-fileData = "SGVsbG8sIFdvcmxkIQ==";
-fileName = "HelloWorld.txt";
-
+fileData = "";
+fileName = "";
+ 
 async function getFile(token) {
   try {
     let response = await fetch(serverURL + "api/web/file/get", {
@@ -35,42 +36,65 @@ async function getFile(token) {
         user:"monitor"
       }),
     });
-
-     var jsonResponse = await response.json();
-     fileData = jsonResponse["base64Data"];
-     fileName = jsonResponse["fileName"];
-
+ 
+    if(response.status == 200) {
+        var jsonResponse = await response.json();
+        if(jsonResponse.hasOwnProperty('error')) {
+          alert("Datoteka ne postoji!");
+        }
+        else if(jsonResponse.hasOwnProperty('fileName')) {
+          fileData = jsonResponse["base64Data"];
+          fileName = jsonResponse["fileName"];
+          await saveToExpoFileSystem();
+          await copyFromExpoFSToLocalFS();
+        }
+    }
+    else if(response.status == 503) {
+      alert("Servis nedostupan");
+    }
+    else if(responsoe.status == 403) {
+      //invalid token, trebalo bi dobaviti novi
+    }
   } catch (error) {
     console.log(error);
   }
 }
-
+ 
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
   FileSystem.writeAsStringAsync(expoFileLocation, fileData, {
-     encoding: FileSystem.EncodingType.Base64
+    encoding: FileSystem.EncodingType.Base64
+  }).catch((error) => {
+    console.log(error);
   });
 }
-
+ 
 async function copyFromExpoFSToLocalFS() {
-  const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-  if (status === "granted") {
-      const asset = await MediaLibrary.createAssetAsync(expoFileLocation);
-      alert("Download finished");
-      await MediaLibrary.createAlbumAsync("Monitor-Downloads", asset, false);
+  try {
+    if (Platform.OS === "ios") {
+      await Sharing.shareAsync(expoFileLocation);
+    }
+    else {
+      const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+      if (status === "granted") {
+          const asset = await MediaLibrary.createAssetAsync(expoFileLocation);
+          alert("Download finished");
+          await MediaLibrary.createAlbumAsync("Monitor-Downloads", asset, false);
+      }
+    }
+  }
+  catch(error) {
+    console.log(error);
   }
 }
-
+ 
 export default function ListItemVertical({ name, image_url }) {
   var {getSavedToken} = React.useContext(AuthContext);
   return(
     <TouchableOpacity
       onPress = {async () => {
         let token = await getSavedToken();
-        console.log(token);
         await getFile(token);
-        await saveToExpoFileSystem();
-        await copyFromExpoFSToLocalFS();
       }}
     >
       <View style={styles.container}>
@@ -85,7 +109,7 @@ export default function ListItemVertical({ name, image_url }) {
     </TouchableOpacity>
   );
 }
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
