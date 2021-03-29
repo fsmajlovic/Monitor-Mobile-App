@@ -44,11 +44,11 @@ export default function EditTask({route, navigation}) {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   // const [durationHr, setDurationHr] = useState(new Date(route.params.task.endTime).getHours());
-  const [durationHr, setDurationHr] = useState(0);
-  const [durationMin, setDurationMin] = useState(0);
-  const [deviceSelected, setDeviceSelected] = useState(false);
+  const [durationHr, setDurationHr] = useState(new Date(route.params.task.endTime).getHours());
+  const [durationMin, setDurationMin] = useState(new Date(route.params.task.endTime).getMinutes());
+  const [deviceSelected, setDeviceSelected] = useState(true);
   const [devices, setDevices] = useState([]);
-  const [device, setDevice] = useState({});
+  const [device, setDevice] = useState(route.params.task.device);
   const [devicesName, setDevicesName] = useState([]);
   const [locationName, setLocationName] = useState("");
   var {getSavedToken} = React.useContext(AuthContext);
@@ -61,7 +61,7 @@ export default function EditTask({route, navigation}) {
             const token = await getSavedToken();
             const response = await fetch("https://si-2021.167.99.244.168.nip.io/api/device/AllDevices", {
                 method: 'GET',
-                headers: {"Authorization" : "Bearer "+ token},
+                headers: {"Authorization" : "Bearer " + token},
               });
               var data = await response.json();
               var data = data.data;
@@ -75,7 +75,12 @@ export default function EditTask({route, navigation}) {
         }
     }
     getData(getSavedToken);
-    route.params.task.deviceId ? setLocationName(route.params.task.device.location) : setLocationName(route.params.task.location);
+    if (route.params.task.deviceId) {
+      setLocationName(route.params.task.device.location);
+    } else {
+      setDeviceSelected(false)
+      setLocationName(route.params.task.location);
+    }
   }, []);
   
 
@@ -128,7 +133,7 @@ export default function EditTask({route, navigation}) {
                 dropdownStyle={styles.dropdown}
                 options={devicesName}
                 onSelect = {onSelectDropDown}
-                defaultValue = { "Pick device..." }
+                defaultValue = { device ? device.name : "Pick device..."  }
                 textStyle = {{fontSize: 16, color:"#aaa"}}
                 />
 
@@ -203,13 +208,8 @@ export default function EditTask({route, navigation}) {
                 <ModalDropdown
                 options={statusArray}
                 onSelect = {onSelectDropDown2}
-                
                 defaultValue = { "Pick status..." }/>
-
               </View>
-                
-              
-              
                   {show && (
                     <DateTimePicker
                       testID="dateTimePicker"
@@ -227,7 +227,7 @@ export default function EditTask({route, navigation}) {
                   let token = await getSavedToken();
                   deviceSelected ?
                   await postScreenshot({token, description: props.values.description, location: null, date, taskId: task.taskId, deviceId: device.deviceId, duration: {durationHr, durationMin}, status: task.statusId})
-                  : await postScreenshot({token, description: props.values.description, location: locationName, date, taskId: task.taskId, deviceId: null, duration: {durationHr, durationMin}, status: task.statusId}); 
+                  : await postScreenshot({token, description: props.values.description, location: locationName, date, taskId: task.taskId, deviceId: null, duration: {durationHr, durationMin}, status: task.statusId})
                   navigation.popToTop()
               }} />
              
