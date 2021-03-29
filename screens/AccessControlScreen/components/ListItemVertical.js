@@ -16,8 +16,8 @@ import {
 } from "react-native";
 
 expoFileLocation = "";
-fileData = "SGVsbG8sIFdvcmxkIQ==";
-fileName = "HelloWorld.txt";
+fileData = "";
+fileName = "";
 
 async function getFile(token) {
   try {
@@ -37,10 +37,24 @@ async function getFile(token) {
       }),
     });
 
-     var jsonResponse = await response.json();
-     fileData = jsonResponse["base64Data"];
-     fileName = jsonResponse["fileName"];
-
+    if(response.status == 200) {
+        var jsonResponse = await response.json();
+        if(jsonResponse.hasOwnProperty('error')) {
+          alert("Datoteka ne postoji!");
+        }
+        else if(jsonResponse.hasOwnProperty('fileName')) {
+          fileData = jsonResponse["base64Data"];
+          fileName = jsonResponse["fileName"];
+          await saveToExpoFileSystem();
+          await copyFromExpoFSToLocalFS();
+        }
+    }
+    else if(response.status == 503) {
+      alert("Servis nedostupan");
+    }
+    else if(responsoe.status == 403) {
+      //invalid token, trebalo bi dobaviti novi
+    }
   } catch (error) {
     console.log(error);
   }
@@ -49,7 +63,9 @@ async function getFile(token) {
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
   FileSystem.writeAsStringAsync(expoFileLocation, fileData, {
-     encoding: FileSystem.EncodingType.Base64
+    encoding: FileSystem.EncodingType.Base64
+  }).catch((error) => {
+    console.log(error);
   });
 }
 
@@ -79,8 +95,6 @@ export default function ListItemVertical({ name, image_url }) {
       onPress = {async () => {
         let token = await getSavedToken();
         await getFile(token);
-        await saveToExpoFileSystem();
-        await copyFromExpoFSToLocalFS();
       }}
     >
       <View style={styles.container}>
