@@ -2,6 +2,7 @@ import { prepareDataForValidation } from "formik";
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
+import * as Sharing from "expo-sharing";
 import { AuthContext } from "../../../contexts/authContext";
 import { serverURL } from "../../../appConfig";
 import React from "react";
@@ -53,11 +54,21 @@ async function saveToExpoFileSystem() {
 }
 
 async function copyFromExpoFSToLocalFS() {
-  const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
-  if (status === "granted") {
-      const asset = await MediaLibrary.createAssetAsync(expoFileLocation);
-      alert("Download finished");
-      await MediaLibrary.createAlbumAsync("Monitor-Downloads", asset, false);
+  try {
+    if (Platform.OS === "ios") {
+      await Sharing.shareAsync(expoFileLocation);
+    }
+    else {
+      const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+      if (status === "granted") {
+          const asset = await MediaLibrary.createAssetAsync(expoFileLocation);
+          alert("Download finished");
+          await MediaLibrary.createAlbumAsync("Monitor-Downloads", asset, false);
+      }
+    }
+  }
+  catch(error) {
+    console.log(error);
   }
 }
 
@@ -67,7 +78,6 @@ export default function ListItemVertical({ name, image_url }) {
     <TouchableOpacity
       onPress = {async () => {
         let token = await getSavedToken();
-        console.log(token);
         await getFile(token);
         await saveToExpoFileSystem();
         await copyFromExpoFSToLocalFS();
