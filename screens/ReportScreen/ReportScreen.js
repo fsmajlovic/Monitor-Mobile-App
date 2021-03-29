@@ -22,7 +22,7 @@ const ReportScreen = ({ navigation }) => {
       }).then((response) => {
         return response.json();
       }).then((responseJson) => {
-        setDevices(devices.concat(responseJson.data));
+        setDevices(devices.concat(responseJson.data.devices));
         setLoading(false);
       }).catch((error) => {
         console.error(error);
@@ -32,12 +32,11 @@ const ReportScreen = ({ navigation }) => {
   }, [page]);
 
 
-
   return (
 
     <View style={styles.container}>
-      <Text style={{flex: 0.1, alignSelf: 'center', color: 'red', fontSize: 35}}>Available</Text>
-      <Text style={{flex: 0.1, alignSelf: 'center', color: '#E50914', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
+      <Text style={{alignSelf: 'center', color: 'black', fontSize: 35}}>Available</Text>
+      <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
       <FlatList style={{flex: 1}}
             keyExtractor={(item) => item.deviceId.toString()}
             data={devices}
