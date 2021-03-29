@@ -13,10 +13,16 @@ export default function ConsoleScreen({ navigation }) {
   const group1 = ["?", "clear", "ls"];
   const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set"];
 
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [ip, setIp] = useState("");
+  const [path, setPath] = useState("");
+
+
   const [rows, setRows] = useState([]);
   const [current, setCurrent] = useState("");
-//  const { activeDevice } = useContext(DeviceContext);
-//  console.log(activeDevice);
+  const { activeDevice } = useContext(DeviceContext);
+  //  console.log(activeDevice);
 
   const { getSavedToken } = React.useContext(AuthContext);
 
@@ -28,9 +34,20 @@ export default function ConsoleScreen({ navigation }) {
     })
   };
 
+  
+
+  const getActiveDevice = async ()  => {
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!");
+    let token = await getSavedToken();
+    await getActiveDevices(token);
+
+  }
+
+  getActiveDevice();
+
   const getActiveDevices = async (token) => {
-/*
-    console.log("Dosao neki zahtjev");
+
+ //   console.log("Dosao neki zahtjev");
 
     fetch('https://si-grupa5.herokuapp.com/api/agent/online', {
       method: 'GET',
@@ -39,15 +56,36 @@ export default function ConsoleScreen({ navigation }) {
         "Authorization": "Bearer " + token,
       }
     })
-      .then(res =>   {
-        console.log("bla");
-      }); */
+      .then(res => res.json()).then(res => {
+
+        const masina = [{
+          "name": "ime2",
+          "location": "lokacija",
+          "ip": "1.1.1.1",
+          "path": "PATH",
+          "status": "status"
+        }]
+
+    //    console.log(res[0].name + " " + activeDevice.name);
+
+        let i;
+        for (i = 0; i < res.length; i++) {
+          if (res[i].name === activeDevice.name) {
+            setName(res[i].name);
+            setLocation(res[i].location);
+            setIp(res[i].ip);
+            setPath(res[i].path);
+          }
+        }
+
+        console.log("masina: " + name + " " + " " + location + " " + ip + " " + path);
+      });
 
   }
 
   const sendRequest = async (command, token) => {
 
-    console.log("Token je " + token);
+   // console.log("Token je " + token);
 
     //serverURL+ 'api/command'
 
@@ -59,9 +97,9 @@ export default function ConsoleScreen({ navigation }) {
         "Authorization": "Bearer " + token,
       },
       body: JSON.stringify({
-        'name': activeDevice.name,
-        'location': activeDevice.location,
-        'ip': 'ip',
+        'name': name,
+        'location': location,
+        'ip': ip,
         command: command,
         parameters: [],
         user: 'whoso@whoso.com'
@@ -71,10 +109,10 @@ export default function ConsoleScreen({ navigation }) {
       .then(res => {
         //  Token = res.token;
 
-        console.log("poruka " + res.message);
-
         if (typeof res.message === 'undefined') {
-          addRows("Client server is not responding!");
+        //  console.log(res.error);
+          addRows(res.error)
+       //   addRows("Not responding!");
 
         } else {
           addRows(res.message);
@@ -84,16 +122,16 @@ export default function ConsoleScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      
+
       <ScrollView>
         <ConsoleRow rows={rows} />
         <View style={styles.row}>
-          <Text style={styles.textArea}>IWM console > </Text>
+         <Text style={styles.textArea}> {path}>  </Text>
           <TextInput
             style={styles.inputArea}
             value={current}
             onChangeText={(e) => setCurrent(e)}
-            placeholder="Enter your commands here"
+            placeholder="..."
             placeholderTextColor="#bbbbbb"
             onSubmitEditing={async (event) => {
               let input = event.nativeEvent.text.replace(/ +/g, ' ').trim();
@@ -101,8 +139,8 @@ export default function ConsoleScreen({ navigation }) {
               let command = "";
               command = args[0].toLowerCase();
 
-              
-              addRows("IWM console > " + event.nativeEvent.text);
+
+              addRows(path + "> " + event.nativeEvent.text);
 
               if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length == 2)) {
                 //validna komanda
@@ -111,8 +149,7 @@ export default function ConsoleScreen({ navigation }) {
                 }
 
                 let token = await getSavedToken();
-            //    getActiveDevices(token);
-              //  sendRequest(command, token);
+                sendRequest(command, token);
               } else {
                 //nevalidna komanda
                 addRows("Invalid command!");
