@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
         marginBottom: 8,
         borderRadius: 5,
-        backgroundColor: '#D3D3D3',
+        backgroundColor: '#80D8FF',
         elevation: 2,
     },
     title: {
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 11,
         fontStyle: 'italic',
+        color: '#cbbfa8',
         color: '#0D47A1',
         fontWeight: 'bold',
     },
@@ -38,14 +39,14 @@ const styles = StyleSheet.create({
     },
 });
 
-const ListItem = ({ item, navigation }) => {
+const ActiveListItem = ({ item, navigation }) => {
     const { setActiveDevice, addActiveDevice } = useContext(DeviceContext);
     return (
-        <TouchableWithoutFeedback onPress={() => { addActiveDevice(item); }}>
+        <TouchableWithoutFeedback onPress={() => { navigation.push('Options'); setActiveDevice(item); }}>
             <View style={styles.container}>
                 <Image source={require('../../../assets/monitor-icon.gif')} style={styles.photo} />
                 <View style={styles.container_text}>
-                    <Text style={styles.title}> 
+                    <Text style={styles.title}>
                         {item.name}
                     </Text>
                     <Text style={styles.description}>
@@ -57,4 +58,4 @@ const ListItem = ({ item, navigation }) => {
     )
 };
 
-export default ListItem;
+export default ActiveListItem;

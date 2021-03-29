@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useContext} from 'react'
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } from 'react-native';
+import React, {useEffect, useState} from 'react'
 import {AuthContext} from '../../contexts/authContext';
 import {serverURL} from '../../appConfig';
-import axios from 'axios'
-import { DeviceContext } from '../../contexts/DeviceContext';
- 
-var loadedImageUri = 'https://images.pexels.com/photos/20787/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=350'; 
+import ListView from './components/ListView';
+import ListViewVertical from './components/ListViewVertical';
+
 var currentUri = ' ';
-var base64Icon = 'data:image/png;base64,';
+var image_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSXv3SprlcGxiV_248M-azw5lTzEYLKHXU5w&usqp=CAU';
+
 
 
 async function postScreenshot(token) {
@@ -22,7 +22,8 @@ async function postScreenshot(token) {
       },
       body: JSON.stringify({
         name: 'DESKTOP-SCC',
-        location: 'Sarajevo - SCC'
+        location: 'Sarajevo - SCC',
+        user: 'monitor'
       })
     });
     var json = await response.json();
@@ -37,19 +38,33 @@ async function postScreenshot(token) {
 export default function AccessControlScreen({navigation}) {
   let [image, setImage] = useState(' ');
   var {getSavedToken} = React.useContext(AuthContext);
-  const { activeDevice } = useContext(DeviceContext);
+  const dataSet = [
+    { name: 'File 1', id: '1', image_url: image_url },
+    { name: 'File 2', id: '2', image_url: image_url },
+    { name: 'File 3', id: '3', image_url: image_url },
+    { name: 'File 4', id: '4', image_url: image_url },
+    { name: 'File 5', id: '5', image_url: image_url },
+    
+  ];
 
   return(
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>AccessControl screen</Text>
-      
-      <Button title="Load Screenshot" onPress = {async () => {
+  <View style={styles.container}>
+    <View style={styles.scrollViewStyle}>
+      <Text style={styles.text}>Files</Text>
+      <ScrollView>
+        <ListViewVertical
+              itemList={dataSet}
+        />       
+      </ScrollView>
+    </View>
+
+
+    <View>
+      <TouchableOpacity onPress={async () => {
         let token = await getSavedToken();
-        //console.log(token);
         await postScreenshot(token);
     
         if(currentUri == ' ') {
-          /* TODO: Load and set image uri/source from actual API - Group 4 */ 
           currentUri = base64Icon;
           setImage(currentUri);
         }
@@ -57,10 +72,59 @@ export default function AccessControlScreen({navigation}) {
           currentUri = ' ';
           setImage(currentUri);
         }
-      }}/>
-      <Image source={{ uri: image }}
-        style={{ width: 400, height: 200 }}
+      }}>
+      <Text style={styles.loadScreenshotText}>Load Screenshot</Text></TouchableOpacity>
+    </View>
+
+    <View style={{alignItems: 'center'}}>
+      <Image  source={{ uri: image }}
+        style={styles.imageView}
       />
     </View>
-  );
+  </View>
+  ); 
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: 'white',
+    padding: 5,
+    flex: 1,
+  },
+  scrollViewStyle: {
+    height: 200, 
+  },
+  listView: {
+    padding: 10,
+    backgroundColor: 'white',
+    borderRadius: 15,
+    marginTop: 10
+  },
+  text: {
+    fontSize: 18,
+    marginBottom: 5,
+    color: '#0D47A1',
+    fontWeight: 'bold'
+    
+  },
+  loadScreenshotText: {
+    backgroundColor: "#0D47A1",
+    color: 'white',
+    borderRadius: 15,
+    padding: 10,
+    marginTop: 20,
+    fontSize: 20,
+    textAlign: "center"
+  },
+  imageView: {
+    marginTop: 20,
+    width: 350,
+    height: 200,
+    borderRadius: 150 / 9,
+    borderWidth: 3,
+    borderColor: "#0D47A1",
+  }
+
+});
+
+
