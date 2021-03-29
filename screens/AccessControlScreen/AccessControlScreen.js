@@ -4,13 +4,18 @@ import {AuthContext} from '../../contexts/authContext';
 import {serverURL} from '../../appConfig';
 import ListView from './components/ListView';
 import ListViewVertical from './components/ListViewVertical';
+import { DeviceContext } from '../../contexts/DeviceContext';
+import { useContext } from 'react';
+
 
 var currentUri = ' ';
 var image_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSXv3SprlcGxiV_248M-azw5lTzEYLKHXU5w&usqp=CAU';
 
 
 
-async function postScreenshot(token) {
+async function postScreenshot(token, deviceName, deviceLocation, deviceIp) {
+
+  console.log(deviceName + " " + deviceLocation + " " + deviceIp)
   console.log("token je "+token)
   try {
     let response = await fetch(serverURL + "api/screenshot", {
@@ -21,8 +26,9 @@ async function postScreenshot(token) {
         'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({
-        name: 'DESKTOP-SCC',
-        location: 'Sarajevo - SCC',
+        name:deviceName,
+        location: deviceLocation,
+        ip: deviceIp,
         user: 'monitor'
       })
     });
@@ -38,6 +44,10 @@ async function postScreenshot(token) {
 export default function AccessControlScreen({navigation}) {
   let [image, setImage] = useState(' ');
   var {getSavedToken} = React.useContext(AuthContext);
+  const { activeDevice } = useContext(DeviceContext);
+  const [deviceName, setName] = useState(activeDevice.name);
+  const [deviceLocation, setLocation] = useState(activeDevice.location);
+  const [deviceIp, setIp] = useState(activeDevice.ip);
   const dataSet = [
     { name: 'File 1', id: '1', image_url: image_url },
     { name: 'File 2', id: '2', image_url: image_url },
@@ -62,7 +72,7 @@ export default function AccessControlScreen({navigation}) {
     <View>
       <TouchableOpacity onPress={async () => {
         let token = await getSavedToken();
-        await postScreenshot(token);
+        await postScreenshot(token, deviceName, deviceLocation, deviceIp);
     
         if(currentUri == ' ') {
           currentUri = base64Icon;

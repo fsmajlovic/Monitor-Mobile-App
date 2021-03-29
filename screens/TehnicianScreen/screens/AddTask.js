@@ -12,8 +12,8 @@ import NumericInput from 'react-native-numeric-input';
 async function postScreenshot({token, location, description, date, deviceId, duration}) {
   try {
     const endTime = new Date(date);
-    endTime.setHours(duration.durationHr);
-    endTime.setMinutes(duration.durationMin);
+    endTime.setHours(date.getHours() + duration.durationHr);
+    endTime.setMinutes(date.getMinutes() + duration.durationMin);
 
     let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks", {
       method: 'POST',

@@ -13,15 +13,16 @@ export default function ConsoleScreen({ navigation }) {
   const group1 = ["?", "clear", "ls"];
   const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set"];
 
-  const [name, setName] = useState("");
-  const [location, setLocation] = useState("");
-  const [ip, setIp] = useState("");
-  const [path, setPath] = useState("");
+  const { activeDevice } = useContext(DeviceContext);
+  const [name, setName] = useState(activeDevice.name);
+  const [location, setLocation] = useState(activeDevice.location);
+  const [ip, setIp] = useState(activeDevice.ip);
+  const [path, setPath] = useState(activeDevice.path);
 
 
   const [rows, setRows] = useState([]);
   const [current, setCurrent] = useState("");
-  const { activeDevice } = useContext(DeviceContext);
+
   //  console.log(activeDevice);
 
   const { getSavedToken } = React.useContext(AuthContext);
@@ -43,7 +44,7 @@ export default function ConsoleScreen({ navigation }) {
 
   }
 
-  getActiveDevice();
+  // getActiveDevice();
 
   const getActiveDevices = async (token) => {
 
