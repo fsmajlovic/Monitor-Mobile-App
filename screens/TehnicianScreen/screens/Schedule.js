@@ -12,7 +12,7 @@ function Schedule(props) {
     const {getSavedToken} = React.useContext(AuthContext);
 
     const getColor = (item) => {
-        console.log("Status je " + item.statusId)
+        //console.log("Status je " + item.statusId)
         switch(item.statusId) {
             case 1:
               return "#fc6b5b"
@@ -32,8 +32,8 @@ function Schedule(props) {
             <Card style={{ backgroundColor: getColor(item)}}>
                 <Card.Content>
                     <View style={styles.item}>
-                        <Text>{format(Date.parse(item.startTime), 'HH:mm ')}</Text>
-                        <Text>{item.location}</Text>
+                        <Text>{format(Date.parse(item.startTime), 'HH:mm ')} - {format(Date.parse(item.endTime), ' HH:mm')}</Text>
+                        { item.device ? <Text>{item.device.location}</Text> : <Text>{item.location}</Text> }
                     </View>
                     <View>
                         <Text>{item.description}</Text>

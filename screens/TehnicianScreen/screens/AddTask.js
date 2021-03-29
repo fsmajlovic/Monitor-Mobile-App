@@ -5,13 +5,16 @@ import { Formik } from 'formik';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import {AuthContext} from '../../../contexts/authContext';
-import { Entypo } from '@expo/vector-icons';
 import ModalDropdown from 'react-native-modal-dropdown';
 import NumericInput from 'react-native-numeric-input';
 
 
-async function postScreenshot({token, location, description, date}) {
+async function postScreenshot({token, location, description, date, deviceId, duration}) {
   try {
+    const endTime = new Date(date);
+    endTime.setHours(duration.durationHr);
+    endTime.setMinutes(duration.durationMin);
+
     let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks", {
       method: 'POST',
       headers: {
@@ -19,9 +22,9 @@ async function postScreenshot({token, location, description, date}) {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + token
       },
-      body: JSON.stringify({deviceId: null,
+      body: JSON.stringify({deviceId: deviceId,
       startTime: date,
-      endTime: date,
+      endTime: endTime,
       location: location,
       description: description,
       statusId: 1})
@@ -41,8 +44,9 @@ export default function AddTask({navigation}) {
   const [durationMin, setDurationMin] = useState(0);
   const [deviceSelected, setDeviceSelected] = useState(false);
   const [devices, setDevices] = useState([]);
+  const [device, setDevice] = useState({});
+  const [devicesName, setDevicesName] = useState([]);
   const [locationName, setLocationName] = useState("");
-  const [locationArray, setLocationArray] = useState([]);
   var {getSavedToken} = React.useContext(AuthContext);
   let deviceArray = ['No device selected'];
 
@@ -56,13 +60,11 @@ export default function AddTask({navigation}) {
               });
               var data = await response.json();
               var data = data.data;
-              let locations = [];
-              for(let device of data) {
-                deviceArray.push(device.name);
-                locations.push(device.location)
-              }
-              setDevices(deviceArray);
-              setLocationArray(locations);
+               for(let device of data) {
+                 deviceArray.push(device.name);
+               }
+              setDevices(data);
+              setDevicesName(deviceArray);
         } catch (error) {
             console.error(error);
         }
@@ -95,7 +97,8 @@ export default function AddTask({navigation}) {
     }
     else {
       setDeviceSelected(true);
-      setLocationName(locationArray[index]);
+      setDevice(devices[index-1]);
+      setLocationName(devices[index-1].location)
     }
   };
 
@@ -111,8 +114,10 @@ export default function AddTask({navigation}) {
               <ModalDropdown
                 style={styles.input}
                 dropdownStyle={styles.dropdown}
-                options={devices}
+                options={devicesName}
                 onSelect = {onSelectDropDown}
+                defaultValue = { "Pick device..." }
+                textStyle = {{fontSize: 16, color:"#aaa"}}
                 />
 
               <TextInput
@@ -131,68 +136,76 @@ export default function AddTask({navigation}) {
                 onChangeText={props.handleChange('description')}
                 value={props.values.description}
               />
-
-              <View style={styles.conainerIcon}>
-                <Text style={styles.text}>Select date: </Text>
-                <Fontisto name="date" onPress={showDatepicker} size={24} color="black" />
+              <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View style={styles.conainerIcon}>
+                  <Text style={styles.text}>Select date: </Text>
+                  <Fontisto name="date" onPress={showDatepicker} size={24} color="black" />
+                </View>
+                <View style={styles.conainerIcon}>
+                  <Text style={styles.text}>Select time: </Text>
+                  <Ionicons name="ios-time-outline" onPress={showTimepicker} size={24} color="black" />
+                </View>
+                    {show && (
+                      <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}
+                        is24Hour={true}
+                        display="default"
+                        onChange={onChange}
+                        minimumDate={new Date()}
+                      />
+                    )}
               </View>
-              <View style={styles.conainerIcon}>
-                <Text style={styles.text}>Select time: </Text>
-                <Ionicons name="ios-time-outline" onPress={showTimepicker} size={24} color="black" />
-              </View>
-                  {show && (
-                    <DateTimePicker
-                      testID="dateTimePicker"
-                      value={date}
-                      mode={mode}
-                      is24Hour={true}
-                      display="default"
-                      onChange={onChange}
-                      minimumDate={new Date()}
-                    />
-                  )}
-              
+              <View style={{marginBottom: 20}}>
+              <Text style={styles.text}>Set duration: </Text>
                     <View style={styles.labels}>
                     <Text style={styles.text2}>HOUR: </Text>
                     <NumericInput 
                               value={durationHr} 
-                              onChange={value => setDurationHr({value})} 
+                              onChange={value => setDurationHr(value)} 
                               totalWidth={140} 
                               totalHeight={35} 
                               iconSize={25}
                               step={1}
                               maxValue={24}
+                              minValue={0}
                               valueType='real'
                               rounded 
-                              textColor='#B0228C' 
+                              textColor='#0D47A1' 
                               iconStyle={{ color: 'white' }} 
-                              rightButtonBackgroundColor='#EA3788' 
-                              leftButtonBackgroundColor='#E56B70'/>
+                              rightButtonBackgroundColor='#0074e8' 
+                              leftButtonBackgroundColor='#0074e8'/>
                     </View>
                         <View style={styles.labels}>
                         <Text style={styles.text2}>MINUTES: </Text>
                     <NumericInput 
                               value={durationMin} 
-                              onChange={value => setDurationMin({value})} 
+                              onChange={value => setDurationMin(value)} 
                               totalWidth={140} 
                               totalHeight={35} 
                               iconSize={25}
                               step={5}
                               maxValue={60}
+                              minValue={0}
                               valueType='real'
                               rounded 
-                              textColor='#B0228C' 
+                              textColor='#0D47A1' 
                               iconStyle={{ color: 'white' }} 
-                              rightButtonBackgroundColor='#EA3788' 
-                              leftButtonBackgroundColor='#E56B70'/>
-                          </View>     
+                              rightButtonBackgroundColor='#0074e8' 
+                              leftButtonBackgroundColor='#0074e8'/>
+                          </View>
+              </View>     
                            
               <Button title="Add in calendar" onPress={
                 async () => {
                   let token = await getSavedToken();
-                  await postScreenshot({token, description: props.values.description, location: props.values.location, date});
+                  deviceSelected ?
+                  await postScreenshot({token, description: props.values.description, location: null, date, deviceId: device.deviceId, duration: {durationHr, durationMin}})
+                  : await postScreenshot({token, description: props.values.description, location: locationName, date, deviceId: null, duration: {durationHr, durationMin}}); 
                   navigation.goBack();
-              }} />
+                }
+              }/>
             </View>
           )}
         </Formik>
@@ -220,7 +233,7 @@ const styles = StyleSheet.create({
   },
   input2: {
     width: 250,
-    height: 150,
+    height: 130,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
@@ -236,13 +249,11 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16
   },
-  text2: {
-    marginRight: 20
-  },
   labels: {
     flexDirection: 'row',
     alignItems:'center',
-    marginTop:7
+    marginVertical: 4,
+    justifyContent: 'space-between'
   },
   dropdown: {
     width: 230,
