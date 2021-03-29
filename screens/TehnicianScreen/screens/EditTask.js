@@ -234,7 +234,7 @@ export default function EditTask({ route, navigation }) {
                 }} />
 
               <View style={{ paddingTop: 15 }}>
-                <Button title="Prijava na lokaciju" onPress={
+                <Button title="Check-In" onPress={
                   async () => {
                     let token = await getSavedToken();
                     deviceSelected ?
