@@ -22,7 +22,8 @@ async function postScreenshot(token) {
       },
       body: JSON.stringify({
         name: 'DESKTOP-SCC',
-        location: 'Sarajevo - SCC'
+        location: 'Sarajevo - SCC',
+        user: 'monitor'
       })
     });
     var json = await response.json();
