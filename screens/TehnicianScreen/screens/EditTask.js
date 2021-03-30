@@ -14,8 +14,8 @@ import NumericInput from 'react-native-numeric-input';
 async function postScreenshot({token, location, description, date, taskId, deviceId, duration, status}) {
   try {
     const endTime = new Date(date);
-    endTime.setHours(duration.durationHr);
-    endTime.setMinutes(duration.durationMin);
+    endTime.setHours(date.getHours() + duration.durationHr);
+    endTime.setMinutes(date.getMinutes() + duration.durationMin);
     
     let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks/" + taskId, {
       method: 'PUT',
@@ -44,8 +44,8 @@ export default function EditTask({route, navigation}) {
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
   // const [durationHr, setDurationHr] = useState(new Date(route.params.task.endTime).getHours());
-  const [durationHr, setDurationHr] = useState(new Date(route.params.task.endTime).getHours());
-  const [durationMin, setDurationMin] = useState(new Date(route.params.task.endTime).getMinutes());
+  const [durationHr, setDurationHr] = useState(new Date(route.params.task.endTime).getUTCHours()-new Date(route.params.task.startTime).getUTCHours());
+  const [durationMin, setDurationMin] = useState(new Date(route.params.task.endTime).getUTCMinutes()-new Date(route.params.task.startTime).getUTCMinutes());
   const [deviceSelected, setDeviceSelected] = useState(true);
   const [devices, setDevices] = useState([]);
   const [device, setDevice] = useState(route.params.task.device);

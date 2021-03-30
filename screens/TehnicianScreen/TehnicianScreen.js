@@ -9,7 +9,7 @@ export default function TehnicianScreen({navigation}) {
          <View  style={styles.containerTitle}>
               <Text style={styles.textTitle}>Hi tehnician</Text>
          </View>
-         <View style={{flexDirection: 'row', marginTop: 30}}>
+         <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 30}}>
          <TouchableOpacity 
                       onPress={() => navigation.push("AddTask")}
                       style={styles.touchableOpacity}
@@ -61,7 +61,6 @@ touchableOpacity: {
   height:250,
   elevation:15,
   backgroundColor:"white",
-  marginLeft:30,
   marginTop:30,
   borderRadius:15,
   marginBottom:10,
