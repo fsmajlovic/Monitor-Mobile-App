@@ -48,7 +48,7 @@ const ReportScreen = ({ navigation }) => {
         }
         console.log("AKTIVNA" + JSON.stringify(activeMachines.data))
         console.log("ALL MACHINES " + allMachines.data)
-        setDevices(filterActive(activeMachines.data, allMachines));
+        setDevices(allMachines);
       }).catch((error) => {
         console.error(error);
       });
