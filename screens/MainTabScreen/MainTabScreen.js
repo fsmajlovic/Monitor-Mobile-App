@@ -12,7 +12,7 @@ import TehnicianScreen from '../TehnicianScreen/TehnicianScreen';
 import AddTask from '../TehnicianScreen/screens/AddTask';
 import Schedule from '../TehnicianScreen/screens/Schedule';
 import StatisticScreen from '../ReportScreen/screens/StatisticScreen';
-import { Button } from 'react-native';
+import { Button, Image, TouchableOpacity } from 'react-native';
 import OptionScreen from '../ReportScreen/screens/OptionScreen';
 import EditTask from '../TehnicianScreen/screens/EditTask';
 import FileManager from '../AccessControlScreen/screens/FileManager'
@@ -93,9 +93,19 @@ const HomeStackScreen = ({navigation}) => (
             headerTitleStyle: {
             fontWeight: 'bold'
             }
+            
         }}>
             <HomeStack.Screen name="Home" component={HomeScreen} options={{
-            title:'Home',
+              title:'Home',
+              headerRight: () => (
+                <TouchableOpacity
+                  // onPress={() => navigation.push("FileManager")}
+                >                
+                  <Image source={require("../../assets/file-icon-home.png")}
+                  style={{width: 50, height: 50, marginRight: 10}}
+                  />
+                </TouchableOpacity>
+              ),
             }} />
             <HomeStack.Screen name="Console" component={ConsoleScreen} options={{
 

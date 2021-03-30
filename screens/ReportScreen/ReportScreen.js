@@ -61,7 +61,7 @@ const ReportScreen = ({ navigation }) => {
 
     <View style={styles.container}>
       <Text style={{alignSelf: 'center', color: 'black', fontSize: 35}}>Active</Text>
-      <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
+        <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
       <FlatList style={{flex: 1}}
             keyExtractor={(item) => item.deviceId.toString()}
             data={devices}

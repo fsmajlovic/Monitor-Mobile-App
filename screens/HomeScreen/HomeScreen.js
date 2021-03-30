@@ -11,7 +11,7 @@ export default function HomeScreen({navigation}) {
 
     return(
         <View 
-        style={{flex: 1}} 
+        style={{flex: 1, padding: 10,}} 
         >
         <Text style={{alignSelf: 'center', color: 'black', fontSize: 35}}>Connected</Text>
         <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
