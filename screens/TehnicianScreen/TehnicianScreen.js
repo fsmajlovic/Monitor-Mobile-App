@@ -9,7 +9,7 @@ export default function TehnicianScreen({navigation}) {
          <View  style={styles.containerTitle}>
               <Text style={styles.textTitle}>Hi tehnician</Text>
          </View>
-         <View style={{flexDirection: 'row', justifyContent: 'space-around', marginTop: 30}}>
+         <View style={styles.containerButtons}>
          <TouchableOpacity 
                       onPress={() => navigation.push("AddTask")}
                       style={styles.touchableOpacity}
@@ -42,6 +42,11 @@ const styles = StyleSheet.create({
 container: {
   flex: 1,
   backgroundColor: "#FFF",
+},
+containerButtons: {
+  flexDirection: 'row',
+  justifyContent: 'space-around',
+  marginTop: 30
 },
 containerTitle: {
   justifyContent: 'center',
