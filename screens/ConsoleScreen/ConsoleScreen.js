@@ -1,21 +1,31 @@
 import React, { useState } from 'react'
-import { useContext } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { DeviceContext } from '../../contexts/DeviceContext';
 import ConsoleRow from './ConsoleRow'
 import { styles } from './Styles'
+import { AuthContext } from '../../contexts/authContext';
+import { serverURL } from '../../appConfig';
+import { useContext } from 'react';
 
 export default function ConsoleScreen({ navigation }) {
-  const [rows, setRows] = useState([]);
-
-  const [history, setHistory] = useState("console > ");
-  const [current, setCurrent] = useState("");
-
+  //console.log(naziv);
   const group1 = ["?", "clear", "ls"];
   const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set"];
 
-  let Token = "";
+  const { activeDevice } = useContext(DeviceContext);
+  const [name, setName] = useState(activeDevice.name);
+  const [location, setLocation] = useState(activeDevice.location);
+  const [ip, setIp] = useState(activeDevice.ip);
+  const [path, setPath] = useState(activeDevice.path);
+
+
+  const [rows, setRows] = useState([]);
+  const [current, setCurrent] = useState("");
+
+  //  console.log(activeDevice);
+
+  const { getSavedToken } = React.useContext(AuthContext);
 
   const addRows = (tekst) => {
     setRows((prevRows) => {
@@ -23,9 +33,62 @@ export default function ConsoleScreen({ navigation }) {
         [...prevRows, tekst]
       )
     })
+  };
+
+  
+
+  const getActiveDevice = async ()  => {
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!");
+    let token = await getSavedToken();
+    await getActiveDevices(token);
+
+  }
+
+  // getActiveDevice();
+
+  const getActiveDevices = async (token) => {
+
+ //   console.log("Dosao neki zahtjev");
+
+    fetch('https://si-grupa5.herokuapp.com/api/agent/online', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        "Authorization": "Bearer " + token,
+      }
+    })
+      .then(res => res.json()).then(res => {
+
+        const masina = [{
+          "name": "ime2",
+          "location": "lokacija",
+          "ip": "1.1.1.1",
+          "path": "PATH",
+          "status": "status"
+        }]
+
+    //    console.log(res[0].name + " " + activeDevice.name);
+
+        let i;
+        for (i = 0; i < res.length; i++) {
+          if (res[i].name === activeDevice.name) {
+            setName(res[i].name);
+            setLocation(res[i].location);
+            setIp(res[i].ip);
+            setPath(res[i].path);
+          }
+        }
+
+        console.log("masina: " + name + " " + " " + location + " " + ip + " " + path);
+      });
+
   }
 
   const sendRequest = async (command, token) => {
+
+   // console.log("Token je " + token);
+
+    //serverURL+ 'api/command'
 
     fetch('https://si-grupa5.herokuapp.com/api/command', {
       method: 'POST',
@@ -35,74 +98,59 @@ export default function ConsoleScreen({ navigation }) {
         "Authorization": "Bearer " + token,
       },
       body: JSON.stringify({
-        name: 'DESKTOP-SCC',
-        location: 'Sarajevo - SCC',
-        command: command
+        'name': name,
+        'location': location,
+        'ip': ip,
+        command: command,
+        parameters: [],
+        user: 'whoso@whoso.com'
       })
     })
       .then(res => res.json())
       .then(res => {
-        Token = res.token;
-        console.log(Token);
-        console.log("poruka" + res.message)
-        addRows(res.message);
+        //  Token = res.token;
+
+        if (typeof res.message === 'undefined') {
+        //  console.log(res.error);
+          addRows(res.error)
+       //   addRows("Not responding!");
+
+        } else {
+          addRows(res.message);
+        }
       });
   }
 
-  const sendRequestToken = async (command) => {
-
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: 'whoso@whoso.com', password: 'sifra123' })
-    };
-
-    try {
-      var response = await fetch('http://167.99.244.168:3333/login', requestOptions);
-      if (response.status == 200) {
-        var x = await response.json();
-        Token = x.accessToken;
-        console.log("dobavljen token");
-        console.log(Token);
-        sendRequest(command, Token);
-      }
-      else {
-        //ERROR
-      }
-    } catch (e) {
-
-    }
-
-  } 
-
   return (
     <View style={styles.container}>
-      
+
       <ScrollView>
         <ConsoleRow rows={rows} />
         <View style={styles.row}>
-          <Text style={styles.textArea}>IWM console > </Text>
+         <Text style={styles.textArea}> {path}>  </Text>
           <TextInput
             style={styles.inputArea}
             value={current}
             onChangeText={(e) => setCurrent(e)}
-            placeholder="Enter your commands here"
+            placeholder="..."
             placeholderTextColor="#bbbbbb"
-            onSubmitEditing={(event) => {
+            onSubmitEditing={async (event) => {
               let input = event.nativeEvent.text.replace(/ +/g, ' ').trim();
               let args = input.split(" ");
               let command = "";
               command = args[0].toLowerCase();
 
-              addRows("IWM console > " + event.nativeEvent.text);
+
+              addRows(path + "> " + event.nativeEvent.text);
 
               if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length == 2)) {
+                //validna komanda
                 if (group2.includes(command)) {
                   command += " " + args[1];
                 }
-                  sendRequestToken(command);
-                
-              //  sendRequest(command, Token);
+
+                let token = await getSavedToken();
+                sendRequest(command, token);
               } else {
                 //nevalidna komanda
                 addRows("Invalid command!");

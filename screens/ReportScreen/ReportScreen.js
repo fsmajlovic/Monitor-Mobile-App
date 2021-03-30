@@ -4,6 +4,8 @@ import ListItem from './components/ListItem';
 import { AuthContext } from '../../contexts/authContext';
 import { useContext } from 'react';
 import { DeviceContext } from '../../contexts/DeviceContext';
+import {machineURL, activeMachineURL} from '../../appConfig';
+import axios from 'axios';
 
 
 const ReportScreen = ({ navigation }) => {
@@ -11,33 +13,55 @@ const ReportScreen = ({ navigation }) => {
   const { getSavedToken } = React.useContext(AuthContext);
   const { setDevices, devices, page, setPage, loadMore, loading, setLoading } = useContext(DeviceContext);
 
+  function filterActive(activeMachines, allMachines) {
+    return activeMachines ? activeMachines.filter((machine) => {
+        const existingMachine = allMachines.find(({name, location}) => {
+            return machine.status !== "Disconnected" && name === machine.name && location === machine.location;
+        });
+        if (existingMachine) {
+            machine.deviceId = existingMachine.deviceId;
+            machine.lastTimeOnline = existingMachine.lastTimeOnline;
+        }
+        return existingMachine;
+    }) : [];
+  }
 
   useEffect(() => {
-    setLoading(true);
     async function getData(getSavedToken) {
       let token = await getSavedToken();
-      fetch(`https://si-2021.167.99.244.168.nip.io/api/device/AllDevicesForGroup?page=${page}&per_page=10&name=&status=active&groupId=17`, {
+      fetch(machineURL + `device/AllDevices`, {
         method: 'GET',
         headers: { "Authorization": "Bearer " + token },
       }).then((response) => {
         return response.json();
-      }).then((responseJson) => {
-        setDevices(devices.concat(responseJson.data));
-        setLoading(false);
+      }).then(async (responseJson) => {
+        let allMachines = responseJson.data;
+        let activeMachines = [];
+        try{
+          activeMachines = await axios.get(activeMachineURL+'agent/online',{
+            headers:{
+              'Authorization': `Bearer ` + token
+               }
+            });
+        }catch(e){
+          console.log(e)
+        }
+        console.log("AKTIVNA" + JSON.stringify(activeMachines.data))
+        console.log("ALL MACHINES " + allMachines.data)
+        setDevices(filterActive(activeMachines.data, allMachines));
       }).catch((error) => {
         console.error(error);
       });
     }
     getData(getSavedToken);
-  }, [page]);
-
+  }, []);
 
 
   return (
 
     <View style={styles.container}>
-      <Text style={{flex: 0.1, alignSelf: 'center', color: 'red', fontSize: 35}}>Available</Text>
-      <Text style={{flex: 0.1, alignSelf: 'center', color: '#E50914', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
+      <Text style={{alignSelf: 'center', color: 'black', fontSize: 35}}>Active</Text>
+      <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
       <FlatList style={{flex: 1}}
             keyExtractor={(item) => item.deviceId.toString()}
             data={devices}
