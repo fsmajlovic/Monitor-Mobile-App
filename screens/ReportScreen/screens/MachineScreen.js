@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
-import { Text, View, Button, Image, ScrollView} from 'react-native';
+import { Text, View, Button, Image, ScrollView, StyleSheet} from 'react-native';
 import { DeviceContext } from '../../../contexts/DeviceContext';
 
 
@@ -9,10 +9,10 @@ const MachineScreen = (props) => {
     const [photos, setPhotos] = useState([]);
 
     useEffect(() => {
-      componentDidUpdate();
+      updateComponent();
     })
 
-    const componentDidUpdate = () => {
+    const updateComponent = () => {
       const { params } = props.route;
       if (params) {
         const { photos } = params;
@@ -44,12 +44,18 @@ const MachineScreen = (props) => {
               onPress={()=>addActiveDevice(currentDevice)}
             >
             </Button>
-            <ScrollView>
+            <ScrollView style={styles.imageList}>
               {photos.map((item, i) => renderImage(item, i))}
             </ScrollView>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+  imageList: {
+    
+  }
+})
 
 
 export default MachineScreen;
