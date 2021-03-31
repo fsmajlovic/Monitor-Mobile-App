@@ -152,7 +152,9 @@ const HomeStackScreen = ({navigation}) => (
 
                 <ReportStack.Screen name="MachineScreen" component={MachineScreen} options={{}} />
 
-                <ReportStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{}} />
+                <ReportStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{
+                  title: 'Selected 0 files',
+                }} />
         </ReportStack.Navigator>
         );
   

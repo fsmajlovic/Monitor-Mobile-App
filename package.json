@@ -44,7 +44,8 @@
     "react-native-screens": "^2.18.1",
     "react-native-tab-view": "^3.0.0",
     "react-native-table-component": "^1.2.1",
-    "react-native-web": "^0.15.0"
+    "react-native-web": "^0.15.0",
+    "expo-image-manipulator": "~8.4.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"
