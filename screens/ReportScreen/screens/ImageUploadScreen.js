@@ -39,6 +39,9 @@ const ImageUploadScreen = (props) => {
               onPress={()=>props.navigation.push('ImageBrowserScreen')}
             ></Button>
             
+
+            {selected==true ?
+            <View>
             <FlatList 
               data={photos}
               renderItem={renderImage}
@@ -47,13 +50,13 @@ const ImageUploadScreen = (props) => {
               columnWrapperStyle={{  flex: 1,justifyContent: 'center'}}
             >
             </FlatList>
-            
-            {selected==true ?
+
                <Button 
                   title='Upload'
                   color='red'
                   onPress={()=>{setPhotos([]);setSelected(false);alert("Succesfull upload!")}}
                ></Button>
+            </View>
             : null
             }
 
