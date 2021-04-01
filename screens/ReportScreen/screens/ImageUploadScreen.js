@@ -1,108 +1,65 @@
-import React, { Component, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import * as ImageManipulator from 'expo-image-manipulator';
-import { ImageBrowser } from 'expo-image-picker-multiple';
+import React, { useEffect, useState } from 'react';
+import { useContext } from 'react';
+import { Text, View, Button, Image, ScrollView, StyleSheet,FlatList} from 'react-native';
 
-const ImageBrowserScreen = (props) => {
-    
+const ImageUploadScreen = (props) => {
+    const [photos, setPhotos] = useState([]);
+    const [selected,setSelected] = useState(false);
 
-    const _getHeaderLoader = () => (
-        <ActivityIndicator size='small' color={'#0580FF'} />
-    );
+    useEffect(() => {
+      updateComponent();
+    })
 
-    const imagesCallback = (callback) => {
-        const { navigation } = props;
-        props.navigation.setOptions({
-            headerRight: () => _getHeaderLoader()
-        });
-
-        callback.then(async (photos) => {
-            const cPhotos = [];
-            for (let photo of photos) {
-                const pPhoto = await _processImageAsync(photo.uri);
-                cPhotos.push({
-                    uri: pPhoto.uri,
-                    name: photo.filename,
-                    type: 'image/jpg'
-                })
-            }
-            navigation.navigate('MachineScreen', { photos: cPhotos });
-        })
-            .catch((e) => console.log(e));
-    };
-
-    const _processImageAsync = async (uri) => {
-        const file = await ImageManipulator.manipulateAsync(
-            uri,
-            [{ resize: { width: 1000 } }],
-            { compress: 0.8, format: ImageManipulator.SaveFormat.JPEG }
-        );
-        return file;
-    };
-
-    const _renderDoneButton = (count, onSubmit) => {
-        if (!count) return null;
-        return <TouchableOpacity title={'Done'} onPress={onSubmit}>
-            <Text onPress={onSubmit}>Done</Text>
-        </TouchableOpacity>
+    const updateComponent = () => {
+      const { params } = props.route;
+      if (params) {
+        const { photos } = params;
+        if (photos) {
+            setPhotos(photos)
+            setSelected(true)
+        }
+        delete params.photos;
+      }
     }
 
-    const updateHandler = (count, onSubmit) => {
-        props.navigation.setOptions({
-            title: `Selected ${count} files`,
-            headerRight: () => _renderDoneButton(count, onSubmit)
-        });
-    };
-
-    const renderSelectedComponent = (number) => (
-        <View style={styles.countBadge}>
-            <Text style={styles.countBadgeText}>{number}</Text>
-        </View>
-    );
-
-    
-    const emptyStayComponent = <Text style={styles.emptyStay}>Empty =(</Text>;
+    const renderImage = (item) => {
+      return (
+        <Image
+          style={{ height: 100, width: 100, margin:10}}
+          source={{ uri: item.item.uri }}
+        />
+      )
+    }
 
     return (
-        <View style={[styles.flex, styles.container]}>
-            <ImageBrowser
-                max={4}
-                onChange={updateHandler}
-                callback={imagesCallback}
-                renderSelectedComponent={renderSelectedComponent}
-                emptyStayComponent={emptyStayComponent}
-            />
+        <View>
+            <Button 
+              title='Select photos'
+              color='blue'
+              onPress={()=>props.navigation.push('ImageBrowserScreen')}
+            ></Button>
+            
+            <FlatList 
+              data={photos}
+              renderItem={renderImage}
+              keyExtractor={(item)=>item.name}
+              numColumns={3}
+              columnWrapperStyle={{  flex: 1,justifyContent: 'center'}}
+            >
+            </FlatList>
+            
+            {selected==true ?
+               <Button 
+                  title='Upload'
+                  color='red'
+                  onPress={()=>{setPhotos([]);setSelected(false);alert("Succesfull upload!")}}
+               ></Button>
+            : null
+            }
+
         </View>
-    );
-    
+    )
 }
 
-const styles = StyleSheet.create({
-    flex: {
-        flex: 1
-    },
-    container: {
-        position: 'relative'
-    },
-    emptyStay: {
-        textAlign: 'center',
-    },
-    countBadge: {
-        paddingHorizontal: 8.6,
-        paddingVertical: 5,
-        borderRadius: 50,
-        position: 'absolute',
-        right: 3,
-        bottom: 3,
-        justifyContent: 'center',
-        backgroundColor: '#0580FF'
-    },
-    countBadgeText: {
-        fontWeight: 'bold',
-        alignSelf: 'center',
-        padding: 'auto',
-        color: '#ffffff'
-    }
-});
 
-export default ImageBrowserScreen;
+export default ImageUploadScreen;

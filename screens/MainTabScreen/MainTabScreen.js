@@ -17,6 +17,7 @@ import MachineScreen from '../ReportScreen/screens/MachineScreen';
 import EditTask from '../TehnicianScreen/screens/EditTask';
 import FileManager from '../AccessControlScreen/screens/FileManager'
 import ImageUploadScreen from '../ReportScreen/screens/ImageUploadScreen';
+import ImageBrowserScreen from '../ReportScreen/screens/ImageBrowserScreen';
 
 
 
@@ -152,7 +153,9 @@ const HomeStackScreen = ({navigation}) => (
 
                 <ReportStack.Screen name="MachineScreen" component={MachineScreen} options={{}} />
 
-                <ReportStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{
+                <ReportStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{}} />
+
+                <ReportStack.Screen name="ImageBrowserScreen" component={ImageBrowserScreen} options={{
                   title: 'Selected 0 files',
                 }} />
         </ReportStack.Navigator>
