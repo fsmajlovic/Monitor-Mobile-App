@@ -120,7 +120,7 @@ const HomeStackScreen = ({navigation}) => (
 
             }} />
             <HomeStack.Screen name="FileManager" component={FileManager} options={{
-                  
+                                  title: 'File Manager',
             }} />
             
     </HomeStack.Navigator>
