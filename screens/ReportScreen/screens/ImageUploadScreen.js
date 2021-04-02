@@ -62,12 +62,27 @@ const ImageUploadScreen = (props) => {
       )
     }
 
-    const uploadImages = async () =>{
+    const uploadImages = async () => {
+
+        try {
+            let token = await getSavedToken();
+            let response = await axios.get(machineURL + `UserTasks/${active}`, { // Lista taskova
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+            )
+            console.log(response.data.data)
+        } catch (e) {
+            console.log("Greška")
+        }
+
+    
       let token;
       let response;
       try {
         token = await getSavedToken();
-        response = await axios.post(machineURL+'upload/UploadFile',createFormData(photos,task),{
+        response = await axios.post(machineURL+'upload/UploadFile',createFormData(photos, task),{
           headers:{
             'Authorization': `Bearer ${token}`
              }
@@ -134,6 +149,7 @@ const styles = StyleSheet.create({
       height: 40,
       margin: 12,
       borderWidth: 1,
+      paddingLeft: 12,
     },
   });
 

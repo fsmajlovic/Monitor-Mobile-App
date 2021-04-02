@@ -12,7 +12,7 @@ export default function HomeScreen({navigation}) {
 
     return(
         <View 
-        style={{flex: 1}}  
+        style={styles.container}  
         >
         <Text style={{alignSelf: 'center', color: 'black', fontSize: 35}}>Connected</Text>
         <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
@@ -35,3 +35,13 @@ export default function HomeScreen({navigation}) {
         </View>
       );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    padding: 10,
+    backgroundColor: 'white',
+    elevation: 2,
+  }
+})
