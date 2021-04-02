@@ -18,7 +18,11 @@ import {
 expoFileLocation = "";
 fileData = "";
 fileName = "";
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 1c180c96b7eb5defb7932e39f6bfcb9df5f0a7e8
 async function getFile(token) {
   try {
     let response = await fetch(serverURL + "api/web/file/get", {
@@ -36,7 +40,11 @@ async function getFile(token) {
         user:"monitor"
       }),
     });
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 1c180c96b7eb5defb7932e39f6bfcb9df5f0a7e8
     if(response.status == 200) {
         var jsonResponse = await response.json();
         if(jsonResponse.hasOwnProperty('error')) {
