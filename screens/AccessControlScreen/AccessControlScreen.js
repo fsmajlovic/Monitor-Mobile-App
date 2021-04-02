@@ -59,16 +59,6 @@ export default function AccessControlScreen({navigation}) {
 
   return(
   <View style={styles.container}>
-    <View style={styles.scrollViewStyle}>
-      <Text style={styles.text}>Files</Text>
-      <ScrollView>
-        <ListViewVertical
-              itemList={dataSet}
-        />       
-      </ScrollView>
-    </View>
-
-
     <View>
       <TouchableOpacity onPress={async () => {
         let token = await getSavedToken();
@@ -100,9 +90,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     padding: 5,
     flex: 1,
-  },
-  scrollViewStyle: {
-    height: 200, 
   },
   listView: {
     padding: 10,

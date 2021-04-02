@@ -13,22 +13,21 @@ export default function App({navigation}) {
     { name: 'File 3', id: '3', image_url: image_url },
     { name: 'File 4', id: '4', image_url: image_url },
     { name: 'File 5', id: '5', image_url: image_url },
+    { name: 'File 6', id: '6', image_url: image_url },
+    { name: 'File 7', id: '7', image_url: image_url },
+    { name: 'File 8', id: '8', image_url: image_url },
+    { name: 'File 9', id: '9', image_url: image_url },
+    { name: 'File 10', id: '10', image_url: image_url },
   ];
 
-  return( 
-  
- <View style={styles.container}>
-<ScrollView style={styles.scrollView}>
-  <Text style={styles.text}>Files</Text>
-  <ListViewVertical
-            itemList={dataSet}
-          />       
-  </ScrollView>
-
-   </View>
-
-  );
-}
+return( 
+  <View style={styles.container}>
+    <Text style={styles.text}>Files</Text>
+      <ListViewVertical
+        itemList={dataSet}
+      />       
+  </View>
+);}
 
 const styles = StyleSheet.create({
   container: {

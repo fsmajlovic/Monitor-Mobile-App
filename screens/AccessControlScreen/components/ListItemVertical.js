@@ -18,11 +18,6 @@ import {
 expoFileLocation = "";
 fileData = "";
 fileName = "";
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> 1c180c96b7eb5defb7932e39f6bfcb9df5f0a7e8
 async function getFile(token) {
   try {
     let response = await fetch(serverURL + "api/web/file/get", {
@@ -40,11 +35,6 @@ async function getFile(token) {
         user:"monitor"
       }),
     });
-<<<<<<< HEAD
- 
-=======
-
->>>>>>> 1c180c96b7eb5defb7932e39f6bfcb9df5f0a7e8
     if(response.status == 200) {
         var jsonResponse = await response.json();
         if(jsonResponse.hasOwnProperty('error')) {
@@ -113,6 +103,10 @@ export default function ListItemVertical({ name, image_url }) {
         <View style={styles.container_text}>
           <Text style={styles.title}>{name}</Text>
         </View>
+        <Image 
+          source={require("../../../assets/download-icon.jpg")}
+          style={{width: 25, height: 25}}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -130,6 +124,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#FFF",
     elevation: 2,
+    alignItems: 'center'
   },
   title: {
     fontSize: 16,

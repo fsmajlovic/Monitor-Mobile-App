@@ -99,7 +99,7 @@ const HomeStackScreen = ({navigation}) => (
               title:'Home',
               headerRight: () => (
                 <TouchableOpacity
-                  // onPress={() => navigation.push("FileManager")}
+                  onPress={() => navigation.navigate("FileManager")}
                 >                
                   <Image source={require("../../assets/file-icon-home.png")}
                   style={{width: 50, height: 50, marginRight: 10}}
