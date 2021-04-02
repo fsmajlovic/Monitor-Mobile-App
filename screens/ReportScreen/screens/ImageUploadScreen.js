@@ -1,6 +1,8 @@
 import React, { useEffect, useState} from 'react';
 import { useContext } from 'react';
 import { Text, View, Button, Image, ScrollView, StyleSheet,FlatList,TextInput} from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
+import RNPickerSelect from 'react-native-picker-select';
 
 import { DeviceContext } from '../../../contexts/DeviceContext';
 import {AuthContext} from '../../../contexts/authContext';
@@ -14,8 +16,9 @@ const ImageUploadScreen = (props) => {
     const [photos, setPhotos] = useState([]);
     const [selected,setSelected] = useState(false);
     const [task,setTask] = useState('');
-    const {currentDevice} = useContext(DeviceContext);
+    const { currentDevice, taskList } = useContext(DeviceContext);
     const {getSavedToken} = useContext(AuthContext);
+    const [selectedTask, setSelectedTask] = useState("nesto");
     
     const currentDate = () =>{
         let current = new Date();
@@ -38,8 +41,10 @@ const ImageUploadScreen = (props) => {
     }
 
     useEffect(() => {
-      updateComponent();
+        updateComponent();
     })
+
+    
 
     const updateComponent = () => {
       const { params } = props.route;
@@ -64,25 +69,12 @@ const ImageUploadScreen = (props) => {
 
     const uploadImages = async () => {
 
-        try {
-            let token = await getSavedToken();
-            let response = await axios.get(machineURL + `UserTasks/${active}`, { // Lista taskova
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }
-            )
-            console.log(response.data.data)
-        } catch (e) {
-            console.log("Greška")
-        }
-
     
       let token;
       let response;
       try {
         token = await getSavedToken();
-        response = await axios.post(machineURL+'upload/UploadFile',createFormData(photos, task),{
+        response = await axios.post(machineURL+'upload/UploadFile', createFormData(photos, task),{
           headers:{
             'Authorization': `Bearer ${token}`
              }

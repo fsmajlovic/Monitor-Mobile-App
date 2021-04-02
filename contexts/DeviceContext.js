@@ -14,6 +14,7 @@ export const DeviceProvider = (props) => {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [currentDevice,setCurrentDevice] = useState({})
+    const [taskList, setTaskList] = useState([]) // For current device
 
     const addActiveDevice = (device) => {
         if (!activeDevices.find(item => item.deviceId === device.deviceId)) {
@@ -41,7 +42,9 @@ export const DeviceProvider = (props) => {
         loading,
         setLoading,
         currentDevice,
-        setCurrentDevice
+        setCurrentDevice,
+        taskList,
+        setTaskList
         //Fali loadMore
     }
 
