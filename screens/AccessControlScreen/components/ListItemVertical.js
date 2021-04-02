@@ -18,7 +18,7 @@ import {
 expoFileLocation = "";
 fileData = "";
 fileName = "";
-async function getFile(token) {
+async function getFile(name,token) {
   try {
     let response = await fetch(serverURL + "api/web/user/file/get", {
       method: "POST",
@@ -28,7 +28,7 @@ async function getFile(token) {
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        fileName: "slika.jpg",
+        fileName: name,
         user:"osoba4@email.com"
       }),
     });
@@ -89,7 +89,7 @@ export default function ListItemVertical({ name, image_url }) {
     <TouchableOpacity
       onPress = {async () => {
         let token = await getSavedToken();
-        await getFile(token);
+        await getFile(name,token);
       }}
     >
       <View style={styles.container}>
