@@ -22,7 +22,9 @@ export default function App({navigation}) {
 
 return( 
   <View style={styles.container}>
-    <Text style={styles.text}>Files</Text>
+    <View style={{alignItems: 'center'}}>
+      <Text style={styles.text}>Files</Text>
+    </View>
       <ListViewVertical
         itemList={dataSet}
       />       
@@ -39,8 +41,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     marginBottom: 5,
+    marginTop: 5,
     fontWeight: 'bold',
-    color: '#0D47A1'
+    color: '#0D47A1',
   },
 
   items: {

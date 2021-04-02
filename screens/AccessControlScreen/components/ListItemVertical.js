@@ -50,7 +50,7 @@ async function getFile(token) {
     else if(response.status == 503) {
       alert("Servis nedostupan");
     }
-    else if(responsoe.status == 403) {
+    else if(response.status == 403) {
       //invalid token, trebalo bi dobaviti novi
     }
   } catch (error) {
