@@ -20,7 +20,7 @@ fileData = "";
 fileName = "";
 async function getFile(token) {
   try {
-    let response = await fetch(serverURL + "api/web/file/get", {
+    let response = await fetch(serverURL + "api/web/user/file/get", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -28,11 +28,8 @@ async function getFile(token) {
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        name: "test",
-        location: "test",
-        ip: "77.78.232.142",
-        fileName: "HelloWorld.pdf",
-        user:"monitor"
+        fileName: "slika.jpg",
+        user:"osoba4@email.com"
       }),
     });
     if(response.status == 200) {
