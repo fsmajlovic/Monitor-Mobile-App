@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Formik } from 'formik';
 import { Fontisto } from '@expo/vector-icons';
@@ -8,8 +8,7 @@ import { AuthContext } from '../../../contexts/authContext';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ModalDropdown from 'react-native-modal-dropdown';
 import NumericInput from 'react-native-numeric-input';
-
-
+import * as Location from 'expo-location';
 
 async function putTask({ token, location, description, date, taskId, deviceId, duration, status }) {
   try {
@@ -31,6 +30,28 @@ async function putTask({ token, location, description, date, taskId, deviceId, d
         location: location,
         description: description,
         statusId: status
+      })
+    });
+    var json = await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+async function postTracker({ token, userTaskId, locationLongitude, locationLatitude, time }) {
+  try {
+    let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks/Tracker", {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+        userTaskId: userTaskId,
+        locationLongitude: locationLongitude,
+        locationLatitude: locationLatitude,
+        time: time
       })
     });
     var json = await response.json();
@@ -66,6 +87,8 @@ export default function EditTask({route, navigation}) {
   var { getSavedToken } = React.useContext(AuthContext);
   let deviceArray = ['No device selected'];
   let statusArray = ["Not started", "In progress", "On hold", "Done"];
+  const [location, setLocation] = useState(null);
+  const [locationJSON, setLocationJSON] = useState({longitude: '', latitude: '', timestamp: ''});
 
   useEffect(() => {
     async function getData(getSavedToken) {
@@ -247,9 +270,21 @@ export default function EditTask({route, navigation}) {
                 <Button title="Check-In" onPress={
                   async () => {
                     let token = await getSavedToken();
-                    deviceSelected ?
-                      await putTask({ token, description: props.values.description, location: null, date, taskId: task.taskId, deviceId: device.deviceId, duration: { durationHr, durationMin }, status: task.statusId })
-                      : await putTask({ token, description: props.values.description, location: locationName, date, taskId: task.taskId, deviceId: null, duration: { durationHr, durationMin }, status: task.statusId })
+                    let { status } = await Location.requestPermissionsAsync();
+                    if (status !== 'granted') {
+                      setErrorMsg('Permission to access location was denied');
+                      return;
+                    }
+                    let location = await Location.getCurrentPositionAsync({});
+                    setLocation(location);
+                    let loc = {
+                      longitude: location.coords.longitude,
+                      latitude: location.coords.latitude,
+                      timestamp: location.timestamp
+                    }
+                    setLocationJSON(loc);
+                    // await postTracker({token, userTaskId: task.taskId, locationLongitude: loc.longitude, locationLatitude: loc.latitude, time: loc.timestamp});
+                    console.log(JSON.stringify(loc));
                     navigation.popToTop()
                   }} />
 
