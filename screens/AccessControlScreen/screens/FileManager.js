@@ -10,13 +10,16 @@ import {userContext} from '../../../contexts/userContext';
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
 
 export default function App({ navigation }) {
-
-
+  
   var [files, setFiles] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
+  useEffect(() => {
 
   async function getFiles(token,username) {
+
+    let token = await getSavedToken();
+      console.log('Token je: ' + token);
 
     const response = await fetch(serverURL + "api/web/user/fileList", {
       method: "POST",
@@ -26,7 +29,7 @@ export default function App({ navigation }) {
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        user: username
+        user: "osoba4@email.com"
       }),
     });
     var jsonResponse = await response.json();
@@ -36,22 +39,48 @@ export default function App({ navigation }) {
     for (let i = 0; i < jsonResponseArray.length; i++) {
       let file = jsonResponseArray[i];
       newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url });
+      
+      setFiles(newDataSet);
     }
-    setFiles(newDataSet);
-  }
-
+  
+  useEffect(() => {
+    async function getFiles() {
+      let token = await getSavedToken();
+      console.log('Token je: ' + token);
+      const response = await fetch(serverURL + "api/web/user/fileList", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Accept: "text/html",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          user: "osoba4@email.com"
+        }),
+      });
+      var jsonResponse = await response.json();
+  
+      var jsonResponseArray = jsonResponse['children'];
+      var newDataSet = [];
+      for (let i = 0; i < jsonResponseArray.length; i++) {
+        let file = jsonResponseArray[i];
+        newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url });
+      }
+      setFiles(newDataSet);
+>>>>>>> 60e67ba72826e98cd699f46d76812ac47c5883f1
+    }
+    try{
+      getFiles();
+    }catch(e){
+      console.log(e);
+    }
+  }, [])
 
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center' }}>
         <Text style={styles.text}>Files</Text>
       </View>
-      <Button onPress={async () => {
-        let token = await getSavedToken();
-        console.log("token je " + token);
-        getFiles(token,username);
-      }}
-        title={'Load files from server'} />
       <ListViewVertical
         itemList={files}
       />

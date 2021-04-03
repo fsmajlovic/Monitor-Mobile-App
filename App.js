@@ -65,6 +65,7 @@ export default function App() {
         if(response.status==200){
           await saveToken('userToken',response.data.accessToken);
           dispatch({type: 'LOGIN',isSignedIn: true});
+          
         }else{
           alert("Greška!");
           dispatch({type: 'LOGIN',isSignedIn: false});
