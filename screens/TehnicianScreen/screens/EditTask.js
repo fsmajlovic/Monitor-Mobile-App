@@ -283,9 +283,8 @@ export default function EditTask({route, navigation}) {
                       timestamp: location.timestamp
                     }
                     setLocationJSON(loc);
-                    // await postTracker({token, userTaskId: task.taskId, locationLongitude: loc.longitude, locationLatitude: loc.latitude, time: loc.timestamp});
+                    await postTracker({token, userTaskId: task.taskId, locationLongitude: loc.longitude, locationLatitude: loc.latitude, time: loc.timestamp});
                     console.log(JSON.stringify(loc));
-                    navigation.popToTop()
                   }} />
 
               </View>
