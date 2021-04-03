@@ -29,7 +29,7 @@ export default function App({ navigation }) {
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        user: "osoba4@email.com"
+        user: username
       }),
     });
     var jsonResponse = await response.json();
