@@ -29,17 +29,29 @@ export default function App({ navigation }) {
           user: username
         }),
       });
-      var jsonResponse = await response.json();
+      if(response.status == 200) {
+        var jsonResponse = await response.json();
 
-      var jsonResponseArray = jsonResponse['children'];
-      var newDataSet = [];
-      for (let i = 0; i < jsonResponseArray.length; i++) {
-        let file = jsonResponseArray[i];
-        newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url });
+        var jsonResponseArray = jsonResponse['children'];
+        var newDataSet = [];
+        for (let i = 0; i < jsonResponseArray.length; i++) {
+          let file = jsonResponseArray[i];
+          newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url });
+        }
+        setFiles(newDataSet);
       }
-      setFiles(newDataSet);
-
+      else if(response.status == 503) {
+        alert("Servis nedostupan");
+      }
+      else if(response.status == 403) {
+        //invalid token, trebalo bi dobaviti novi
+      }
+      else {
+        console.log("Promijenjen JSON zahtjeva?");
+        alert("Greska pri dobavljanju liste datoteka");
+      }
     }
+
     try{
       getFiles();
     }catch(e){

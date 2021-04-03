@@ -33,9 +33,25 @@ async function postScreenshot(token, deviceName, deviceLocation, deviceIp,userna
         user: username
       })
     });
-    var json = await response.json();
-    base64Icon = "data:image/png;base64," + json["message"];
-    //console.log("slika " + base64Icon);
+
+    if(response.status == 200) {
+      var json = await response.json();
+      base64Icon = "data:image/png;base64," + json["message"];
+      //console.log("slika " + base64Icon);
+    }
+    else if(response.status == 503) {
+      alert("Servis nedostupan");
+    }
+    else if(response.status == 403) {
+      //invalid token, trebalo bi dobaviti novi
+    }
+    else if(response.status == 404) {
+      alert("Masina nije spojena sa serverom");
+    }
+    else {
+      console.log("Promijenjen JSON zahtjeva?");
+      alert("Greska pri dobavljanju screenshota");
+    }
   } catch (error) {
     console.error(error);
   }

@@ -51,6 +51,13 @@ async function getFile(name,token,username) {
     else if(response.status == 403) {
       //invalid token, trebalo bi dobaviti novi
     }
+    else if(response.status == 404) {
+      alert("Datoteka vise ne postoji");
+    }
+    else {
+      console.log("Promijenjen JSON zahtjeva?");
+      alert("Greska pri preuzimanju datoteke");
+    }
   } catch (error) {
     console.log(error);
   }
@@ -74,8 +81,8 @@ async function copyFromExpoFSToLocalFS() {
       const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
       if (status === "granted") {
           const asset = await MediaLibrary.createAssetAsync(expoFileLocation);
-          alert("Download finished");
           await MediaLibrary.createAlbumAsync("Monitor-Downloads", asset, false);
+          alert("Download finished");
       }
     }
   }
