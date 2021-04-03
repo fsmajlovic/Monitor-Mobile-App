@@ -49,12 +49,13 @@ async function postTracker({ token, userTaskId, locationLongitude, locationLatit
       },
       body: JSON.stringify({
         userTaskId: userTaskId,
-        locationLongitude: locationLongitude,
+        locationLongitutde: locationLongitude,
         locationLatitude: locationLatitude,
         time: time
       })
     });
     var json = await response.json();
+    console.log(json);
   } catch (error) {
     console.error(error);
   }
@@ -283,8 +284,8 @@ export default function EditTask({route, navigation}) {
                       timestamp: location.timestamp
                     }
                     setLocationJSON(loc);
-                    await postTracker({token, userTaskId: task.taskId, locationLongitude: loc.longitude, locationLatitude: loc.latitude, time: loc.timestamp});
-                    console.log(JSON.stringify(loc));
+                    var d = new Date();
+                    await postTracker({token, userTaskId: task.taskId, locationLongitude: loc.longitude, locationLatitude: loc.latitude, time: d});
                   }} />
 
               </View>
