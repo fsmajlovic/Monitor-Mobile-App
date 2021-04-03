@@ -15,35 +15,6 @@ export default function App({ navigation }) {
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
   useEffect(() => {
-
-  async function getFiles(token,username) {
-
-    let token = await getSavedToken();
-      console.log('Token je: ' + token);
-
-    const response = await fetch(serverURL + "api/web/user/fileList", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-        Accept: "text/html",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify({
-        user: username
-      }),
-    });
-    var jsonResponse = await response.json();
-
-    var jsonResponseArray = jsonResponse['children'];
-    var newDataSet = [];
-    for (let i = 0; i < jsonResponseArray.length; i++) {
-      let file = jsonResponseArray[i];
-      newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url });
-      
-      setFiles(newDataSet);
-    }
-  
-  useEffect(() => {
     async function getFiles() {
       let token = await getSavedToken();
       console.log('Token je: ' + token);
@@ -55,11 +26,11 @@ export default function App({ navigation }) {
           Authorization: "Bearer " + token,
         },
         body: JSON.stringify({
-          user: "osoba4@email.com"
+          user: username
         }),
       });
       var jsonResponse = await response.json();
-  
+
       var jsonResponseArray = jsonResponse['children'];
       var newDataSet = [];
       for (let i = 0; i < jsonResponseArray.length; i++) {
@@ -67,7 +38,7 @@ export default function App({ navigation }) {
         newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url });
       }
       setFiles(newDataSet);
->>>>>>> 60e67ba72826e98cd699f46d76812ac47c5883f1
+
     }
     try{
       getFiles();
