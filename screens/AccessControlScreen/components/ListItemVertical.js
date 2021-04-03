@@ -4,6 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as Sharing from "expo-sharing";
 import { AuthContext } from "../../../contexts/authContext";
+import {userContext} from '../../../contexts/userContext';
 import { serverURL } from "../../../appConfig";
 import React from "react";
 import {
@@ -18,7 +19,7 @@ import {
 expoFileLocation = "";
 fileData = "";
 fileName = "";
-async function getFile(name,token) {
+async function getFile(name,token,username) {
   try {
     let response = await fetch(serverURL + "api/web/user/file/get", {
       method: "POST",
@@ -29,7 +30,7 @@ async function getFile(name,token) {
       },
       body: JSON.stringify({
         fileName: name,
-        user:"osoba4@email.com"
+        user:username
       }),
     });
     if(response.status == 200) {
@@ -85,11 +86,13 @@ async function copyFromExpoFSToLocalFS() {
  
 export default function ListItemVertical({ name, image_url }) {
   var {getSavedToken} = React.useContext(AuthContext);
+  var username = React.useContext(userContext);
+  console.log(username);
   return(
     <TouchableOpacity
       onPress = {async () => {
         let token = await getSavedToken();
-        await getFile(name,token);
+        await getFile(name,token,username);
       }}
     >
       <View style={styles.container}>

@@ -6,6 +6,7 @@ import ListView from './components/ListView';
 import ListViewVertical from './components/ListViewVertical';
 import { DeviceContext } from '../../contexts/DeviceContext';
 import { useContext } from 'react';
+import {userContext} from '../../contexts/userContext';
 
 
 var currentUri = ' ';
@@ -13,7 +14,7 @@ var image_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSXv3Sprl
 
 
 
-async function postScreenshot(token, deviceName, deviceLocation, deviceIp) {
+async function postScreenshot(token, deviceName, deviceLocation, deviceIp,username) {
 
   console.log(deviceName + " " + deviceLocation + " " + deviceIp)
   console.log("token je "+token)
@@ -29,7 +30,7 @@ async function postScreenshot(token, deviceName, deviceLocation, deviceIp) {
         name:deviceName,
         location: deviceLocation,
         ip: deviceIp,
-        user: 'monitor'
+        user: username
       })
     });
     var json = await response.json();
@@ -56,13 +57,14 @@ export default function AccessControlScreen({navigation}) {
     { name: 'File 5', id: '5', image_url: image_url },
     
   ];
+  var username = React.useContext(userContext);
 
   return(
   <View style={styles.container}>
     <View>
       <TouchableOpacity onPress={async () => {
         let token = await getSavedToken();
-        await postScreenshot(token, deviceName, deviceLocation, deviceIp);
+        await postScreenshot(token, deviceName, deviceLocation, deviceIp,username);
     
         if(currentUri == ' ') {
           currentUri = base64Icon;

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import ListViewVertical from '../components/ListViewVertical';
 import { serverURL } from "../../../appConfig";
 import { AuthContext } from '../../../contexts/authContext';
+import {userContext} from '../../../contexts/userContext';
 
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
 
@@ -13,8 +14,9 @@ export default function App({ navigation }) {
 
   var [files, setFiles] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
+  var username = React.useContext(userContext);
 
-  async function getFiles(token) {
+  async function getFiles(token,username) {
 
     const response = await fetch(serverURL + "api/web/user/fileList", {
       method: "POST",
@@ -24,7 +26,7 @@ export default function App({ navigation }) {
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        user: "osoba4@email.com"
+        user: username
       }),
     });
     var jsonResponse = await response.json();
@@ -47,7 +49,7 @@ export default function App({ navigation }) {
       <Button onPress={async () => {
         let token = await getSavedToken();
         console.log("token je " + token);
-        getFiles(token);
+        getFiles(token,username);
       }}
         title={'Load files from server'} />
       <ListViewVertical
