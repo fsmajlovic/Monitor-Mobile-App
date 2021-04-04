@@ -151,9 +151,13 @@ const HomeStackScreen = ({navigation}) => (
               
                 <ReportStack.Screen name="Report" component={ReportScreen} options={{}} />
 
-                <ReportStack.Screen name="MachineScreen" component={MachineScreen} options={{}} />
+                <ReportStack.Screen name="MachineScreen" component={MachineScreen} options={{
+                  title: 'Machine'
+                }} />
 
-                <ReportStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{}} />
+                <ReportStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{
+                  title: 'Upload images'
+                }} />
 
                 <ReportStack.Screen name="ImageBrowserScreen" component={ImageBrowserScreen} options={{
                   title: 'Selected 0 files',

@@ -94,6 +94,12 @@ const ImageUploadScreen = (props) => {
       
       }
     }
+  
+  const _renderItemss = () => {
+    return taskList.items.map((item, index) => {
+      return <Item key={index + 1} label={item.description} value={item.description} />
+    });
+  }
 
     return (
         <View style={styles.container}>
@@ -103,11 +109,7 @@ const ImageUploadScreen = (props) => {
              placeholder="Task"
              value={task}
            />
-            {/*<Button 
-              title='Select photos'
-              color='blue'
-              onPress={()=>props.navigation.push('ImageBrowserScreen')}
-            />*/}
+           
             <TouchableOpacity onPress={() => props.navigation.push('ImageBrowserScreen')}>
               <View style={styles.containerButton}>
                 <Text style={styles.button}>Select photos</Text>
