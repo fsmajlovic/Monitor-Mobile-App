@@ -1,6 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import { useContext } from 'react';
-import { Text, View, Button, Image, ScrollView, StyleSheet,FlatList,TextInput} from 'react-native';
+import { Text, View, Button, Image, ScrollView, StyleSheet,FlatList,TextInput, TouchableOpacity} from 'react-native';
 
 import { DeviceContext } from '../../../contexts/DeviceContext';
 import {AuthContext} from '../../../contexts/authContext';
@@ -96,36 +96,40 @@ const ImageUploadScreen = (props) => {
     }
 
     return (
-        <View>
+        <View style={styles.container}>
            <TextInput
              style={styles.input}
              onChangeText={setTask}
              placeholder="Task"
              value={task}
            />
-            <Button 
+            {/*<Button 
               title='Select photos'
               color='blue'
               onPress={()=>props.navigation.push('ImageBrowserScreen')}
-            />
+            />*/}
+            <TouchableOpacity onPress={() => props.navigation.push('ImageBrowserScreen')}>
+              <View style={styles.containerButton}>
+                <Text style={styles.button}>Select photos</Text>
+              </View>
+            </TouchableOpacity>
             
 
             {selected==true ?
-             <View>
-             <FlatList 
-              data={photos}
-              renderItem={renderImage}
-              keyExtractor={(item)=>item.name}
-              numColumns={3}
-              columnWrapperStyle={{  flex: 1,justifyContent: 'center'}}
-            >
-            </FlatList>
-
-               <Button 
-                  title='Upload'
-                  color='red'
-                  onPress={async ()=> await uploadImages()}
-               />
+            <View style={styles.selectedContainer}>
+              <FlatList 
+                data={photos}
+                renderItem={renderImage}
+                keyExtractor={(item)=>item.name}
+                numColumns={3}
+                columnWrapperStyle={{  flex: 1, justifyContent: 'center'}}
+              >
+              </FlatList>
+              <TouchableOpacity onPress={async () => await uploadImages()}>
+                <View style={styles.containerButton}>
+                  <Text style={styles.button}>Upload</Text>
+                </View>
+              </TouchableOpacity>
             </View>
             : null
             }
@@ -135,11 +139,38 @@ const ImageUploadScreen = (props) => {
 }
 
 const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    selectedContainer: {
+      flex: 1
+    },  
     input: {
+      width: 250,
       height: 40,
       margin: 12,
       borderWidth: 1,
       paddingLeft: 12,
+      borderRadius: 30,
+    },
+    containerButton: {
+      justifyContent: 'center',
+      backgroundColor: "#0D47A1",
+      height: 40,
+      width: 250,
+      margin: 10,
+      borderRadius: 30,
+      paddingHorizontal: 30,
+      marginTop: 30,
+      alignItems: 'center'
+    },
+    button: {
+      fontSize: 20,
+      color: "#FFF",
+      fontWeight: "bold",
+
     },
   });
 

@@ -34,24 +34,9 @@ const MachineScreen = ({navigation}) => {
         <View style={styles.container}>
             <Text style={styles.title}> { currentDevice.name } </Text>
             <Text> { currentDevice.location } </Text>
-            
-            {/*<Button 
-              style={styles.button}
-              title='Upload slika'
-              color='blue'
-              onPress={()=>navigation.push('ImageUploadScreen')}
-            >
-            </Button>
-            <Button
-          style={styles.button}
-              title='Aktiviraj mašinu'
-              color='red'
-              onPress={()=>addActiveDevice(currentDevice)}
-            >
-            </Button>*/}
             <TouchableOpacity onPress={() => navigation.push('ImageUploadScreen')}>
               <View style={styles.containerButton}>
-                <Text style={styles.button}>Upload slika</Text>
+                <Text style={styles.button}>Upload pictures</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress = {()=>addActiveDevice(currentDevice)}>
@@ -59,7 +44,6 @@ const MachineScreen = ({navigation}) => {
                 <Text style={styles.button}>Aktiviraj mašinu</Text>
               </View>
             </TouchableOpacity>
-
         </View>
     )
 }
