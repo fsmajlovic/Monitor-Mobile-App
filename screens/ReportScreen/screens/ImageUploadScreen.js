@@ -94,12 +94,6 @@ const ImageUploadScreen = (props) => {
       
       }
     }
-  
-  const _renderItemss = () => {
-    return taskList.items.map((item, index) => {
-      return <Item key={index + 1} label={item.description} value={item.description} />
-    });
-  }
 
     return (
         <View style={styles.container}>
@@ -109,7 +103,7 @@ const ImageUploadScreen = (props) => {
              placeholder="Task"
              value={task}
            />
-           
+
             <TouchableOpacity onPress={() => props.navigation.push('ImageBrowserScreen')}>
               <View style={styles.containerButton}>
                 <Text style={styles.button}>Select photos</Text>
@@ -124,7 +118,7 @@ const ImageUploadScreen = (props) => {
                 renderItem={renderImage}
                 keyExtractor={(item)=>item.name}
                 numColumns={3}
-                columnWrapperStyle={{  flex: 1, justifyContent: 'center'}}
+                columnWrapperStyle={{  flex: 1, justifyContent: 'flex-start'}}
               >
               </FlatList>
               <TouchableOpacity onPress={async () => await uploadImages()}>
@@ -147,7 +141,8 @@ const styles = StyleSheet.create({
       justifyContent: 'center'
     },
     selectedContainer: {
-      flex: 1
+      flex: 1,
+      alignItems: 'center'
     },  
     input: {
       width: 250,
@@ -174,6 +169,11 @@ const styles = StyleSheet.create({
       fontWeight: "bold",
 
     },
+    uploadButton: {
+      fontSize: 20,
+      color: "#FFF",
+      fontWeight: "bold",
+    }
   });
 
 export default ImageUploadScreen;

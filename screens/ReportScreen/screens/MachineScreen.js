@@ -41,7 +41,7 @@ const MachineScreen = ({navigation}) => {
             </TouchableOpacity>
             <TouchableOpacity onPress = {()=>addActiveDevice(currentDevice)}>
               <View style={styles.containerButton}>
-                <Text style={styles.button}>Aktiviraj mašinu</Text>
+                <Text style={styles.button}>Activate machine</Text>
               </View>
             </TouchableOpacity>
         </View>
