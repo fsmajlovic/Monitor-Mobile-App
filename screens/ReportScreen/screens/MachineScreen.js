@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
-import { Text, View, Button, StyleSheet} from 'react-native';
+import { Text, View, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import { DeviceContext } from '../../../contexts/DeviceContext';
 import { machineURL } from '../../../appConfig'
 import axios from 'axios';
@@ -31,21 +31,70 @@ const MachineScreen = ({navigation}) => {
   }
 
     return (
-        <View>
-            <Button 
+        <View style={styles.container}>
+            <Text style={styles.title}> { currentDevice.name } </Text>
+            <Text> { currentDevice.location } </Text>
+            
+            {/*<Button 
+              style={styles.button}
               title='Upload slika'
               color='blue'
               onPress={()=>navigation.push('ImageUploadScreen')}
-            ></Button>
+            >
+            </Button>
             <Button
+          style={styles.button}
               title='Aktiviraj mašinu'
               color='red'
               onPress={()=>addActiveDevice(currentDevice)}
             >
-            </Button>
+            </Button>*/}
+            <TouchableOpacity onPress={() => navigation.push('ImageUploadScreen')}>
+              <View style={styles.containerButton}>
+                <Text style={styles.button}>Upload slika</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress = {()=>addActiveDevice(currentDevice)}>
+              <View style={styles.containerButton}>
+                <Text style={styles.button}>Aktiviraj mašinu</Text>
+              </View>
+            </TouchableOpacity>
+
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10
+  },
+  title: {
+    textAlign: 'center',
+    fontFamily: 'sans-serif',
+    fontSize: 25,
+    fontWeight: 'bold'
+  },
+  containerButton: {
+    justifyContent: 'center',
+    backgroundColor: "#0D47A1",
+    height: 40,
+    width: 250,
+    margin: 10,
+    borderRadius: 30,
+    paddingHorizontal: 30,
+    marginTop: 30,
+    alignItems: 'center'
+  },
+  button: {
+    fontSize: 20,
+    color: "#FFF",
+    fontWeight: "bold",
+    
+  },
+})
 
 
 export default MachineScreen;

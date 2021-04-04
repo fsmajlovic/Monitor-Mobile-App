@@ -1,8 +1,6 @@
 import React, { useEffect, useState} from 'react';
 import { useContext } from 'react';
 import { Text, View, Button, Image, ScrollView, StyleSheet,FlatList,TextInput} from 'react-native';
-import DropDownPicker from 'react-native-dropdown-picker';
-import RNPickerSelect from 'react-native-picker-select';
 
 import { DeviceContext } from '../../../contexts/DeviceContext';
 import {AuthContext} from '../../../contexts/authContext';
