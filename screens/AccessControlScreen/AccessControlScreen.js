@@ -7,12 +7,12 @@ import ListViewVertical from './components/ListViewVertical';
 import { DeviceContext } from '../../contexts/DeviceContext';
 import { useContext } from 'react';
 import {userContext} from '../../contexts/userContext';
-
+import * as Sharing from 'expo-sharing';
+import * as FileSystem from 'expo-file-system';
 
 var currentUri = ' ';
 var image_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSXv3SprlcGxiV_248M-azw5lTzEYLKHXU5w&usqp=CAU';
-
-
+var buttonPressed = false;
 
 async function postScreenshot(token, deviceName, deviceLocation, deviceIp,username) {
 
@@ -36,8 +36,9 @@ async function postScreenshot(token, deviceName, deviceLocation, deviceIp,userna
 
     if(response.status == 200) {
       var json = await response.json();
-      base64Icon = "data:image/png;base64," + json["message"];
+      base64Icon = json["message"];
       //console.log("slika " + base64Icon);
+
     }
     else if(response.status == 503) {
       alert("Servis nedostupan");
@@ -60,6 +61,33 @@ async function postScreenshot(token, deviceName, deviceLocation, deviceIp,userna
 
 export default function AccessControlScreen({navigation}) {
   let [image, setImage] = useState(' ');
+ 
+let openShareDialogAsync = async () => {
+  if (!(await Sharing.isAvailableAsync())) {
+    alert(`Sharing isn't available on your platform`);
+    return;
+  }
+
+  await Sharing.shareAsync(expoFileLocation);
+};
+
+
+
+expoFileLocation = "";
+fileData = "";
+fileName = "";
+async function saveToExpoFileSystem() {
+  fileData = base64Icon;
+  fileName = "screenshot.jpg";
+  expoFileLocation = FileSystem.documentDirectory + fileName;
+  FileSystem.writeAsStringAsync(expoFileLocation, fileData, {
+    encoding: FileSystem.EncodingType.Base64
+  }).catch((error) => {
+    console.log(error);
+  });
+}
+
+
   var {getSavedToken} = React.useContext(AuthContext);
   const { activeDevice } = useContext(DeviceContext);
   const [deviceName, setName] = useState(activeDevice.name);
@@ -79,26 +107,36 @@ export default function AccessControlScreen({navigation}) {
   <View style={styles.container}>
     <View>
       <TouchableOpacity onPress={async () => {
-        let token = await getSavedToken();
-        await postScreenshot(token, deviceName, deviceLocation, deviceIp,username);
+       let token = await getSavedToken();
+       await postScreenshot(token, deviceName, deviceLocation, deviceIp,username);
     
         if(currentUri == ' ') {
-          currentUri = base64Icon;
+          currentUri = "data:image/png;base64," + base64Icon;
           setImage(currentUri);
+          buttonPressed = true;
         }
         else {
           currentUri = ' ';
           setImage(currentUri);
+          buttonPressed = false;
         }
       }}>
       <Text style={styles.loadScreenshotText}>Load Screenshot</Text></TouchableOpacity>
     </View>
-
     <View style={{alignItems: 'center'}}>
       <Image  source={{ uri: image }}
         style={styles.imageView}
       />
     </View>
+   <View>
+     { buttonPressed && <TouchableOpacity onPress={async () => {
+       await saveToExpoFileSystem()
+       await openShareDialogAsync()
+       }}>
+        <Text style={styles.loadScreenshotText}>Share Screenshot</Text>
+      </TouchableOpacity> }
+   </View>
+    
   </View>
   ); 
 }
@@ -138,8 +176,6 @@ const styles = StyleSheet.create({
     borderRadius: 150 / 9,
     borderWidth: 3,
     borderColor: "#0D47A1",
-  }
+  },
 
 });
-
-
