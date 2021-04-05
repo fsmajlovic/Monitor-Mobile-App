@@ -55,7 +55,9 @@ async function postTracker({ token, userTaskId, locationLongitude, locationLatit
       })
     });
     var json = await response.json();
-    console.log(json);
+    //console.log(json);
+    console.log("Test token: " + token);
+    console.log("Task id: " + userTaskId);
   } catch (error) {
     console.error(error);
   }
