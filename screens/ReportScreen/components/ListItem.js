@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
 });
 
 const ListItem = ({ item, navigation }) => {
-    const { setActiveDevice, addActiveDevice } = useContext(DeviceContext);
+    const { setCurrentDevice } = useContext(DeviceContext);
     return (
-        <TouchableWithoutFeedback onPress={() => { addActiveDevice(item); }}>
+        <TouchableWithoutFeedback onPress={() => { navigation.push('MachineScreen'); setCurrentDevice(item) }}>
             <View style={styles.container}>
                 <Image source={require('../../../assets/monitor-icon.gif')} style={styles.photo} />
                 <View style={styles.container_text}>
