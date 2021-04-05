@@ -12,6 +12,7 @@ import TehnicianScreen from '../TehnicianScreen/TehnicianScreen';
 import AddTask from '../TehnicianScreen/screens/AddTask';
 import Schedule from '../TehnicianScreen/screens/Schedule';
 import StatisticScreen from '../ReportScreen/screens/StatisticScreen';
+
 import OptionScreen from '../ReportScreen/screens/OptionScreen';
 import MachineScreen from '../ReportScreen/screens/MachineScreen';
 import EditTask from '../TehnicianScreen/screens/EditTask';
@@ -95,9 +96,19 @@ const HomeStackScreen = ({navigation}) => (
             headerTitleStyle: {
             fontWeight: 'bold'
             }
+            
         }}>
             <HomeStack.Screen name="Home" component={HomeScreen} options={{
-            title:'Home',
+              title:'Home',
+              headerRight: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("FileManager")}
+                >                
+                  <Image source={require("../../assets/file-icon-home.png")}
+                  style={{width: 50, height: 50, marginRight: 10}}
+                  />
+                </TouchableOpacity>
+              ),
             }} />
             <HomeStack.Screen name="Console" component={ConsoleScreen} options={{
 
@@ -112,7 +123,7 @@ const HomeStackScreen = ({navigation}) => (
 
             }} />
             <HomeStack.Screen name="FileManager" component={FileManager} options={{
-                  
+                title: 'File Manager',
             }} />
             
     </HomeStack.Navigator>

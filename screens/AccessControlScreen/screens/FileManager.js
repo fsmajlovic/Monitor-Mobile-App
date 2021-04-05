@@ -1,32 +1,73 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ScrollView, Alert,TouchableOpacity,Card,Button } from 'react-native';
-import {useEffect, useState} from 'react'
+import { StyleSheet, Text, View, Image, FlatList, ScrollView, Alert, TouchableOpacity, Card, Button } from 'react-native';
+import { useEffect, useState } from 'react'
 import ListViewVertical from '../components/ListViewVertical';
+import { serverURL } from "../../../appConfig";
+import { AuthContext } from '../../../contexts/authContext';
+import {userContext} from '../../../contexts/userContext';
 
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
 
-export default function App({navigation}) { 
-  const dataSet = [
-    { name: 'File 1', id: '1', image_url: image_url },
-    { name: 'File 2', id: '2', image_url: image_url },
-    { name: 'File 3', id: '3', image_url: image_url },
-    { name: 'File 4', id: '4', image_url: image_url },
-    { name: 'File 5', id: '5', image_url: image_url },
-  ];
-
-  return( 
+export default function App({ navigation }) {
   
- <View style={styles.container}>
-<ScrollView style={styles.scrollView}>
-  <Text style={styles.text}>Files</Text>
-  <ListViewVertical
-            itemList={dataSet}
-          />       
-  </ScrollView>
+  var [files, setFiles] = useState([]);
+  var { getSavedToken } = React.useContext(AuthContext);
+  var username = React.useContext(userContext);
+  useEffect(() => {
+    async function getFiles() {
+      let token = await getSavedToken();
+      console.log('Token je: ' + token);
+      const response = await fetch(serverURL + "api/web/user/fileList", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          Accept: "text/html",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+          user: username
+        }),
+      });
+      if(response.status == 200) {
+        var jsonResponse = await response.json();
 
-   </View>
+        var jsonResponseArray = jsonResponse['children'];
+        var newDataSet = [];
+        for (let i = 0; i < jsonResponseArray.length; i++) {
+          let file = jsonResponseArray[i];
+          newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url });
+        }
+        setFiles(newDataSet);
+      }
+      else if(response.status == 503) {
+        alert("Servis nedostupan");
+      }
+      else if(response.status == 403) {
+        //invalid token, trebalo bi dobaviti novi
+      }
+      else {
+        console.log("Promijenjen JSON zahtjeva?");
+        alert("Greska pri dobavljanju liste datoteka");
+      }
+    }
 
+    try{
+      getFiles();
+    }catch(e){
+      console.log(e);
+    }
+  }, [])
+
+  return (
+    <View style={styles.container}>
+      <View style={{ alignItems: 'center' }}>
+        <Text style={styles.text}>Files</Text>
+      </View>
+      <ListViewVertical
+        itemList={files}
+      />
+    </View>
   );
 }
 
@@ -40,8 +81,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     marginBottom: 5,
+    marginTop: 5,
     fontWeight: 'bold',
-    color: '#0D47A1'
+    color: '#0D47A1',
   },
 
   items: {
