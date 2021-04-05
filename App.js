@@ -11,6 +11,8 @@ import * as SecureStore from 'expo-secure-store'
 import axios from 'axios'
 import {URL} from './appConfig'
 import { DeviceProvider } from './contexts/DeviceContext';
+import {userContext} from './contexts/userContext';
+import { useState } from 'react'
 
 async function saveToken(key,value){
   await SecureStore.setItemAsync(key,value);
@@ -50,6 +52,7 @@ export default function App() {
   };
   
   const [loginState, dispatch] = React.useReducer(loginReducer,initialLoginState);
+  const [user, setUser]=useState();
 
   const authContext = React.useMemo(()=>({
     signIn: async (username,password) => {
@@ -57,10 +60,12 @@ export default function App() {
         const response = await axios.post(URL+'login',{
           email:username,
           password:password
-        });        
+        });  
+        setUser(username);      
         if(response.status==200){
           await saveToken('userToken',response.data.accessToken);
           dispatch({type: 'LOGIN',isSignedIn: true});
+          
         }else{
           alert("Greška!");
           dispatch({type: 'LOGIN',isSignedIn: false});
@@ -106,6 +111,8 @@ export default function App() {
  
 
   return (
+    <userContext.Provider value={user}>
+  
     <AuthContext.Provider value={authContext}>
       <DeviceProvider>
         <NavigationContainer>
@@ -116,6 +123,7 @@ export default function App() {
         </NavigationContainer>
       </DeviceProvider>
     </AuthContext.Provider>
+    </userContext.Provider>
     
   );
 }
