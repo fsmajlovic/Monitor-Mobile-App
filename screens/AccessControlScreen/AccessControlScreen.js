@@ -13,13 +13,14 @@ import * as FileSystem from 'expo-file-system';
 var currentUri = ' ';
 var image_url = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSXv3SprlcGxiV_248M-azw5lTzEYLKHXU5w&usqp=CAU';
 var buttonPressed = false;
+var base64Icon = '';
 
-async function postScreenshot(token, deviceName, deviceLocation, deviceIp,username) {
+async function postScreenshot(token, id, username) {
 
-  console.log(deviceName + " " + deviceLocation + " " + deviceIp)
+  console.log("uid je " + id);
   console.log("token je "+token)
   try {
-    let response = await fetch(serverURL + "api/screenshot", {
+    let response = await fetch(serverURL + "api/agent/screenshot", {
       method: 'POST',
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -27,9 +28,7 @@ async function postScreenshot(token, deviceName, deviceLocation, deviceIp,userna
         'Authorization': 'Bearer ' + token
       },
       body: JSON.stringify({
-        name:deviceName,
-        location: deviceLocation,
-        ip: deviceIp,
+        deviceUid: id,
         user: username
       })
     });
@@ -38,7 +37,6 @@ async function postScreenshot(token, deviceName, deviceLocation, deviceIp,userna
       var json = await response.json();
       base64Icon = json["message"];
       //console.log("slika " + base64Icon);
-
     }
     else if(response.status == 503) {
       alert("Servis nedostupan");
@@ -90,9 +88,8 @@ async function saveToExpoFileSystem() {
 
   var {getSavedToken} = React.useContext(AuthContext);
   const { activeDevice } = useContext(DeviceContext);
-  const [deviceName, setName] = useState(activeDevice.name);
-  const [deviceLocation, setLocation] = useState(activeDevice.location);
-  const [deviceIp, setIp] = useState(activeDevice.ip);
+  const [id, setId] = useState(activeDevice.deviceUid);
+
   const dataSet = [
     { name: 'File 1', id: '1', image_url: image_url },
     { name: 'File 2', id: '2', image_url: image_url },
@@ -108,7 +105,7 @@ async function saveToExpoFileSystem() {
     <View>
       <TouchableOpacity onPress={async () => {
        let token = await getSavedToken();
-       await postScreenshot(token, deviceName, deviceLocation, deviceIp,username);
+       await postScreenshot(token, id, username);
     
         if(currentUri == ' ') {
           currentUri = "data:image/png;base64," + base64Icon;
