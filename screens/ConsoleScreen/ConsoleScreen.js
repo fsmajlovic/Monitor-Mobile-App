@@ -10,20 +10,16 @@ import { useContext } from 'react';
 
 export default function ConsoleScreen({ navigation }) {
   //console.log(naziv);
-  const group1 = ["?", "clear", "ls"];
-  const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set"];
+  const group1 = ["?", "clear", "ls", "driverquery", "ipconfig", "systeminfo", "tasklist","dir"];
+  const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set", "mkdir", "ping"];
 
   const { activeDevice } = useContext(DeviceContext);
-  const [name, setName] = useState(activeDevice.name);
-  const [location, setLocation] = useState(activeDevice.location);
-  const [ip, setIp] = useState(activeDevice.ip);
+  const [id, setId] = useState(activeDevice.deviceUid);
   const [path, setPath] = useState(activeDevice.path);
 
 
   const [rows, setRows] = useState([]);
   const [current, setCurrent] = useState("");
-
-  //  console.log(activeDevice);
 
   const { getSavedToken } = React.useContext(AuthContext);
 
@@ -35,62 +31,13 @@ export default function ConsoleScreen({ navigation }) {
     })
   };
 
-  
-
-  const getActiveDevice = async ()  => {
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!");
-    let token = await getSavedToken();
-    await getActiveDevices(token);
-
-  }
-
-  // getActiveDevice();
-
-  const getActiveDevices = async (token) => {
-
- //   console.log("Dosao neki zahtjev");
-
-    fetch('https://si-grupa5.herokuapp.com/api/agent/online', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        "Authorization": "Bearer " + token,
-      }
-    })
-      .then(res => res.json()).then(res => {
-
-        const masina = [{
-          "name": "ime2",
-          "location": "lokacija",
-          "ip": "1.1.1.1",
-          "path": "PATH",
-          "status": "status"
-        }]
-
-    //    console.log(res[0].name + " " + activeDevice.name);
-
-        let i;
-        for (i = 0; i < res.length; i++) {
-          if (res[i].name === activeDevice.name) {
-            setName(res[i].name);
-            setLocation(res[i].location);
-            setIp(res[i].ip);
-            setPath(res[i].path);
-          }
-        }
-
-        console.log("masina: " + name + " " + " " + location + " " + ip + " " + path);
-      });
-
-  }
-
   const sendRequest = async (command, token) => {
 
    // console.log("Token je " + token);
 
     //serverURL+ 'api/command'
 
-    fetch('https://si-grupa5.herokuapp.com/api/command', {
+    fetch('https://si-grupa5.herokuapp.com/api/agent/command', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -98,11 +45,10 @@ export default function ConsoleScreen({ navigation }) {
         "Authorization": "Bearer " + token,
       },
       body: JSON.stringify({
-        'name': name,
-        'location': location,
-        'ip': ip,
+        deviceUid: id,
         command: command,
-        parameters: [],
+        path: path,
+      //  parameters: [],
         user: 'whoso@whoso.com'
       })
     })
@@ -112,10 +58,14 @@ export default function ConsoleScreen({ navigation }) {
 
         if (typeof res.message === 'undefined') {
         //  console.log(res.error);
+        console.log('greša');
           addRows(res.error)
        //   addRows("Not responding!");
 
         } else {
+          let modified = res.message.replace(/\\n/g,"\n");
+          modified = modified.replace(/\\r/g,"\r");
+          setPath(res.path);
           addRows(res.message);
         }
       });
