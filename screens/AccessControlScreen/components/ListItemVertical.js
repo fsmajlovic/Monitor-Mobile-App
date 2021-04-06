@@ -30,7 +30,8 @@ async function getFile(name,token,username) {
       },
       body: JSON.stringify({
         fileName: name,
-        user:username
+        user:username,
+        path: "/",
       }),
     });
     if(response.status == 200) {
@@ -39,7 +40,7 @@ async function getFile(name,token,username) {
           alert("Datoteka ne postoji!");
         }
         else if(jsonResponse.hasOwnProperty('fileName')) {
-          fileData = jsonResponse["base64Data"];
+          fileData = jsonResponse["base64"];
           fileName = jsonResponse["fileName"];
           await saveToExpoFileSystem();
           await copyFromExpoFSToLocalFS();
