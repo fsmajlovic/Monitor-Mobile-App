@@ -36,6 +36,7 @@ async function postScreenshot(token, id, username) {
     if(response.status == 200) {
       var json = await response.json();
       base64Icon = json["message"];
+      buttonPressed = true;
       //console.log("slika " + base64Icon);
     }
     else if(response.status == 503) {
@@ -110,12 +111,11 @@ async function saveToExpoFileSystem() {
         if(currentUri == ' ') {
           currentUri = "data:image/png;base64," + base64Icon;
           setImage(currentUri);
-          buttonPressed = true;
         }
         else {
           currentUri = ' ';
-          setImage(currentUri);
           buttonPressed = false;
+          setImage(currentUri);
         }
       }}>
       <Text style={styles.loadScreenshotText}>Load Screenshot</Text></TouchableOpacity>

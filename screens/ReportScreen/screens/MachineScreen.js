@@ -2,31 +2,54 @@ import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { Text, View, Button, StyleSheet, TouchableOpacity} from 'react-native';
 import { DeviceContext } from '../../../contexts/DeviceContext';
-import { machineURL } from '../../../appConfig'
+import { activeMachineURL, machineURL } from '../../../appConfig'
 import axios from 'axios';
 import { AuthContext } from '../../../contexts/authContext';
+import {userContext} from '../../../contexts/userContext';
+
+
 
 
 const MachineScreen = ({navigation}) => {
     const { currentDevice, addActiveDevice, setTaskList } = useContext(DeviceContext); 
     const { getSavedToken } = useContext(AuthContext);
+    var username = React.useContext(userContext);
+  //   useEffect(() => {
+  //     updateTaskList();
+  //   }, [])
 
-    useEffect(() => {
-      updateTaskList();
-    }, [])
+  // const updateTaskList = async () => {
+  //   try {
+  //     let token = await getSavedToken();
+  //     let response = await axios.get(machineURL + `UserTasks/Device/${currentDevice.deviceId}`, { // Lista taskova
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`
+  //       }
+  //     }
+  //     )
+  //     setTaskList(response.data.data)
+  //   } catch (e) {
+  //     console.log("Greška")
+  //   }
+  // }
 
-  const updateTaskList = async () => {
+  const activateDevice = async () => {
     try {
       let token = await getSavedToken();
-      let response = await axios.get(machineURL + `UserTasks/Device/${currentDevice.deviceId}`, { // Lista taskova
+      let response = await axios.post(activeMachineURL + "agent/connect", {
+        body: {
+          deviceUid: currentDevice.deviceUid,
+          user: username
+        }
+      },
+      { 
         headers: {
           'Authorization': `Bearer ${token}`
-        }
+        },
       }
       )
-      setTaskList(response.data.data)
     } catch (e) {
-      console.log("Greška")
+      console.log(e)
     }
   }
 
@@ -39,7 +62,10 @@ const MachineScreen = ({navigation}) => {
                 <Text style={styles.button}>Upload pictures</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress = {()=>addActiveDevice(currentDevice)}>
+            <TouchableOpacity onPress = {async () => {
+              await activateDevice()
+              addActiveDevice(currentDevice)
+              }}>
               <View style={styles.containerButton}>
                 <Text style={styles.button}>Activate machine</Text>
               </View>

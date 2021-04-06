@@ -22,6 +22,7 @@
     "expo-image-manipulator": "~8.4.0",
     "expo-image-picker-multiple": "^1.4.1",
     "expo-linear-gradient": "^9.0.0",
+    "expo-location": "~10.0.0",
     "expo-media-library": "^11.0.0",
     "expo-multiple-media-imagepicker": "^1.2.1",
     "expo-permissions": "^11.0.0",
@@ -46,8 +47,7 @@
     "react-native-screens": "^2.18.1",
     "react-native-tab-view": "^3.0.0",
     "react-native-table-component": "^1.2.1",
-    "react-native-web": "^0.15.0",
-    "expo-location": "~10.0.0"
+    "react-native-web": "^0.15.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

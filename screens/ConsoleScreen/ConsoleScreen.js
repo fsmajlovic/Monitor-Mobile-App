@@ -5,6 +5,7 @@ import { DeviceContext } from '../../contexts/DeviceContext';
 import ConsoleRow from './ConsoleRow'
 import { styles } from './Styles'
 import { AuthContext } from '../../contexts/authContext';
+import {userContext} from '../../contexts/userContext';
 import { serverURL } from '../../appConfig';
 import { useContext } from 'react';
 
@@ -16,7 +17,7 @@ export default function ConsoleScreen({ navigation }) {
   const { activeDevice } = useContext(DeviceContext);
   const [id, setId] = useState(activeDevice.deviceUid);
   const [path, setPath] = useState(activeDevice.path);
-
+  var username = React.useContext(userContext);
 
   const [rows, setRows] = useState([]);
   const [current, setCurrent] = useState("");
@@ -49,7 +50,7 @@ export default function ConsoleScreen({ navigation }) {
         command: command,
         path: path,
       //  parameters: [],
-        user: 'whoso@whoso.com'
+        user: username
       })
     })
       .then(res => res.json())
@@ -58,7 +59,7 @@ export default function ConsoleScreen({ navigation }) {
 
         if (typeof res.message === 'undefined') {
         //  console.log(res.error);
-        console.log('greša');
+        console.log('greška');
           addRows(res.error)
        //   addRows("Not responding!");
 

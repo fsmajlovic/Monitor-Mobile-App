@@ -15,8 +15,8 @@ const ReportScreen = ({ navigation }) => {
 
   function filterActive(activeMachines, allMachines) {
     return activeMachines ? activeMachines.filter((machine) => {
-        const existingMachine = allMachines.find(({name, location}) => {
-            return machine.status !== "Disconnected" && name === machine.name && location === machine.location;
+        const existingMachine = allMachines.find(({deviceUid}) => {
+            return machine.deviceUid === deviceUid;
         });
         if (existingMachine) {
             machine.deviceId = existingMachine.deviceId;
@@ -48,7 +48,7 @@ const ReportScreen = ({ navigation }) => {
         }
         console.log("AKTIVNA" + JSON.stringify(activeMachines.data))
         console.log("ALL MACHINES " + allMachines.data)
-        setDevices(allMachines);
+        setDevices(filterActive(activeMachines.data, allMachines));
       }).catch((error) => {
         console.error(error);
       });
