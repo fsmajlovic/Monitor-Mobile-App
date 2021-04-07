@@ -20,16 +20,16 @@ const ImageUploadScreen = (props) => {
     
     const currentDate = () =>{
         let current = new Date();
-        let cDate = current.getFullYear() + ':' + (current.getMonth() + 1) + ':' + current.getDate();
-        let cTime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-        return cDate + ':' + cTime;
+        let cDate = current.getFullYear() + (current.getMonth() + 1) + current.getDate();
+        let cTime = current.getHours()  + current.getMinutes()  + current.getSeconds();
+        return cDate + cTime;
     }
+
     const createFormData = (photo,task) =>{
         const data = new FormData();
 
         for(let i=0;i<photo.length;i++){
-
-          data.append(currentDevice.name+'-'+currentDate()+'-'+task, {
+           data.append(currentDevice.deviceId+'/'+task+'/'+currentDate()+'/'+i, {
            name: photo[i].name,
            type: photo[i].type,
            uri: Platform.OS === "android" ? photo[i].uri : photo[i].uri.replace("file://", "")
