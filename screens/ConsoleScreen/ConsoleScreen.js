@@ -8,9 +8,10 @@ import { AuthContext } from '../../contexts/authContext';
 import {userContext} from '../../contexts/userContext';
 import { serverURL } from '../../appConfig';
 import { useContext } from 'react';
+import axios from 'axios';
 
 export default function ConsoleScreen({ navigation }) {
-  //console.log(naziv);
+  
   const group1 = ["?", "clear", "ls", "driverquery", "ipconfig", "systeminfo", "tasklist","dir"];
   const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set", "mkdir", "ping"];
 
@@ -32,11 +33,29 @@ export default function ConsoleScreen({ navigation }) {
     })
   };
 
+  const connect = async () => {
+    let token = await getSavedToken();
+
+    fetch('https://si-grupa5.herokuapp.com/api/agent/connect', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        "Authorization": "Bearer " + token,
+      },
+      body: JSON.stringify({
+        deviceUid: id,
+        user: username
+      })
+    }).then(res => res.json())
+      .then(res => {
+        console.log(res.message)
+    });
+  }
+
+  connect();
+
   const sendRequest = async (command, token) => {
-
-   // console.log("Token je " + token);
-
-    //serverURL+ 'api/command'
 
     fetch('https://si-grupa5.herokuapp.com/api/agent/command', {
       method: 'POST',
@@ -59,7 +78,7 @@ export default function ConsoleScreen({ navigation }) {
 
         if (typeof res.message === 'undefined') {
         //  console.log(res.error);
-        console.log('greška');
+     //   console.log('greška');
           addRows(res.error)
        //   addRows("Not responding!");
 
