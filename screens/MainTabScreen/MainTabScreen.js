@@ -2,6 +2,7 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {Image,TouchableOpacity } from 'react-native';
 
 
 import HomeScreen from '../HomeScreen/HomeScreen';
@@ -12,17 +13,20 @@ import TehnicianScreen from '../TehnicianScreen/TehnicianScreen';
 import AddTask from '../TehnicianScreen/screens/AddTask';
 import Schedule from '../TehnicianScreen/screens/Schedule';
 import StatisticScreen from '../ReportScreen/screens/StatisticScreen';
-import { Button } from 'react-native';
+
 import OptionScreen from '../ReportScreen/screens/OptionScreen';
+import MachineScreen from '../ReportScreen/screens/MachineScreen';
 import EditTask from '../TehnicianScreen/screens/EditTask';
 import FileManager from '../AccessControlScreen/screens/FileManager'
+import ImageUploadScreen from '../ReportScreen/screens/ImageUploadScreen';
+import ImageBrowserScreen from '../ReportScreen/screens/ImageBrowserScreen';
 
 
 
 const HomeStack = createStackNavigator();
-const ConsoleStack = createStackNavigator();
+//const ConsoleStack = createStackNavigator();
 const ReportStack = createStackNavigator();
-const AccessControlStack = createStackNavigator();
+//const AccessControlStack = createStackNavigator();
 const TehnicianStack = createStackNavigator();
 
 
@@ -93,9 +97,19 @@ const HomeStackScreen = ({navigation}) => (
             headerTitleStyle: {
             fontWeight: 'bold'
             }
+            
         }}>
             <HomeStack.Screen name="Home" component={HomeScreen} options={{
-            title:'Home',
+              title:'Home',
+              headerRight: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("FileManager")}
+                >                
+                  <Image source={require("../../assets/file-icon-home.png")}
+                  style={{width: 50, height: 50, marginRight: 10}}
+                  />
+                </TouchableOpacity>
+              ),
             }} />
             <HomeStack.Screen name="Console" component={ConsoleScreen} options={{
 
@@ -110,29 +124,29 @@ const HomeStackScreen = ({navigation}) => (
 
             }} />
             <HomeStack.Screen name="FileManager" component={FileManager} options={{
-                  
+                title: 'File Manager',
             }} />
             
     </HomeStack.Navigator>
     );
   
-    const ConsoleStackScreen = ({navigation}) => (
-      <ConsoleStack.Navigator screenOptions={{
-              headerStyle: {
-              backgroundColor: 'transparent',
-              shadowOpacity: 0,
-              elevation: 0,
-              },
-              headerTintColor: 'black',
-              headerTitleStyle: {
-              fontWeight: 'bold'
-              }
-          }}>
-              <ConsoleStack.Screen name="Console" component={ConsoleScreen} options={{
+    // const ConsoleStackScreen = ({navigation}) => (
+    //   <ConsoleStack.Navigator screenOptions={{
+    //           headerStyle: {
+    //           backgroundColor: 'transparent',
+    //           shadowOpacity: 0,
+    //           elevation: 0,
+    //           },
+    //           headerTintColor: 'black',
+    //           headerTitleStyle: {
+    //           fontWeight: 'bold'
+    //           }
+    //       }}>
+    //           <ConsoleStack.Screen name="Console" component={ConsoleScreen} options={{
   
-              }} />
-      </ConsoleStack.Navigator>
-      );
+    //           }} />
+    //   </ConsoleStack.Navigator>
+    //   );
   
       const ReportStackScreen = ({navigation}) => (
         <ReportStack.Navigator screenOptions={{ 
@@ -147,32 +161,42 @@ const HomeStackScreen = ({navigation}) => (
                 }
             }}>
               
-                <ReportStack.Screen name="Report" component={ReportScreen} options={{
-                  
+                <ReportStack.Screen name="Report" component={ReportScreen} options={{}} />
+
+                <ReportStack.Screen name="MachineScreen" component={MachineScreen} options={{
+                  title: 'Machine'
+                }} />
+
+                <ReportStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{
+                  title: 'Upload images'
+                }} />
+
+                <ReportStack.Screen name="ImageBrowserScreen" component={ImageBrowserScreen} options={{
+                  title: 'Selected 0 files',
                 }} />
         </ReportStack.Navigator>
         );
   
-        const AccessControlStackScreen = ({navigation}) => (
-          <AccessControlStack.Navigator screenOptions={{
-                  headerStyle: {
-                  backgroundColor: 'transparent',
-                  shadowOpacity: 0,
-                  elevation: 0,
-                  },
-                  headerTintColor: 'black',
-                  headerTitleStyle: {
-                  fontWeight: 'bold'
-                  }
-              }}>
-                  <AccessControlStack.Screen name="AccessControl" component={AccessControlScreen} options={{
+        // const AccessControlStackScreen = ({navigation}) => (
+        //   <AccessControlStack.Navigator screenOptions={{
+        //           headerStyle: {
+        //           backgroundColor: 'transparent',
+        //           shadowOpacity: 0,
+        //           elevation: 0,
+        //           },
+        //           headerTintColor: 'black',
+        //           headerTitleStyle: {
+        //           fontWeight: 'bold'
+        //           }
+        //       }}>
+        //           <AccessControlStack.Screen name="AccessControl" component={AccessControlScreen} options={{
                     
-                  }} />
-                  <AccessControlStack.Screen name="FileManager" component={FileManager} options={{
+        //           }} />
+        //           <AccessControlStack.Screen name="FileManager" component={FileManager} options={{
                   
-                }} />
-          </AccessControlStack.Navigator>
-          );
+        //         }} />
+        //   </AccessControlStack.Navigator>
+        //   );
   
           const TehnicianStackScreen = ({navigation}) => (
             <TehnicianStack.Navigator screenOptions={{

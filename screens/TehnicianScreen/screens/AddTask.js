@@ -9,7 +9,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import NumericInput from 'react-native-numeric-input';
 
 
-async function postScreenshot({token, location, description, date, deviceId, duration}) {
+async function postTask({token, location, description, date, deviceId, duration}) {
   try {
     const endTime = new Date(date);
     endTime.setHours(date.getHours() + duration.durationHr);
@@ -201,8 +201,8 @@ export default function AddTask({navigation}) {
                 async () => {
                   let token = await getSavedToken();
                   deviceSelected ?
-                  await postScreenshot({token, description: props.values.description, location: null, date, deviceId: device.deviceId, duration: {durationHr, durationMin}})
-                  : await postScreenshot({token, description: props.values.description, location: locationName, date, deviceId: null, duration: {durationHr, durationMin}}); 
+                  await postTask({token, description: props.values.description, location: null, date, deviceId: device.deviceId, duration: {durationHr, durationMin}})
+                  : await postTask({token, description: props.values.description, location: locationName, date, deviceId: null, duration: {durationHr, durationMin}}); 
                   navigation.goBack();
                 }
               }/>

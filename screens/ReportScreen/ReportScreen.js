@@ -15,8 +15,8 @@ const ReportScreen = ({ navigation }) => {
 
   function filterActive(activeMachines, allMachines) {
     return activeMachines ? activeMachines.filter((machine) => {
-        const existingMachine = allMachines.find(({name, location}) => {
-            return machine.status !== "Disconnected" && name === machine.name && location === machine.location;
+        const existingMachine = allMachines.find(({deviceUid}) => {
+            return machine.deviceUid === deviceUid;
         });
         if (existingMachine) {
             machine.deviceId = existingMachine.deviceId;
@@ -61,7 +61,7 @@ const ReportScreen = ({ navigation }) => {
 
     <View style={styles.container}>
       <Text style={{alignSelf: 'center', color: 'black', fontSize: 35}}>Active</Text>
-      <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
+        <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
       <FlatList style={{flex: 1}}
             keyExtractor={(item) => item.deviceId.toString()}
             data={devices}

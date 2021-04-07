@@ -4,6 +4,7 @@ import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as Sharing from "expo-sharing";
 import { AuthContext } from "../../../contexts/authContext";
+import {userContext} from '../../../contexts/userContext';
 import { serverURL } from "../../../appConfig";
 import React from "react";
 import {
@@ -18,10 +19,9 @@ import {
 expoFileLocation = "";
 fileData = "";
 fileName = "";
- 
-async function getFile(token) {
+async function getFile(name,token,username) {
   try {
-    let response = await fetch(serverURL + "api/web/file/get", {
+    let response = await fetch(serverURL + "api/web/user/file/get", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -29,21 +29,18 @@ async function getFile(token) {
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
-        name: "test",
-        location: "test",
-        ip: "77.78.232.142",
-        fileName: "HelloWorld.pdf",
-        user:"monitor"
+        fileName: name,
+        user:username,
+        path: "/",
       }),
     });
- 
     if(response.status == 200) {
         var jsonResponse = await response.json();
         if(jsonResponse.hasOwnProperty('error')) {
           alert("Datoteka ne postoji!");
         }
         else if(jsonResponse.hasOwnProperty('fileName')) {
-          fileData = jsonResponse["base64Data"];
+          fileData = jsonResponse["base64"];
           fileName = jsonResponse["fileName"];
           await saveToExpoFileSystem();
           await copyFromExpoFSToLocalFS();
@@ -52,8 +49,15 @@ async function getFile(token) {
     else if(response.status == 503) {
       alert("Servis nedostupan");
     }
-    else if(responsoe.status == 403) {
+    else if(response.status == 403) {
       //invalid token, trebalo bi dobaviti novi
+    }
+    else if(response.status == 404) {
+      alert("Datoteka vise ne postoji");
+    }
+    else {
+      console.log("Promijenjen JSON zahtjeva?");
+      alert("Greska pri preuzimanju datoteke");
     }
   } catch (error) {
     console.log(error);
@@ -78,8 +82,8 @@ async function copyFromExpoFSToLocalFS() {
       const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
       if (status === "granted") {
           const asset = await MediaLibrary.createAssetAsync(expoFileLocation);
-          alert("Download finished");
           await MediaLibrary.createAlbumAsync("Monitor-Downloads", asset, false);
+          alert("Download finished");
       }
     }
   }
@@ -90,11 +94,13 @@ async function copyFromExpoFSToLocalFS() {
  
 export default function ListItemVertical({ name, image_url }) {
   var {getSavedToken} = React.useContext(AuthContext);
+  var username = React.useContext(userContext);
+  console.log(username);
   return(
     <TouchableOpacity
       onPress = {async () => {
         let token = await getSavedToken();
-        await getFile(token);
+        await getFile(name,token,username);
       }}
     >
       <View style={styles.container}>
@@ -105,6 +111,10 @@ export default function ListItemVertical({ name, image_url }) {
         <View style={styles.container_text}>
           <Text style={styles.title}>{name}</Text>
         </View>
+        <Image 
+          source={require("../../../assets/download-icon.jpg")}
+          style={{width: 25, height: 25}}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -122,6 +132,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#FFF",
     elevation: 2,
+    alignItems: 'center'
   },
   title: {
     fontSize: 16,
