@@ -26,10 +26,9 @@ const TaskView = (props) => {
     
     return (
         <View style={styles.container}>
-            
+            <Text style={styles.description}> {task.description} </Text>
             <Text>Start: {moment(task.startTime).format('MMMM Do YYYY, h:mm:ss a')} </Text>
             <Text>End: {moment(task.endTime).format('MMMM Do YYYY, h:mm:ss a')} </Text>
-            <Text> {task.description} </Text>
             <Text> {task.location} </Text>
             
             <TouchableOpacity onPress={() => props.navigation.push('ImageUploadScreen', { taskId: task.taskId })}>
@@ -71,6 +70,12 @@ const styles = StyleSheet.create({
         color: "#FFF",
         fontWeight: "bold",
 
+    },
+    description: {
+        textAlign: 'center',
+        fontFamily: 'sans-serif',
+        fontSize: 25,
+        fontWeight: 'bold'
     },
 })
 
