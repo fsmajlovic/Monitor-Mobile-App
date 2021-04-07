@@ -23,29 +23,55 @@ const TaskView = (props) => {
 
     const { params } = props.route;
     const { task } = params;
-    const dateToFormat = '1976-04-19T12:59-0500';
+    
     return (
-        <View>
+        <View style={styles.container}>
             
             <Text>Start: {moment(task.startTime).format('MMMM Do YYYY, h:mm:ss a')} </Text>
             <Text>End: {moment(task.endTime).format('MMMM Do YYYY, h:mm:ss a')} </Text>
             <Text> {task.description} </Text>
             <Text> {task.location} </Text>
-            <Text> { task.startTime } </Text>
-            <Text> { task.endTime } </Text>
-            <Text> { task.statusId.name } </Text>
+            
+            <TouchableOpacity onPress={() => props.navigation.push('ImageUploadScreen', { taskId: task.taskId })}>
+                <View style={styles.containerButton}>
+                    <Text style={styles.button}>Upload pictures</Text>
+                </View>
+            </TouchableOpacity>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10
+    },
     editButton: {
         paddingRight: 12,
         fontFamily: 'sans-serif',
         fontSize: 20,
         color: 'white',
         fontWeight: 'bold'
-    }
+    },
+    containerButton: {
+        justifyContent: 'center',
+        backgroundColor: "#0D47A1",
+        height: 40,
+        width: 250,
+        margin: 10,
+        borderRadius: 30,
+        paddingHorizontal: 30,
+        marginTop: 30,
+        alignItems: 'center'
+    },
+    button: {
+        fontSize: 20,
+        color: "#FFF",
+        fontWeight: "bold",
+
+    },
 })
 
 export default TaskView;

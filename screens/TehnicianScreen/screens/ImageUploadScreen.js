@@ -25,11 +25,11 @@ const ImageUploadScreen = (props) => {
         return cDate + cTime;
     }
 
-    const createFormData = (photo,task) =>{
+    const createFormData = (photo) => {
         const data = new FormData();
 
         for(let i=0;i<photo.length;i++){
-           data.append(currentDevice.deviceId+'/'+task+'/'+currentDate()+'/'+i, {
+          data.append(currentDevice.deviceId + '/' + props.route.params.taskId +'/'+currentDate()+'/'+i, {
            name: photo[i].name,
            type: photo[i].type,
            uri: Platform.OS === "android" ? photo[i].uri : photo[i].uri.replace("file://", "")
@@ -72,7 +72,7 @@ const ImageUploadScreen = (props) => {
       let response;
       try {
         token = await getSavedToken();
-        response = await axios.post(machineURL+'upload/UploadFile', createFormData(photos, task),{
+        response = await axios.post(machineURL + 'upload/UploadFile', createFormData(photos, props.route.params.taskId),{
           headers:{
             'Authorization': `Bearer ${token}`
              }
@@ -97,13 +97,6 @@ const ImageUploadScreen = (props) => {
 
     return (
         <View style={styles.container}>
-           <TextInput
-             style={styles.input}
-             onChangeText={setTask}
-             placeholder="Task"
-             value={task}
-           />
-
             <TouchableOpacity onPress={() => props.navigation.push('ImageBrowserScreen')}>
               <View style={styles.containerButton}>
                 <Text style={styles.button}>Select photos</Text>
