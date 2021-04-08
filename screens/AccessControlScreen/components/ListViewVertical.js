@@ -2,7 +2,6 @@ import React from 'react';
 import { View, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import ListItemVertical from './ListItemVertical';
 
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,      

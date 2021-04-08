@@ -1,16 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ScrollView, Alert, TouchableOpacity, Card, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, FlatList, ScrollView, Alert, TouchableOpacity, Card, Button, Touchable } from 'react-native';
 import { useEffect, useState } from 'react'
 import ListViewVertical from '../components/ListViewVertical';
 import { serverURL } from "../../../appConfig";
 import { AuthContext } from '../../../contexts/authContext';
 import {userContext} from '../../../contexts/userContext';
+import {Menu, Divider, Provider } from 'react-native-paper';
 
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
 
 export default function App({ navigation }) {
   
+  const [visible, setVisible] = React.useState(false);
+  const openMenu = () => setVisible(true);
+  const closeMenu = () => setVisible(false);
   var [files, setFiles] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
@@ -18,7 +22,7 @@ export default function App({ navigation }) {
     async function getFiles() {
       let token = await getSavedToken();
       console.log('Token je: ' + token);
-      const response = await fetch(serverURL + "api/web/user/fileList", {
+      const response = await fetch(serverURL + "api/web/user/file-tree", {
         method: "POST",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -47,6 +51,7 @@ export default function App({ navigation }) {
         //invalid token, trebalo bi dobaviti novi
       }
       else {
+        console.log("Status" + response.status)
         console.log("Promijenjen JSON zahtjeva?");
         alert("Greska pri dobavljanju liste datoteka");
       }
@@ -60,14 +65,31 @@ export default function App({ navigation }) {
   }, [])
 
   return (
-    <View style={styles.container}>
-      <View style={{ alignItems: 'center' }}>
-        <Text style={styles.text}>Files</Text>
+    <Provider>
+      <View style={styles.container}>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={styles.text}>Files</Text>
+        </View>
+        <View style={{alignItems: 'flex-end', justifyContent: 'center'}}>
+          <Menu
+            statusBarHeight={0}
+            visible={visible}
+            onDismiss={closeMenu}
+            anchor={<Button onPress={openMenu} title={'Actions'}></Button>}>
+            <Menu.Item onPress={() => {}} title="copy" icon='content-copy'/>
+            <Menu.Item onPress={() => {}} title="Move" icon="content-cut"/>
+            <Menu.Item onPress={() => {}} title="Rename" icon="pen"/>
+            <Menu.Item onPress={() => {}} title="Delete" icon="delete"/>
+            <Menu.Item onPress={() => {}} title="Download" icon="download"/>
+            <Menu.Item onPress={() => {}} title="Send" icon="send" />
+          </Menu>
+        </View>
+        <ListViewVertical
+          itemList={files}
+        />
       </View>
-      <ListViewVertical
-        itemList={files}
-      />
-    </View>
+    </Provider>
+    
   );
 }
 

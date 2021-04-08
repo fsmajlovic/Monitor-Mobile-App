@@ -97,26 +97,24 @@ export default function ListItemVertical({ name, image_url }) {
   var username = React.useContext(userContext);
   console.log(username);
   return(
-    <TouchableOpacity
-      onPress = {async () => {
-        let token = await getSavedToken();
-        await getFile(name,token,username);
-      }}
-    >
-      <View style={styles.container}>
-        <Image
-          source={require("../../../assets/file-icon.jpg")}
-          style={styles.photo}
-        />
-        <View style={styles.container_text}>
-          <Text style={styles.title}>{name}</Text>
+    <View >
+      <TouchableOpacity
+        onPress = {async () => {
+          let token = await getSavedToken();
+          await getFile(name,token,username);
+        }}
+      >
+        <View style={styles.container}>
+          <Image
+            source={require("../../../assets/file-icon.jpg")}
+            style={styles.photo}
+          />
+          <View style={styles.container_text}>
+            <Text style={styles.title}>{name}</Text>
+          </View>
         </View>
-        <Image 
-          source={require("../../../assets/download-icon.jpg")}
-          style={{width: 25, height: 25}}
-        />
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>  
+    </View>
   );
 }
  
