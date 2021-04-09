@@ -15,6 +15,10 @@ import {
     Root,
 } from 'native-base';
 
+var image_source_folder = '../../../assets/file-icon.jpg';
+var image_source_data = '../../../assets/paper-icon.png';
+var image_icon = '';
+
 function useSelectionChange(items) {
     const [selectionMode, setSelectionMode] = useState(null);
     useEffect(() => {
@@ -76,12 +80,9 @@ export default function ListViewVertical({ itemList }) {
         }
     };
 
-   
-
     const renderItem = item => {
         return (
             <TouchableOpacity
-               
                 onPress={() => onPress(item)}
                 onLongPress={() => onLongPress(item)}
                 key={item.id}
@@ -89,7 +90,7 @@ export default function ListViewVertical({ itemList }) {
             >
                 <View style={styles.container}>
                     <Image
-                        source={require("../../../assets/file-icon.jpg")}
+                        source={require('../../../assets/file-icon.jpg')}
                         style={styles.photo}
                     />
                     <View style={styles.container_text}>
@@ -113,10 +114,22 @@ export default function ListViewVertical({ itemList }) {
                         clearSelection={clearSelection}
                         selectActions={[
                             {
+                                name: 'Copy',
+                            },
+                            {
+                                name: 'Move',
+                            },
+                            {
                                 name: 'Delete',
                                 method: function () {
                                     clearSelection();
                                 },
+                            },
+                            {
+                                name: 'Download',
+                            },
+                            {
+                                name: 'Send',
                             },
                             {
                                 name: 'Cancel',
@@ -141,7 +154,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     selected: {
-        backgroundColor: 'lightgray',
+        backgroundColor: 'lightblue',
         marginLeft: 0,
         paddingLeft: 18,
     },

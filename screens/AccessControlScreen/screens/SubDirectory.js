@@ -40,9 +40,6 @@ export default function App({ route, navigation }) {
   
   return (
     <View style={styles.container}>
-      <View style={{ alignItems: 'center' }}>
-        <Text style={styles.text}>Files</Text>
-      </View>
       <ListViewVertical
         itemList={files}
       />
@@ -54,7 +51,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    padding: 10,
   },
 
   text: {

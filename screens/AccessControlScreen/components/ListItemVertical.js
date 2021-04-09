@@ -19,6 +19,7 @@ import {
 expoFileLocation = "";
 fileData = "";
 fileName = "";
+
 async function getFile(name,token,username,path) {
   try {
     let response = await fetch(serverURL + "api/web/user/file/get", {
@@ -119,7 +120,7 @@ export default function ListItemVertical({ name, image_url, type, path, children
     >
       <View style={styles.container}>
         <Image
-          source={require("../../../assets/file-icon.jpg")}
+          source={require('../../../assets/file-icon.jpg')}
           style={styles.photo}
         />
         <View style={styles.container_text}>

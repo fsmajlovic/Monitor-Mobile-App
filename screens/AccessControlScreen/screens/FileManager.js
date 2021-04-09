@@ -70,10 +70,7 @@ export default function App({ navigation }) {
   return (
     <Provider>
       <View style={styles.container}>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={styles.text}>Files</Text>
-        </View>
-        <View style={{alignItems: 'flex-end', justifyContent: 'center'}}>
+        {/* <View style={{alignItems: 'flex-end', justifyContent: 'center'}}>
           <Menu
             statusBarHeight={0}
             visible={visible}
@@ -86,7 +83,7 @@ export default function App({ navigation }) {
             <Menu.Item onPress={() => {}} title="Download" icon="download"/>
             <Menu.Item onPress={() => {}} title="Send" icon="send" />
           </Menu>
-        </View>
+        </View> */}
         <ListViewVertical
           itemList={files}
         />
@@ -100,7 +97,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    padding: 10,
   },
 
   text: {
