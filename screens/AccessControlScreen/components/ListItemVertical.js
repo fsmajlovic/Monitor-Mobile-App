@@ -91,6 +91,20 @@ async function copyFromExpoFSToLocalFS() {
     console.log(error);
   }
 }
+export async function downloadFile(token, username, path,name,type,children,navigation){
+  console.log(path)
+  
+  var extractedPath = path.split("allFiles/" + username)[1];
+  extractedPath = extractedPath.split(name)[0];
+  if(extractedPath == "") extractedPath = "/";
+  if(type == 'file') {
+    await getFile(name,token,username,extractedPath);
+  }
+  else if(type == 'directory') {
+    //console.log(name + " " + path + " " + children.length);
+    navigation.push("SubDirectory", {name: name, type: type, path: path, children: children});
+  }
+}
 
 export default function ListItemVertical({ name, image_url, type, path, children }) {
   var {getSavedToken} = React.useContext(AuthContext);
@@ -100,16 +114,7 @@ export default function ListItemVertical({ name, image_url, type, path, children
     <TouchableOpacity
       onPress = {async () => {
         let token = await getSavedToken();
-        var extractedPath = path.split("allFiles/" + username)[1];
-        extractedPath = extractedPath.split(name)[0];
-        if(extractedPath == "") extractedPath = "/";
-        if(type == 'file') {
-          await getFile(name,token,username,extractedPath);
-        }
-        else if(type == 'directory') {
-          //console.log(name + " " + path + " " + children.length);
-          navigation.push("SubDirectory", {name: name, type: type, path: path, children: children});
-        }
+        await downloadFile(token, username,path,name,type,children,navigation);
       }}
     >
       <View style={styles.container}>
