@@ -57,11 +57,7 @@ const MachineScreen = ({navigation}) => {
         <View style={styles.container}>
             <Text style={styles.title}> { currentDevice.name } </Text>
             <Text> { currentDevice.location } </Text>
-            <TouchableOpacity onPress={() => navigation.push('ImageUploadScreen')}>
-              <View style={styles.containerButton}>
-                <Text style={styles.button}>Upload pictures</Text>
-              </View>
-            </TouchableOpacity>
+            
             <TouchableOpacity onPress = {async () => {
               await activateDevice()
               addActiveDevice(currentDevice)

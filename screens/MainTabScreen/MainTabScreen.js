@@ -2,7 +2,7 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Image,TouchableOpacity } from 'react-native';
+import {Image,Text,TouchableOpacity } from 'react-native';
 
 
 import HomeScreen from '../HomeScreen/HomeScreen';
@@ -18,8 +18,9 @@ import OptionScreen from '../ReportScreen/screens/OptionScreen';
 import MachineScreen from '../ReportScreen/screens/MachineScreen';
 import EditTask from '../TehnicianScreen/screens/EditTask';
 import FileManager from '../AccessControlScreen/screens/FileManager'
-import ImageUploadScreen from '../ReportScreen/screens/ImageUploadScreen';
-import ImageBrowserScreen from '../ReportScreen/screens/ImageBrowserScreen';
+import ImageUploadScreen from '../TehnicianScreen/screens/ImageUploadScreen';
+import ImageBrowserScreen from '../TehnicianScreen/screens/ImageBrowserScreen';
+import TaskView from '../TehnicianScreen/screens/TaskView';
 
 
 
@@ -167,13 +168,6 @@ const HomeStackScreen = ({navigation}) => (
                   title: 'Machine'
                 }} />
 
-                <ReportStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{
-                  title: 'Upload images'
-                }} />
-
-                <ReportStack.Screen name="ImageBrowserScreen" component={ImageBrowserScreen} options={{
-                  title: 'Selected 0 files',
-                }} />
         </ReportStack.Navigator>
         );
   
@@ -221,6 +215,16 @@ const HomeStackScreen = ({navigation}) => (
                     }} />
                     <TehnicianStack.Screen name = "EditTask" component={EditTask} options={{
                     
-                  }} />
+                    }} />
+                    <TehnicianStack.Screen name="TaskView" component={TaskView} options={{
+                      title: "Task"
+                    }} />
+                    <TehnicianStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{
+                      title: 'Upload images'
+                    }} />
+
+                    <TehnicianStack.Screen name="ImageBrowserScreen" component={ImageBrowserScreen} options={{
+                      title: 'Selected 0 files',
+                    }} />
             </TehnicianStack.Navigator>
             );
