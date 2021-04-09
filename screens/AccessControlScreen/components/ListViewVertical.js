@@ -19,6 +19,9 @@ const ListViewVertical = ({ itemList }) => (
                     item={item} 
                     name={item.name}
                     image_url={item.image_url}
+                    type={item.type}
+                    path={item.path}
+                    children={item.children}
                 /> 
             }}
         />

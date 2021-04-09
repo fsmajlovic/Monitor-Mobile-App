@@ -18,7 +18,7 @@ export default function App({ navigation }) {
     async function getFiles() {
       let token = await getSavedToken();
       console.log('Token je: ' + token);
-      const response = await fetch(serverURL + "api/web/user/fileList", {
+      const response = await fetch(serverURL + "api/web/user/file-tree", {
         method: "POST",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -36,7 +36,10 @@ export default function App({ navigation }) {
         var newDataSet = [];
         for (let i = 0; i < jsonResponseArray.length; i++) {
           let file = jsonResponseArray[i];
-          newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url });
+          newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'] });
+          if(file['type'] == 'directory') {
+            newDataSet[newDataSet.length - 1]['children'] = file['children'];
+          }
         }
         setFiles(newDataSet);
       }

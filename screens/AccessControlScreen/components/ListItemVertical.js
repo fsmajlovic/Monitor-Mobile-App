@@ -1,4 +1,4 @@
-import { prepareDataForValidation } from "formik";
+import { useNavigation } from '@react-navigation/native';
 import * as MediaLibrary from 'expo-media-library';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
@@ -19,7 +19,7 @@ import {
 expoFileLocation = "";
 fileData = "";
 fileName = "";
-async function getFile(name,token,username) {
+async function getFile(name,token,username,path) {
   try {
     let response = await fetch(serverURL + "api/web/user/file/get", {
       method: "POST",
@@ -31,7 +31,7 @@ async function getFile(name,token,username) {
       body: JSON.stringify({
         fileName: name,
         user:username,
-        path: "/",
+        path: path,
       }),
     });
     if(response.status == 200) {
@@ -91,16 +91,25 @@ async function copyFromExpoFSToLocalFS() {
     console.log(error);
   }
 }
- 
-export default function ListItemVertical({ name, image_url }) {
+
+export default function ListItemVertical({ name, image_url, type, path, children }) {
   var {getSavedToken} = React.useContext(AuthContext);
   var username = React.useContext(userContext);
-  console.log(username);
+  const navigation = useNavigation();
   return(
     <TouchableOpacity
       onPress = {async () => {
         let token = await getSavedToken();
-        await getFile(name,token,username);
+        var extractedPath = path.split("allFiles/" + username)[1];
+        extractedPath = extractedPath.split(name)[0];
+        if(extractedPath == "") extractedPath = "/";
+        if(type == 'file') {
+          await getFile(name,token,username,extractedPath);
+        }
+        else if(type == 'directory') {
+          //console.log(name + " " + path + " " + children.length);
+          navigation.push("SubDirectory", {name: name, type: type, path: path, children: children});
+        }
       }}
     >
       <View style={styles.container}>
