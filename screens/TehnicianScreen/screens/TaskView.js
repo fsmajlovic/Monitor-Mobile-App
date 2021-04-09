@@ -23,17 +23,23 @@ const TaskView = (props) => {
 
     const { params } = props.route;
     const { task } = params;
-    
+
     return (
         <View style={styles.container}>
             <Text style={styles.description}> {task.description} </Text>
             <Text>Start: {moment(task.startTime).format('MMMM Do YYYY, h:mm:ss a')} </Text>
             <Text>End: {moment(task.endTime).format('MMMM Do YYYY, h:mm:ss a')} </Text>
             <Text> {task.location} </Text>
-            
+
             <TouchableOpacity onPress={() => props.navigation.push('ImageUploadScreen', { taskId: task.taskId })}>
                 <View style={styles.containerButton}>
                     <Text style={styles.button}>Upload pictures</Text>
+                </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => props.navigation.push('ShowImagesScreen', { taskId: task.taskId })}>
+                <View style={styles.containerButton}>
+                    <Text style={styles.button}>Show pictures</Text>
                 </View>
             </TouchableOpacity>
         </View>
