@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { DeviceContext } from '../../contexts/DeviceContext';
@@ -53,12 +53,15 @@ export default function Console({ navigation }) {
                 console.log(id);
                 console.log(username);
                 console.log("konekcija " + res.message)
-                setConnected(true);
+                if(!(username === 'undefined'))
+                    setConnected(true);
             });
     }
 
-    if (!connected)
-        connect();
+    useEffect(() => {
+        if (!connected)
+            connect();
+    }, [username]);
 
     const sendRequest = async (command, token) => {
 
@@ -112,6 +115,10 @@ export default function Console({ navigation }) {
                             let command = "";
                             command = args[0].toLowerCase();
 
+                        //    console.log("getUsername " + getUsername());
+                            console.log("username " + username);
+                      //      if (!connected)
+                      //          connect(username);
 
                             addRows(path + "> " + event.nativeEvent.text);
 
