@@ -31,15 +31,17 @@ const TaskView = (props) => {
             <Text>End: {moment(task.endTime).format('MMMM Do YYYY, h:mm:ss a')} </Text>
             <Text> {task.location} </Text>
 
-            <TouchableOpacity onPress={() => props.navigation.push('ImageUploadScreen', { taskId: task.taskId })}>
+            <TouchableOpacity onPress={() => props.navigation.push('ImageUploadScreen', { task: task })}>
                 <View style={styles.containerButton}>
                     <Text style={styles.button}>Upload pictures</Text>
                 </View>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => props.navigation.push('ShowImagesScreen', {
-                machineId: machine.deviceId,
-                taskId: task.taskId
+                machineId: machine.deviceId, 
+                taskId: task.taskId,
+                machine: machine,
+                task: task
             })}>
                 <View style={styles.containerButton}>
                     <Text style={styles.button}>Show pictures</Text>

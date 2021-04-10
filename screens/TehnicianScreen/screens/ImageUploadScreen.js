@@ -11,25 +11,25 @@ import {machineURL} from '../../../appConfig'
 
 
 const ImageUploadScreen = (props) => {
+  const { task } = props.route.params;
     const [photos, setPhotos] = useState([]);
     const [selected,setSelected] = useState(false);
-    const [task,setTask] = useState('');
     const { currentDevice, taskList } = useContext(DeviceContext);
     const {getSavedToken} = useContext(AuthContext);
     const [selectedTask, setSelectedTask] = useState("nesto");
     
     const currentDate = () =>{
         let current = new Date();
-        let cDate = current.getFullYear() + (current.getMonth() + 1) + current.getDate();
-        let cTime = current.getHours()  + current.getMinutes()  + current.getSeconds();
-        return cDate + cTime;
+        let cDate = current.getFullYear() + ":" + (current.getMonth() + 1) + ":" + current.getDate();
+        let cTime = current.getHours() +":" + current.getMinutes()  + ":" + current.getSeconds();
+        return cDate + ":" + cTime;
     }
 
     const createFormData = (photo) => {
         const data = new FormData();
 
         for(let i=0;i<photo.length;i++){
-          data.append(currentDevice.deviceId + '-' + props.route.params.taskId +'-'+currentDate()+'-'+i, {
+          data.append(task.device.deviceUid + '_' + task.taskId + '_' +currentDate()+'_'+i, {
            name: photo[i].name,
            type: photo[i].type,
            uri: Platform.OS === "android" ? photo[i].uri : photo[i].uri.replace("file://", "")
@@ -81,7 +81,7 @@ const ImageUploadScreen = (props) => {
 
         setPhotos([]);
         setSelected(false);
-        setTask('');
+        
         alert("Succesfull upload!")
          
       } catch (e) {
@@ -89,7 +89,7 @@ const ImageUploadScreen = (props) => {
         
         setPhotos([]);
         setSelected(false);
-        setTask('');
+        
         alert("Failed to upload!")
       
       }
