@@ -1,12 +1,13 @@
 import React, { useEffect, useState} from 'react';
 import {FlatList, Image, View} from "react-native";
 import {AuthContext} from "../../../contexts/authContext";
+import {machineURL} from '../../../appConfig'
 
 const ShowImagesScreen = ({ route, navigation }) => {
     const { machineId ,taskId } = route.params;
     const { getSavedToken } = React.useContext(AuthContext);
     const [photos, setPhotos] = useState([]);
-    const getImagesURL="https://si-2021.167.99.244.168.nip.io/api/upload/GetFile"
+    const getImagesURL = machineURL + "upload/GetFile"
 
 
     useEffect(() => {
@@ -19,10 +20,9 @@ const ShowImagesScreen = ({ route, navigation }) => {
                     'Accept': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
-                //todo ovdje staviti machineUid:machineId, taskId:taskId
                 body: JSON.stringify({
-                    machineUid:'Desktop PC 2',
-                    taskId:''
+                    machineUid: machineId,
+                    taskId: taskId
                 })
             }).then((response) => {
                 return response.json();
@@ -40,7 +40,7 @@ const ShowImagesScreen = ({ route, navigation }) => {
         getData(getSavedToken);
     }, [])
 
-    const renderImage = (item) => {
+    const renderImage = ({item}) => {
         return (
             <Image
                 style={{ height: 100, width: 100, margin:10}}
@@ -51,7 +51,6 @@ const ShowImagesScreen = ({ route, navigation }) => {
 
     return (
         <View>
-            {/*Problem je u ovoj listi*/}
             <FlatList
                 data={photos}
                 renderItem={renderImage}
@@ -60,8 +59,6 @@ const ShowImagesScreen = ({ route, navigation }) => {
                 columnWrapperStyle={{flex: 1, justifyContent: 'flex-start'}}
             >
             </FlatList>
-            {/*Ovo radi npr*/}
-            {/*{photos[0] && renderImage(photos[0])}*/}
         </View>
     )
 }
