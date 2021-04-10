@@ -74,13 +74,6 @@ export default function ListViewVertical({ itemList }) {
         if (selectionMode) {
             toggleSelect(item);
         } else {
-            //zasad se na klik na folder/file poziva ili download ili rename
-            //ovo je za rename
-            //setFileName(item.name);
-            //setNewFileName(item.name);
-            //setPath(item.path);
-            //showDialog()
-
             //ovo je za download
             let token = await getSavedToken();
             downloadFile(token, username, item.path, item.name, item.type, item.children, navigation);
@@ -108,6 +101,23 @@ export default function ListViewVertical({ itemList }) {
         setVisible(false);
     };
 
+    const rename = async () => {
+        let selectedItem;
+        let selectedItemsNumber=0;
+        for (let i=0;i <items.length; i++) {
+            if (items[i].selected) {
+                selectedItem = items[i];
+                selectedItemsNumber++;
+            }
+        }
+        //rename moze jedino ako je samo jedan selektovan
+        if (selectedItemsNumber==1){
+            setFileName(selectedItem.name);
+            setNewFileName(selectedItem.name);
+            setPath(selectedItem.path);
+            showDialog()
+        }
+    }
     const renderItem = item => {
         return (
             <TouchableOpacity
@@ -184,6 +194,12 @@ export default function ListViewVertical({ itemList }) {
                             },
                             {
                                 name: 'Send',
+                            },
+                            {
+                                name: 'Rename',
+                                method: async function () {
+                                    await rename();
+                                }
                             },
                             {
                                 name: 'Cancel',                                
