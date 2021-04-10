@@ -29,7 +29,7 @@ const ImageUploadScreen = (props) => {
         const data = new FormData();
 
         for(let i=0;i<photo.length;i++){
-          data.append(currentDevice.deviceId + '/' + props.route.params.taskId +'/'+currentDate()+'/'+i, {
+          data.append(currentDevice.deviceId + '-' + props.route.params.taskId +'-'+currentDate()+'-'+i, {
            name: photo[i].name,
            type: photo[i].type,
            uri: Platform.OS === "android" ? photo[i].uri : photo[i].uri.replace("file://", "")
