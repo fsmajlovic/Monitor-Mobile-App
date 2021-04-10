@@ -6,7 +6,7 @@ import {Image,TouchableOpacity } from 'react-native';
 
 
 import HomeScreen from '../HomeScreen/HomeScreen';
-import ConsoleScreen from '../ConsoleScreen/ConsoleScreen';
+import Console from '../ConsoleScreen/Console';
 import ReportScreen from '../ReportScreen/ReportScreen';
 import AccessControlScreen from '../AccessControlScreen/AccessControlScreen';
 import TehnicianScreen from '../TehnicianScreen/TehnicianScreen';
@@ -111,7 +111,7 @@ const HomeStackScreen = ({navigation}) => (
                 </TouchableOpacity>
               ),
             }} />
-            <HomeStack.Screen name="Console" component={ConsoleScreen} options={{
+            <HomeStack.Screen name="Console" component={Console} options={{
 
             }} />
             <HomeStack.Screen name="AccessControl" component={AccessControlScreen} options={{

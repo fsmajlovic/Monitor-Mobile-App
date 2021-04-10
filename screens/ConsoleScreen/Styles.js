@@ -3,14 +3,35 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
   container: {
     height: "100%",
+    flex:1,
+    flexDirection: 'row',
   },
+  //buttoni u Console.js
   container1: {
-    backgroundColor: '#0D47A1',
+    height: "8%",
+ //   backgroundColor: '#0D47A1',
   },
   container2: {
   },
-  componentContainer: {
+  //scrollView u Console.js
+  scrollView: {
     height: "92%",
+  },
+  //container u ConsoleLog.js
+  componentContainer2: {
+    height: "100%",
+    flex:1,
+  },
+  //View u ConsoleLog.js
+  container2: {
+    height: "92%",
+  },
+  //kontejner u Console.js
+  componentContainer1: {
+    height: "100%",
+    backgroundColor: '#0D47A1',
+    flex:1,
+  //  flexDirection: 'column',
   },
   row: {
     flexDirection: 'row',
@@ -37,7 +58,7 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   buttons: {
-    height: "8%",
+  //  height: "8%",
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',

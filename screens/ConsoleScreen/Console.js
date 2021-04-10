@@ -1,5 +1,5 @@
-import React, { useState , useEffect } from 'react';
-import { Text, View, TextInput } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { DeviceContext } from '../../contexts/DeviceContext';
 import ConsoleRow from './ConsoleRow'
@@ -53,7 +53,7 @@ export default function Console({ navigation }) {
                 console.log(id);
                 console.log(username);
                 console.log("konekcija " + res.message)
-                if(!(username === 'undefined'))
+                if (!(username === 'undefined'))
                     setConnected(true);
             });
     }
@@ -87,19 +87,19 @@ export default function Console({ navigation }) {
                 if (typeof res.message === 'undefined') {
                     addRows(res.error)
                 } else {
-             //       let modified = res.message.replace(/\\n/g, "\n");
-             //       modified = modified.replace(/\\r/g, "\r");
+                    //       let modified = res.message.replace(/\\n/g, "\n");
+                    //       modified = modified.replace(/\\r/g, "\r");
                     setPath(res.path);
-                    if(res.message.length != 0)
+                    if (res.message.length != 0)
                         addRows(res.message);
                 }
             });
     }
 
     return (
-        <View style={styles.componentContainer}>
+        <View style={styles.componentContainer1}>
 
-            <ScrollView>
+            <ScrollView style={styles.scrollView}>
                 <ConsoleRow rows={rows} />
                 <View style={styles.row}>
                     <Text style={styles.textArea}> {path}>  </Text>
@@ -115,10 +115,10 @@ export default function Console({ navigation }) {
                             let command = "";
                             command = args[0].toLowerCase();
 
-                        //    console.log("getUsername " + getUsername());
+                            //    console.log("getUsername " + getUsername());
                             console.log("username " + username);
-                      //      if (!connected)
-                      //          connect(username);
+                            //      if (!connected)
+                            //          connect(username);
 
                             addRows(path + "> " + event.nativeEvent.text);
 
@@ -139,6 +139,15 @@ export default function Console({ navigation }) {
                         }}></TextInput>
                 </View>
             </ScrollView>
+            <View style={[styles.container1]}>
+                <View style={styles.buttons}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => { }}>
+                        <Text style={styles.buttonText}>Tab</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
         </View>
     );
 }
