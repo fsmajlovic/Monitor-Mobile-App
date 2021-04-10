@@ -9,6 +9,9 @@ import { userContext } from '../../contexts/userContext';
 import { serverURL } from '../../appConfig';
 import { useContext } from 'react';
 import axios from 'axios';
+import moment from "moment";
+import 'moment-timezone';
+
 
 export default function Console({ navigation }) {
 
@@ -18,6 +21,7 @@ export default function Console({ navigation }) {
     var username = React.useContext(userContext);
     const { activeDevice } = useContext(DeviceContext);
     const [id, setId] = useState(activeDevice.deviceUid);
+    const [id2, setId2] = useState(activeDevice.deviceId);
     const [path, setPath] = useState(activeDevice.path);
     const [connected, setConnected] = useState(false);
 
@@ -63,6 +67,30 @@ export default function Console({ navigation }) {
             connect();
     }, [username]);
 
+    const connectToDataBase = async (command, response) => {
+        let token = await getSavedToken();       
+        let time = moment().utcOffset('+02:00').format('YYYY-MM-DD hh:mm:ss a').toString()
+        console.log("Usla u funkciju!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        fetch('https://si-2021.167.99.244.168.nip.io/api/user-comand-logs', {
+            method: 'POST',
+            headers: {
+                Accept: 'text/plain',
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + token,
+            },
+            body: JSON.stringify({
+                UserId: 1,
+                DeviceId: id2,
+                Command: command, 
+                Response: response,
+                Time: time
+            })
+        }).then(res => res.text())
+        .then(text => {
+           console.log("Stigao odgovor")
+           console.log(text)
+        });
+}
     const sendRequest = async (command, token) => {
 
         fetch('https://si-grupa5.herokuapp.com/api/agent/command', {
@@ -92,6 +120,7 @@ export default function Console({ navigation }) {
                     setPath(res.path);
                     if (res.message.length != 0)
                         addRows(res.message);
+                    connectToDataBase(command, res.message);
                 }
             });
     }
