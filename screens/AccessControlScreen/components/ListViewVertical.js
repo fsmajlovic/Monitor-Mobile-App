@@ -160,7 +160,7 @@ export default function ListViewVertical({ itemList }) {
                                 name: 'Send',
                             },
                             {
-                                name: 'Cancel',
+                                name: 'Cancel',                                
                             },
                         ]}
                     />
