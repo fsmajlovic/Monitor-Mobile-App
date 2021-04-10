@@ -108,6 +108,107 @@ async function rename(token,username,path,name,newName) {
     console.log(error);
   }
 }
+
+
+async function move(token,username,name,oldPath,newPath) {
+  try {
+    let response = await fetch(serverURL + "api/web/agent/move", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Accept: "text/html",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        oldPath: oldPath,
+        newPath: newPath,
+        name : name,
+        user:username,
+      }),
+    });
+    if(response.status == 400) {
+        var jsonResponse = await response.json();
+        if(jsonResponse.hasOwnProperty('error_id')) {
+          //alert("Datoteka/Folder ne postoji!");
+          console.log("Zahtjev nije uredu");
+        }
+       
+    }
+    else if(response.status == 200) {
+      alert("Uspjesno kopirano");
+    }
+    else if(response.status == 403) {
+      alert("Invalid JWT token");
+    }
+    else if(response.status == 403) {
+      //invalid token, trebalo bi dobaviti novi
+    }
+    else if(response.status == 404) {
+      alert("Datoteka ne postoji");
+    }
+    else {
+      console.log("Promijenjen JSON zahtjeva?");
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+async function copy(token,username,name,oldPath,newPath) {
+  try {
+    let response = await fetch(serverURL + "api/web/agent/copy", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Accept: "text/html",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        oldPath: oldPath,
+        newPath: newPath,
+        name : name,
+        user:username,
+      }),
+    });
+    if(response.status == 400) {
+        var jsonResponse = await response.json();
+        if(jsonResponse.hasOwnProperty('error_id')) {
+          //alert("Datoteka/Folder ne postoji!");
+          console.log("Zahtjev nije uredu");
+        }
+       
+    }
+    else if(response.status == 200) {
+      alert("Uspjesno kopirano");
+    }
+    else if(response.status == 403) {
+      alert("Invalid JWT token");
+    }
+    else if(response.status == 403) {
+      //invalid token, trebalo bi dobaviti novi
+    }
+    else if(response.status == 404) {
+      alert("Datoteka ne postoji");
+    }
+    else {
+      console.log("Promijenjen JSON zahtjeva?");
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
+
+
+
+
+
  
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
