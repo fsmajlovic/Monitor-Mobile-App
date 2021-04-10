@@ -64,6 +64,50 @@ async function getFile(name,token,username,path) {
     console.log(error);
   }
 }
+
+
+async function rename(token,username,path,name,newName) {
+  try {
+    let response = await fetch(serverURL + "api/web/user/rename", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Accept: "text/html",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        oldName: name,
+        newName: newName,
+        user:username,
+        path: path,
+      }),
+    });
+    if(response.status == 200) {
+        var jsonResponse = await response.json();
+        if(jsonResponse.hasOwnProperty('error_id')) {
+          //alert("Datoteka/Folder ne postoji!");
+          console.log("Datoteka/Folder ne postoji!");
+        }
+       
+    }
+    else if(response.status == 503) {
+      alert("Servis nedostupan");
+    }
+    else if(response.status == 403) {
+      //invalid token, trebalo bi dobaviti novi
+    }
+    else if(response.status == 404) {
+      alert("Datoteka vise ne postoji");
+    }
+    else {
+      console.log("Promijenjen JSON zahtjeva?");
+      alert("Greska pri preuzimanju datoteke");
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
  
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
@@ -106,6 +150,18 @@ export async function downloadFile(token, username, path,name,type,children,navi
     navigation.push("SubDirectory", {name: name, type: type, path: path, children: children});
   }
 }
+
+
+export async function renameFileFolder(token, username, path,name,newName){
+  //console.log(path)
+  console.log(path + name + newName )
+  var extractedPath = path.split("allFiles/" + username)[1];
+  extractedPath = extractedPath.split(name)[0];
+  if(extractedPath == "") extractedPath = "/";
+ await rename(token, username, extractedPath,name,newName);
+
+}
+
 
 export default function ListItemVertical({ name, image_url, type, path, children }) {
   var {getSavedToken} = React.useContext(AuthContext);

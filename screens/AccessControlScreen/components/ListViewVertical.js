@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, FlatList, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
+import { View, FlatList, StyleSheet, TouchableOpacity, Image, Text, Button } from 'react-native';
 import ListItemVertical from './ListItemVertical';
 import { AuthContext } from "../../../contexts/authContext";
 import { userContext } from '../../../contexts/userContext';
 import SelectionListHeader from './SelectionListHeader';
-import { downloadFile } from './ListItemVertical'
+import { downloadFile, renameFileFolder } from './ListItemVertical'
+import Dialog from "react-native-dialog";
 
 
 import {
@@ -37,6 +38,11 @@ export default function ListViewVertical({ itemList }) {
     const navigation = useNavigation();
     const [items, setItems] = useState(itemList);
     const selectionMode = useSelectionChange(items);
+    const [visible, setVisible] = useState(false);
+    //varijable potrebne za rename
+    const [fileName, setFileName] = useState("");
+    const [newFilename, setNewFileName] = useState(fileName);
+    const [path, setPath] = useState("");
     //console.log(items);
 
     useEffect(() => { setItems(itemList) });
@@ -68,9 +74,16 @@ export default function ListViewVertical({ itemList }) {
         if (selectionMode) {
             toggleSelect(item);
         } else {
-            
+            //zasad se na klik na folder/file poziva ili download ili rename
+            //ovo je za rename
+            //setFileName(item.name);
+            //setNewFileName(item.name);
+            //setPath(item.path);
+            //showDialog()
+
+            //ovo je za download
             let token = await getSavedToken();
-            downloadFile(token, username,item.path, item.name, item.type,  item.children,navigation);
+            downloadFile(token, username, item.path, item.name, item.type, item.children, navigation);
         }
     };
 
@@ -78,6 +91,21 @@ export default function ListViewVertical({ itemList }) {
         if (selectionMode === false) {
             toggleSelect(item);
         }
+    };
+
+    //3 funkcije za rename Dialog
+    const showDialog = () => {
+        setVisible(true);
+    };
+
+    const handleCancel = () => {
+        setVisible(false);
+    };
+
+    const handleOK = async () => {
+        let token = await getSavedToken();
+        renameFileFolder(token, username, path, fileName, newFilename);
+        setVisible(false);
     };
 
     const renderItem = item => {
@@ -145,7 +173,24 @@ export default function ListViewVertical({ itemList }) {
                     </Content>
                 </Container>
             </Root>
+
+            <Dialog.Container visible={visible}>
+                <Dialog.Title>Rename</Dialog.Title>
+                <Dialog.Description>
+                    Enter new name
+                </Dialog.Description>
+                <Dialog.Input
+                    value={newFilename}
+                    onChangeText={text => setNewFileName(text)}
+                >
+                </Dialog.Input>
+                <Dialog.Button label="Cancel" onPress={handleCancel} />
+                <Dialog.Button label="OK" onPress={handleOK} />
+            </Dialog.Container>
+
         </>
+
+
     );
 }
 
@@ -190,5 +235,11 @@ const styles = StyleSheet.create({
     photo: {
         height: 50,
         width: 50,
+    },
+    containerDialog: {
+        flex: 1,
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
     },
 });
