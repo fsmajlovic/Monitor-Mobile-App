@@ -264,6 +264,35 @@ export async function renameFileFolder(token, username, path,name,newName){
 }
 
 
+export async function copyFileFolder(token,username,name,oldPath,newPath){
+  console.log(oldPath + name + newPath )
+  var extractedOldPath = oldPath.split("allFiles/" + username)[1];
+  extractedOldPath = extractedOldPath.split(name)[0];
+  if(extractedOldPath == "") extractedOldPath = "/";
+
+  var extractedNewPath = newPath.split("allFiles/" + username)[1];
+  extractedNewPath = extractedOldPath.split(name)[0];
+  if(extractedNewPath == "") extractedNewPath = "/";
+
+ await copy(token,username,name,extractedOldPath,extractedNewPath);
+
+}
+
+export async function moveFileFolder(token,username,name,oldPath,newPath){
+  console.log(oldPath + name + newPath )
+  var extractedOldPath = oldPath.split("allFiles/" + username)[1];
+  extractedOldPath = extractedOldPath.split(name)[0];
+  if(extractedOldPath == "") extractedOldPath = "/";
+
+  var extractedNewPath = newPath.split("allFiles/" + username)[1];
+  extractedNewPath = extractedOldPath.split(name)[0];
+  if(extractedNewPath == "") extractedNewPath = "/";
+
+ await move(token,username,name,extractedOldPath,extractedNewPath);
+
+}
+
+
 export default function ListItemVertical({ name, image_url, type, path, children }) {
   var {getSavedToken} = React.useContext(AuthContext);
   var username = React.useContext(userContext);
