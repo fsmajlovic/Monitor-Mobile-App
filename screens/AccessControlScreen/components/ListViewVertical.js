@@ -144,7 +144,7 @@ export default function ListViewVertical({ itemList }) {
                             {
                                 name: 'Copy',
                                 method: function () {
-                                    let token = await getSavedToken();
+                                    //let token = await getSavedToken();
 
                                     //ovdje treba ponuditi listu foldera za  odabir
                                     // u koji cemo folder kopirati i tu cemo uzeti new path
@@ -163,7 +163,7 @@ export default function ListViewVertical({ itemList }) {
                             {
                                 name: 'Move',
                                 method: function () {
-                                    let token = await getSavedToken();
+                                   // let token = await getSavedToken();
 
                                     //moveFileFolder(token,username,naziv,oldPath,newPath)
 
