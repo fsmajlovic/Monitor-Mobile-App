@@ -22,7 +22,7 @@ const TaskView = (props) => {
     })
 
     const { params } = props.route;
-    const { task } = params;
+    const { machine,task } = params;
 
     return (
         <View style={styles.container}>
@@ -37,7 +37,10 @@ const TaskView = (props) => {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => props.navigation.push('ShowImagesScreen', { taskId: task.taskId })}>
+            <TouchableOpacity onPress={() => props.navigation.push('ShowImagesScreen', {
+                machineId: machine.deviceId,
+                taskId: task.taskId
+            })}>
                 <View style={styles.containerButton}>
                     <Text style={styles.button}>Show pictures</Text>
                 </View>

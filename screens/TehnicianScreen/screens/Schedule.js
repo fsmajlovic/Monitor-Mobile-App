@@ -22,13 +22,13 @@ function Schedule(props) {
               return "#f8ff7d"
             case 4:
               return "#73ff98"
-        
+
         }
       }
-     
+
     const renderItem = (item) => {
-    
-        return <TouchableOpacity style={{marginRight: 17, marginTop: 17}} onPress={() => props.navigation.navigate("TaskView", {task: item})}>
+
+        return <TouchableOpacity style={{marginRight: 17, marginTop: 17}} onPress={() => props.navigation.navigate("TaskView", {machine:item.device,task: item})}>
             <Card style={{ backgroundColor: getColor(item)}}>
                 <Card.Content>
                     <View style={styles.item}>
@@ -43,7 +43,7 @@ function Schedule(props) {
         </TouchableOpacity>
       }
 
-      
+
 
       useEffect(()=>{
         async function getData(getSavedToken){
