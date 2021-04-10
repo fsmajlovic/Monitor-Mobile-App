@@ -19,6 +19,8 @@ import MachineScreen from '../ReportScreen/screens/MachineScreen';
 import EditTask from '../TehnicianScreen/screens/EditTask';
 import FileManager from '../AccessControlScreen/screens/FileManager'
 import SubDirectory from '../AccessControlScreen/screens/SubDirectory'
+import ChoiceManager from '../AccessControlScreen/screens/ChoiceManager'
+
 import ImageUploadScreen from '../ReportScreen/screens/ImageUploadScreen';
 import ImageBrowserScreen from '../ReportScreen/screens/ImageBrowserScreen';
 
@@ -128,6 +130,8 @@ const HomeStackScreen = ({navigation}) => (
                 title: 'File Manager',
             }} />
             <HomeStack.Screen name="SubDirectory" component={SubDirectory} options={{
+            }} />
+             <HomeStack.Screen name="ChoiceManager" component={ChoiceManager} options={{
             }} />
             
     </HomeStack.Navigator>

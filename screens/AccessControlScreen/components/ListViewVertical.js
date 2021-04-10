@@ -118,6 +118,11 @@ export default function ListViewVertical({ itemList }) {
             showDialog()
         }
     }
+
+    const copy = async () => {
+        navigation.navigate("ChoiceManager");
+           
+    }
     const renderItem = item => {
         return (
             <TouchableOpacity
@@ -151,21 +156,27 @@ export default function ListViewVertical({ itemList }) {
                         selectedItemsCount={items.filter(i => i.selected).length}
                         clearSelection={clearSelection}
                         selectActions={[
+                            
                             {
                                 name: 'Copy',
-                                method: function () {
+                                method: async function () {
+
+
+                                  //  navigation.navigate("ChoiceManager");
+
+
+                                  await copy();
+
+
                                     //let token = await getSavedToken();
 
                                     //ovdje treba ponuditi listu foldera za  odabir
                                     // u koji cemo folder kopirati i tu cemo uzeti new path
                                     //tako isto i za move
                                 
-
-
-
-                                    if (selectedItemsCount==1){
-                                   // copyFileFolder(token,username,items[0].name,items[0].path,newPath)
-                                    }
+                                  //  if (selectedItemsCount==1){
+                                   // await copyFileFolder(token,username,items[0].name,items[0].path,newPath)
+                                  //  }
 
                                     clearSelection();
                                 },
@@ -175,7 +186,7 @@ export default function ListViewVertical({ itemList }) {
                                 method: function () {
                                    // let token = await getSavedToken();
 
-                                    //moveFileFolder(token,username,naziv,oldPath,newPath)
+                                    //await moveFileFolder(token,username,naziv,oldPath,newPath)
 
 
 

@@ -19,6 +19,7 @@ import {
 expoFileLocation = "";
 fileData = "";
 fileName = "";
+navigationChoice = null;
 
 async function getFile(name,token,username,path) {
   try {
@@ -247,7 +248,7 @@ export async function downloadFile(token, username, path,name,type,children,navi
     await getFile(name,token,username,extractedPath);
   }
   else if(type == 'directory') {
-    //console.log(name + " " + path + " " + children.length);
+    console.log(name + " " + path + " " + children.length);
     navigation.push("SubDirectory", {name: name, type: type, path: path, children: children});
   }
 }
