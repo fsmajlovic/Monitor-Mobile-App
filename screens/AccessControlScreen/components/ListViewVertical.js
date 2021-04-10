@@ -5,7 +5,7 @@ import ListItemVertical from './ListItemVertical';
 import { AuthContext } from "../../../contexts/authContext";
 import { userContext } from '../../../contexts/userContext';
 import SelectionListHeader from './SelectionListHeader';
-import { downloadFile, renameFileFolder } from './ListItemVertical'
+import { downloadFile, renameFileFolder,copyFileFolder,moveFileFolder } from './ListItemVertical'
 import Dialog from "react-native-dialog";
 
 
@@ -143,9 +143,35 @@ export default function ListViewVertical({ itemList }) {
                         selectActions={[
                             {
                                 name: 'Copy',
+                                method: function () {
+                                    let token = await getSavedToken();
+
+                                    //ovdje treba ponuditi listu foldera za  odabir
+                                    // u koji cemo folder kopirati i tu cemo uzeti new path
+                                    //tako isto i za move
+                                
+
+
+
+                                    if (selectedItemsCount==1){
+                                   // copyFileFolder(token,username,items[0].name,items[0].path,newPath)
+                                    }
+
+                                    clearSelection();
+                                },
                             },
                             {
                                 name: 'Move',
+                                method: function () {
+                                    let token = await getSavedToken();
+
+                                    //moveFileFolder(token,username,naziv,oldPath,newPath)
+
+
+
+                                    clearSelection();
+                                }
+
                             },
                             {
                                 name: 'Delete',
