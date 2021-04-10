@@ -40,6 +40,7 @@ export default function Console({ navigation }) {
 
     const connect = async () => {
         let token = await getSavedToken();
+        console.log(token);
 
         fetch('https://si-grupa5.herokuapp.com/api/agent/connect', {
             method: 'POST',
@@ -54,8 +55,6 @@ export default function Console({ navigation }) {
             })
         }).then(res => res.json())
             .then(res => {
-                console.log(id);
-                console.log(username);
                 console.log("konekcija " + res.message)
                 if (!(username === 'undefined'))
                     setConnected(true);
@@ -68,7 +67,7 @@ export default function Console({ navigation }) {
     }, [username]);
 
     const connectToDataBase = async (command, response) => {
-        let token = await getSavedToken();       
+        let token = await getSavedToken();
         let time = moment().utcOffset('+02:00').format('YYYY-MM-DD hh:mm:ss a').toString()
         console.log("Usla u funkciju!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         fetch('https://si-2021.167.99.244.168.nip.io/api/user-comand-logs', {
@@ -81,16 +80,16 @@ export default function Console({ navigation }) {
             body: JSON.stringify({
                 UserId: 1,
                 DeviceId: id2,
-                Command: command, 
+                Command: command,
                 Response: response,
                 Time: time
             })
         }).then(res => res.text())
-        .then(text => {
-           console.log("Stigao odgovor")
-           console.log(text)
-        });
-}
+            .then(text => {
+                console.log("Stigao odgovor")
+                console.log(text)
+            });
+    }
     const sendRequest = async (command, token) => {
 
         fetch('https://si-grupa5.herokuapp.com/api/agent/command', {
@@ -115,12 +114,17 @@ export default function Console({ navigation }) {
                 if (typeof res.message === 'undefined') {
                     addRows(res.error)
                 } else {
-                    //       let modified = res.message.replace(/\\n/g, "\n");
-                    //       modified = modified.replace(/\\r/g, "\r");
+                    let modified = res.message;
+
+                    if (command === 'ls') {
+                        let modified = res.message.replace(/\\n/g, "\n");
+                        modified = modified.replace(/\\r/g, "\r");
+                    }
                     setPath(res.path);
                     if (res.message.length != 0)
-                        addRows(res.message);
-                    connectToDataBase(command, res.message);
+                        addRows(modified);
+
+                    connectToDataBase(command, modified);
                 }
             });
     }

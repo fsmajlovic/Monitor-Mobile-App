@@ -40,17 +40,30 @@ export const styles = StyleSheet.create({
   logRow: {
     width: "100%",
     justifyContent: "space-between",
+    textAlign: 'left',
   },
   textArea: {
     textAlignVertical: 'center',
     color: 'white',
     justifyContent: "flex-start",
+    fontSize: 13,
   },
   tableHead: {
     color: 'black',
-    justifyContent: "center",
-    padding: 3,
+  //  justifyContent: "center",
+    paddingLeft: 3,
     fontWeight: "bold",
+    width: '22%',
+    textAlign: "center",
+    fontSize: 13,
+  },
+  log: {
+    borderBottomWidth: 1,
+  },
+  tableRow: {
+    fontSize: 12,
+    textAlign: "left",
+    width: '78%',
   },
   inputArea: {
     justifyContent: "flex-start",
