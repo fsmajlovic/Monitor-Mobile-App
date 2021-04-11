@@ -176,6 +176,12 @@ async function copy(token, username, name, oldPath, newPath) {
 
 async function deleteFileFolder(name, token, username, path) {
   try {
+    console.log("Body za delete:");
+    console.log(path);
+    console.log("   ");
+    console.log(name);
+    console.log("   ");
+    console.log(username);
     let response = await fetch(serverURL + "api/web/user/file/delete", {
       method: "POST",
       headers: {
@@ -184,13 +190,14 @@ async function deleteFileFolder(name, token, username, path) {
         Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
+        path: path,
         fileName: name,
         user: username,
-        path: path,
       }),
     });
     if (response.status == 200) {
       var jsonResponse = await response.json();
+      console.log(jsonResponse);
       if (jsonResponse.hasOwnProperty("error")) {
         alert("File ne postoji!");
       } else if (jsonResponse.hasOwnProperty("fileName")) {
@@ -206,6 +213,51 @@ async function deleteFileFolder(name, token, username, path) {
       alert("File do not exist");
     } else {
       alert("Greska pri brisanju file-a");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+async function deleteFolder(name, token, username, path) {
+  try {
+    console.log("Body za delete folder:");
+    console.log(path);
+    console.log("   ");
+    console.log(name);
+    console.log("   ");
+    console.log(username);
+    let response = await fetch(serverURL + "api/web/user/folder/delete", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Accept: "text/html",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        path: path,
+        fileName: name,
+        user: username,
+      }),
+    });
+    if (response.status == 200) {
+      var jsonResponse = await response.json();
+      console.log(jsonResponse);
+      if (jsonResponse.hasOwnProperty("error")) {
+        alert("File ne postoji!");
+      } else if (jsonResponse.hasOwnProperty("fileName")) {
+        alert("File deleted successfully.");
+        fileData = jsonResponse["base64"];
+        fileName = jsonResponse["fileName"];
+        await saveToExpoFileSystem();
+        await copyFromExpoFSToLocalFS();
+      }
+    } else if (response.status == 403) {
+      alert("Invalid JWT token");
+    } else if (response.status == 404) {
+      alert("Folder do not exist");
+    } else {
+      alert("Greska pri brisanju folder-a");
     }
   } catch (error) {
     console.log(error);
@@ -265,8 +317,6 @@ export async function downloadFile(
 }
 
 export async function renameFileFolder(token, username, path, name, newName) {
-  //console.log(path)
-  console.log(path + name + newName);
   var extractedPath = path.split("allFiles/" + username)[1];
   extractedPath = extractedPath.split(name)[0];
   if (extractedPath == "") extractedPath = "/";
@@ -274,11 +324,22 @@ export async function renameFileFolder(token, username, path, name, newName) {
 }
 
 export async function deleteFile(username, token, path, name) {
+  console.log("Path za brisanje necega je:");
+  console.log(path);
   var extractedPath = path.split("allFiles/" + username)[1];
-  extractedPath = extractedPath.split(name)[0];
+  try {
+    extractedPath = extractedPath.split(name)[0];
+  } catch {}
   if (extractedPath == "") extractedPath = "/";
-  console.log(extractedPath);
-  await deleteFileFolder(name, token, username, extractedPath);
+  try {
+    console.log("Extracted path je: ");
+    console.log(extractedPath);
+    if (extractedPath == "/") {
+      await deleteFolder(name, token, username, extractedPath);
+    } else {
+      await deleteFileFolder(name, token, username, extractedPath);
+    }
+  } catch {}
 }
 
 export async function copyFileFolder(token, username, name, oldPath, newPath) {

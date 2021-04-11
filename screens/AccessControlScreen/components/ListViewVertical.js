@@ -51,7 +51,6 @@ export default function ListViewVertical({ itemList }) {
   const [fileName, setFileName] = useState("");
   const [newFilename, setNewFileName] = useState(fileName);
   const [path, setPath] = useState("");
-  //console.log(items);
 
   useEffect(() => {
     setItems(itemList);
@@ -135,6 +134,24 @@ export default function ListViewVertical({ itemList }) {
     }
   };
 
+  const deleteFileFromFolder = async () => {
+    let selectedItem;
+    let selectedItemsNumber = 0;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].selected) {
+        selectedItem = items[i];
+        selectedItemsNumber++;
+      }
+    }
+    if (selectedItemsNumber == 1) {
+      let token = await getSavedToken();
+      try {
+        deleteFile(username, token, selectedItem.path, selectedItem.name);
+        clearSelection();
+      } catch {}
+    }
+  };
+
   const copy = async () => {
     navigation.navigate("ChoiceManager");
   };
@@ -201,8 +218,11 @@ export default function ListViewVertical({ itemList }) {
               },
               {
                 name: "Delete",
-                method: function () {
-                  clearSelection();
+                method: async function () {
+                  console.log("NOVI POZIV");
+                  try {
+                    await deleteFileFromFolder();
+                  } catch {}
                 },
               },
               {
