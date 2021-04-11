@@ -32,23 +32,25 @@ function useSelectionChange(items) {
     return selectionMode;
 }
 
-export default function ListViewVertical({ itemList }) {
+export default function ListViewVertical({ itemList, isDirectory }) {
     var { getSavedToken } = React.useContext(AuthContext);
     var username = React.useContext(userContext);
     const navigation = useNavigation();
     const [items, setItems] = useState(itemList);
     const selectionMode = useSelectionChange(items);
     const [visible, setVisible] = useState(false);
+    //varijable za copy/move
+    const [isCopyDirectory, setIsCopyDirectory] = useState(false);
     //varijable potrebne za rename
     const [fileName, setFileName] = useState("");
     const [newFilename, setNewFileName] = useState(fileName);
     const [path, setPath] = useState("");
     //console.log(items);
 
-    useEffect(() => { setItems(itemList) });
-
-
-
+    useEffect(() => { 
+        setItems(itemList);
+        setIsCopyDirectory(isDirectory);
+    });
 
     const toggleSelect = item => {
         setItems(
@@ -74,9 +76,10 @@ export default function ListViewVertical({ itemList }) {
         if (selectionMode) {
             toggleSelect(item);
         } else {
+            console.log("newpath: " + item.oldPath);
             //ovo je za download
             let token = await getSavedToken();
-            downloadFile(token, username, item.path, item.name, item.type, item.children, navigation);
+            downloadFile(token, username, item.path, item.name, item.type, item.children, item.oldPath, isCopyDirectory, navigation);
         }
     };
 
@@ -119,10 +122,23 @@ export default function ListViewVertical({ itemList }) {
         }
     }
 
-    const copy = async () => {
-        navigation.navigate("ChoiceManager");
-           
+    const copy = async (oldPath) => {
+        let selectedItem;
+        let selectedItemsNumber=0;
+        for (let i=0;i <items.length; i++) {
+            if (items[i].selected) {
+                selectedItem = items[i];
+                selectedItemsNumber++;
+            }
+        }
+        //Za pocetak copy moze za samo jedan selektovani item
+        //Poslije ce trebati podrzati i vise oznacenih
+        if (selectedItemsNumber==1){
+            //console.log("Selektovani item: " + selectedItem.name + " path: " + selectedItem.path);
+            navigation.navigate("ChoiceManager", {oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children')});
+        }
     }
+
     const renderItem = item => {
         return (
             <TouchableOpacity
@@ -145,7 +161,6 @@ export default function ListViewVertical({ itemList }) {
     };
 
 
-
     return (
         <>
             <Root>
@@ -160,36 +175,13 @@ export default function ListViewVertical({ itemList }) {
                             {
                                 name: 'Copy',
                                 method: async function () {
-
-
-                                  //  navigation.navigate("ChoiceManager");
-
-
-                                  await copy();
-
-
-                                    //let token = await getSavedToken();
-
-                                    //ovdje treba ponuditi listu foldera za  odabir
-                                    // u koji cemo folder kopirati i tu cemo uzeti new path
-                                    //tako isto i za move
-                                
-                                  //  if (selectedItemsCount==1){
-                                   // await copyFileFolder(token,username,items[0].name,items[0].path,newPath)
-                                  //  }
-
+                                    await copy("testOldPath");
                                     clearSelection();
                                 },
                             },
                             {
                                 name: 'Move',
                                 method: function () {
-                                   // let token = await getSavedToken();
-
-                                    //await moveFileFolder(token,username,naziv,oldPath,newPath)
-
-
-
                                     clearSelection();
                                 }
 
@@ -240,10 +232,7 @@ export default function ListViewVertical({ itemList }) {
                 <Dialog.Button label="Cancel" onPress={handleCancel} />
                 <Dialog.Button label="OK" onPress={handleOK} />
             </Dialog.Container>
-
         </>
-
-
     );
 }
 

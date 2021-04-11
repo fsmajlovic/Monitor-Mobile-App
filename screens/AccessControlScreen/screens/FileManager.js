@@ -18,72 +18,59 @@ export default function App({ navigation }) {
   var [files, setFiles] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
-  useEffect(() => {
-    async function getFiles() {
-      let token = await getSavedToken();
-      console.log('Token je: ' + token);
-      const response = await fetch(serverURL + "api/web/user/file-tree", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-          Accept: "text/html",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify({
-          user: username
-        }),
-      });
-      if(response.status == 200) {
-        var jsonResponse = await response.json();
 
-        var jsonResponseArray = jsonResponse['children'];
-        var newDataSet = [];
-        for (let i = 0; i < jsonResponseArray.length; i++) {
-          let file = jsonResponseArray[i];
-          newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'] });
-          if(file['type'] == 'directory') {
-            newDataSet[newDataSet.length - 1]['children'] = file['children'];
-          }
-        }
-        setFiles(newDataSet);
-      }
-      else if(response.status == 503) {
-        alert("Servis nedostupan");
-      }
-      else if(response.status == 403) {
-        //invalid token, trebalo bi dobaviti novi
-      }
-      else {
-        console.log("Status" + response.status)
-        console.log("Promijenjen JSON zahtjeva?");
-        alert("Greska pri dobavljanju liste datoteka");
-      }
-    }
-
-    try{
+  React.useEffect(() => {
+    const loadFiles = navigation.addListener('focus', () => {
       getFiles();
-    }catch(e){
-      console.log(e);
+    });
+
+    return loadFiles;
+  }, [navigation])
+
+  async function getFiles() {
+    let token = await getSavedToken();
+    console.log('Token je: ' + token);
+    const response = await fetch(serverURL + "api/web/user/file-tree", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Accept: "text/html",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        user: username
+      }),
+    });
+    if(response.status == 200) {
+      var jsonResponse = await response.json();
+
+      var jsonResponseArray = jsonResponse['children'];
+      var newDataSet = [];
+      for (let i = 0; i < jsonResponseArray.length; i++) {
+        let file = jsonResponseArray[i];
+        newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: null });
+        if(file['type'] == 'directory') {
+          newDataSet[newDataSet.length - 1]['children'] = file['children'];
+        }
+      }
+      setFiles(newDataSet);
     }
-  }, [])
+    else if(response.status == 503) {
+      alert("Servis nedostupan");
+    }
+    else if(response.status == 403) {
+      //invalid token, trebalo bi dobaviti novi
+    }
+    else {
+      console.log("Status" + response.status)
+      console.log("Promijenjen JSON zahtjeva?");
+      alert("Greska pri dobavljanju liste datoteka");
+    }
+  }
 
   return (
     <Provider>
       <View style={styles.container}>
-        {/* <View style={{alignItems: 'flex-end', justifyContent: 'center'}}>
-          <Menu
-            statusBarHeight={0}
-            visible={visible}
-            onDismiss={closeMenu}
-            anchor={<Button onPress={openMenu} title={'Actions'}></Button>}>
-            <Menu.Item onPress={() => {}} title="copy" icon='content-copy'/>
-            <Menu.Item onPress={() => {}} title="Move" icon="content-cut"/>
-            <Menu.Item onPress={() => {}} title="Rename" icon="pen"/>
-            <Menu.Item onPress={() => {}} title="Delete" icon="delete"/>
-            <Menu.Item onPress={() => {}} title="Download" icon="download"/>
-            <Menu.Item onPress={() => {}} title="Send" icon="send" />
-          </Menu>
-        </View> */}
         <ListViewVertical
           itemList={files}
         />

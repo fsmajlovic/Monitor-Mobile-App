@@ -7,23 +7,33 @@ import { serverURL } from "../../../appConfig";
 import { AuthContext } from '../../../contexts/authContext';
 import {userContext} from '../../../contexts/userContext';
 import {Menu, Divider, Provider } from 'react-native-paper';
+import { copyAsync } from 'expo-file-system';
 
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
 
-export default function App({ navigation }) {
+export default function App({route, navigation }) {
   
   const [visible, setVisible] = React.useState(false);
+  const [oldPath, setOldPath] = React.useState(false);
+  const [isDirectory, setIsDirectory] = React.useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   var [files, setFiles] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
+
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: "Nova lokacija"
     });
   }, [navigation]);
+  
   useEffect(() => {
+    const { oldPath } = route.params;
+    const { isDirectory } = route.params;
+    setOldPath(oldPath);
+    setIsDirectory(isDirectory)
+
     async function getFiles() {
       let token = await getSavedToken();
       console.log('Token je: ' + token);
@@ -45,7 +55,7 @@ export default function App({ navigation }) {
         var newDataSet = [];
         for (let i = 0; i < jsonResponseArray.length; i++) {
           let file = jsonResponseArray[i];
-          newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'] });
+          newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: oldPath });
           if(file['type'] == 'directory') {
             newDataSet[newDataSet.length - 1]['children'] = file['children'];
           }
@@ -61,7 +71,7 @@ export default function App({ navigation }) {
       else {
         console.log("Status" + response.status)
         console.log("Promijenjen JSON zahtjeva?");
-        alert("Greska pri dobavljanju liste datoteka-----");
+        alert("Greska pri dobavljanju liste datoteka");
       }
     }
 
@@ -75,27 +85,79 @@ export default function App({ navigation }) {
   return (
     <Provider>
       <View style={styles.container}>
-        {/* <View style={{alignItems: 'flex-end', justifyContent: 'center'}}>
-          <Menu
-            statusBarHeight={0}
-            visible={visible}
-            onDismiss={closeMenu}
-            anchor={<Button onPress={openMenu} title={'Actions'}></Button>}>
-            <Menu.Item onPress={() => {}} title="copy" icon='content-copy'/>
-            <Menu.Item onPress={() => {}} title="Move" icon="content-cut"/>
-            <Menu.Item onPress={() => {}} title="Rename" icon="pen"/>
-            <Menu.Item onPress={() => {}} title="Delete" icon="delete"/>
-            <Menu.Item onPress={() => {}} title="Download" icon="download"/>
-            <Menu.Item onPress={() => {}} title="Send" icon="send" />
-          </Menu>
-        </View> */}
         <ListViewVertical
           itemList={files}
+          isDirectory={isDirectory}
         />
+        {<TouchableOpacity onPress={async () => {
+              let token = await getSavedToken();
+              let pathFragments = oldPath.split("/");
+              let fileName = pathFragments[pathFragments.length - 1];
+              let extractedOldPath = oldPath;
+              let newDirPath = "";
+              if(!isDirectory)
+                  extractedOldPath = pathFragments.slice(0, pathFragments.length - 1).join("/");
+              else {
+                  newDirPath = fileName;
+                  fileName = "";
+              }  
+              extractedOldPath = extractedOldPath.split("allFiles/" + username + "/")[1];
+              if(extractedOldPath == undefined) 
+                extractedOldPath = "";
+              await copy(token, username, fileName, extractedOldPath, newDirPath, navigation);
+          }}>
+          <Text style={styles.confirmNewLocation}>Odaberi</Text>
+        </TouchableOpacity> }
       </View>
     </Provider>
     
   );
+}
+
+async function copy(token,username,name,oldPath,newPath,navigation) {
+  try {
+    let response = await fetch(serverURL + "api/web/user/copy", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Accept: "text/html",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        oldPath: oldPath,
+        newPath: newPath,
+        name : name,
+        user: username,
+      }),
+    });
+    if(response.status == 400) {
+        var jsonResponse = await response.json();
+        if(jsonResponse.hasOwnProperty('error_id')) {
+          //alert("Datoteka/Folder ne postoji!");
+          console.log("Zahtjev nije uredu");
+        }
+       
+    }
+    else if(response.status == 200) {
+      alert("Uspjesno kopirano");
+      navigation.navigate("FileManager");
+    }
+    else if(response.status == 403) {
+      alert("Invalid JWT token");
+    }
+    else if(response.status == 403) {
+      //invalid token, trebalo bi dobaviti novi
+    }
+    else if(response.status == 404) {
+      alert("Datoteka ne postoji");
+    }
+    else {
+      console.log("Promijenjen JSON zahtjeva?");
+    }
+    
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 const styles = StyleSheet.create({
@@ -122,6 +184,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     alignSelf: "center",
     marginRight: 10
+  },
+  confirmNewLocation: {
+    backgroundColor: "#0D47A1",
+    color: 'white',
+    borderRadius: 15,
+    padding: 10,
+    marginTop: 20,
+    fontSize: 20,
+    textAlign: "center"
   }
 
 });

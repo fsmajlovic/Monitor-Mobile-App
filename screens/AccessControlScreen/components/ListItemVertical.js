@@ -113,7 +113,7 @@ async function rename(token,username,path,name,newName) {
 
 async function move(token,username,name,oldPath,newPath) {
   try {
-    let response = await fetch(serverURL + "api/web/agent/move", {
+    let response = await fetch(serverURL + "api/web/user/move", {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -202,14 +202,6 @@ async function copy(token,username,name,oldPath,newPath) {
   }
 }
 
-
-
-
-
-
-
-
-
  
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
@@ -238,7 +230,7 @@ async function copyFromExpoFSToLocalFS() {
     console.log(error);
   }
 }
-export async function downloadFile(token, username, path,name,type,children,navigation){
+export async function downloadFile(token, username, path,name,type,children,oldPath,isDirectory,navigation){
   console.log(path)
   
   var extractedPath = path.split("allFiles/" + username)[1];
@@ -248,8 +240,10 @@ export async function downloadFile(token, username, path,name,type,children,navi
     await getFile(name,token,username,extractedPath);
   }
   else if(type == 'directory') {
-    console.log(name + " " + path + " " + children.length);
-    navigation.push("SubDirectory", {name: name, type: type, path: path, children: children});
+    if(oldPath == null)
+      navigation.push("SubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath});
+    else
+      navigation.push("ChoiceSubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath, isDirectory: isDirectory});
   }
 }
 
@@ -260,8 +254,7 @@ export async function renameFileFolder(token, username, path,name,newName){
   var extractedPath = path.split("allFiles/" + username)[1];
   extractedPath = extractedPath.split(name)[0];
   if(extractedPath == "") extractedPath = "/";
- await rename(token, username, extractedPath,name,newName);
-
+  await rename(token, username, extractedPath,name,newName);
 }
 
 
