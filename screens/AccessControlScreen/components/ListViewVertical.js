@@ -218,7 +218,28 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
       for (let i = 0; i < items.length; i++) {
         if (items[i].selected) {
           selectedItem = items[i];
-          await deleteFileFolder(username, token, selectedItem.path, selectedItem.name,selectedItem.type);
+          if (selectedItem.type=="directory" && selectedItem.children.length!=0) {
+            
+            //console.log("nije prazan folder")
+            Alert.alert(
+              'Alert',
+              'Folder '+selectedItem.name+' is not empty. Are you sure you want to delete it?',
+              [   
+                {       
+                  text: 'NO',       
+                  onPress: () => console.log("pressed no"),       
+                  style: 'cancel',     
+                },     
+                {
+                  text: 'YES', 
+                  onPress: async () => await deleteFileFolder(username, token, selectedItem.path, selectedItem.name,selectedItem.type),
+                },   
+              ],   
+              { cancelable: false }, 
+            )
+            
+          }
+          else await deleteFileFolder(username, token, selectedItem.path, selectedItem.name,selectedItem.type);
         }
       }
         clearSelection();
