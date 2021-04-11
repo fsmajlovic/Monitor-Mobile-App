@@ -73,6 +73,7 @@ export default function App({ navigation }) {
       <View style={styles.container}>
         <ListViewVertical
           itemList={files}
+          folderPath = {"allFiles/"+username + "/"}
         />
       </View>
     </Provider>
