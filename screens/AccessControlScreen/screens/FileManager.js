@@ -7,26 +7,26 @@ import { serverURL } from "../../../appConfig";
 import { AuthContext } from '../../../contexts/authContext';
 import {userContext} from '../../../contexts/userContext';
 import {Menu, Divider, Provider } from 'react-native-paper';
-
+ 
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
-
+ 
 export default function App({ navigation }) {
-  
+ 
   const [visible, setVisible] = React.useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   var [files, setFiles] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
-
+ 
   React.useEffect(() => {
     const loadFiles = navigation.addListener('focus', () => {
       getFiles();
     });
-
+ 
     return loadFiles;
   }, [navigation])
-
+ 
   async function getFiles() {
     let token = await getSavedToken();
     console.log('Token je: ' + token);
@@ -43,7 +43,7 @@ export default function App({ navigation }) {
     });
     if(response.status == 200) {
       var jsonResponse = await response.json();
-
+ 
       var jsonResponseArray = jsonResponse['children'];
       var newDataSet = [];
       for (let i = 0; i < jsonResponseArray.length; i++) {
@@ -67,7 +67,7 @@ export default function App({ navigation }) {
       alert("Greska pri dobavljanju liste datoteka");
     }
   }
-
+ 
   return (
     <Provider>
       <View style={styles.container}>
@@ -76,16 +76,16 @@ export default function App({ navigation }) {
         />
       </View>
     </Provider>
-    
+ 
   );
 }
-
+ 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
   },
-
+ 
   text: {
     fontSize: 20,
     marginBottom: 5,
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#0D47A1',
   },
-
+ 
   items: {
     padding: 20,
     marginTop: 4,
@@ -105,5 +105,5 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginRight: 10
   }
-
+ 
 });
