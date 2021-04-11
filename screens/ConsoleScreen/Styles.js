@@ -3,13 +3,13 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
   container: {
     height: "100%",
-    flex:1,
+    flex: 1,
     flexDirection: 'row',
   },
   //buttoni u Console.js
   container1: {
     height: "8%",
- //   backgroundColor: '#0D47A1',
+    //   backgroundColor: '#0D47A1',
   },
   container2: {
   },
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   //container u ConsoleLog.js
   componentContainer2: {
     height: "100%",
-    flex:1,
+    flex: 1,
   },
   //View u ConsoleLog.js
   container2: {
@@ -30,8 +30,8 @@ export const styles = StyleSheet.create({
   componentContainer1: {
     height: "100%",
     backgroundColor: '#0D47A1',
-    flex:1,
-  //  flexDirection: 'column',
+    flex: 1,
+    //  flexDirection: 'column',
   },
   row: {
     flexDirection: 'row',
@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
   },
   tableHead: {
     color: 'black',
-  //  justifyContent: "center",
+    //  justifyContent: "center",
     paddingLeft: 3,
     fontWeight: "bold",
     width: '22%',
@@ -71,12 +71,12 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   buttons: {
-  //  height: "8%",
+    //  height: "8%",
     alignSelf: 'center',
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: 160,
-  }, 
+  },
   button: {
     alignSelf: 'center',
     textAlign: 'center',
@@ -84,10 +84,10 @@ export const styles = StyleSheet.create({
     width: 76,
     padding: 3,
     backgroundColor: 'white',
-    borderRadius:1,
+    borderRadius: 1,
     borderWidth: 0,
     justifyContent: 'center'
-  }, 
+  },
   consoleButton: {
     backgroundColor: '#0D47A1',
   },
@@ -100,5 +100,7 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: "white",
     fontSize: 18,
+  }, picker: {
+    borderWidth: 1,
   }
 })

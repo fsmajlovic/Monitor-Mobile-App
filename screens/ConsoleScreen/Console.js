@@ -18,7 +18,7 @@ export default function Console({ navigation }) {
     const group1 = ["?", "clear", "ls", "driverquery", "ipconfig", "systeminfo", "tasklist", "dir"];
     const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set", "mkdir", "ping"];
 
-    var username = React.useContext(userContext);
+    const [username, setUsername] = useState("");
 
     const [folders, setFolders] = useState([]);
     const [edited, setEdited] = useState(true);
@@ -31,6 +31,8 @@ export default function Console({ navigation }) {
     const [id2, setId2] = useState(activeDevice.deviceId);
     const [path, setPath] = useState(activeDevice.path);
     const [connected, setConnected] = useState(false);
+    const [userId, setUserId] = useState("");
+    const [user, setUser] = useState(false);
 
     const [rows, setRows] = useState([]);
     const [current, setCurrent] = useState("");
@@ -49,8 +51,27 @@ export default function Console({ navigation }) {
         getFoldersInCurrentPath();
     }, [path]);
 
+    const getUser = async () => {
+        setUser(true);
+        let token = await getSavedToken();
+        
+        fetch("https://si-2021.167.99.244.168.nip.io:3333/jwt/verify", {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                "Authorization": "Bearer " + token,
+            },
+
+        }).then(res => res.json())
+            .then(res => {
+                setUserId(res.id);
+                setUsername(res.email);
+            });
+    }
+
     const connect = async () => {
         let token = await getSavedToken();
+        await getUser();
 
         fetch('https://si-grupa5.herokuapp.com/api/agent/connect', {
             method: 'POST',
@@ -88,7 +109,7 @@ export default function Console({ navigation }) {
                 "Authorization": "Bearer " + token,
             },
             body: JSON.stringify({
-                UserId: 1,
+                UserId: userId,
                 DeviceId: id2,
                 Command: command,
                 Response: response,
@@ -215,7 +236,7 @@ export default function Console({ navigation }) {
 
                             addRows(path + "> " + event.nativeEvent.text);
 
-                            if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length == 2)) {
+                            if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length >= 2)) {
                                 //validna komanda
                                 if (group2.includes(command)) {
                                     command += " " + args[1];
