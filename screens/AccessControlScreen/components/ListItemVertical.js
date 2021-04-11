@@ -1,10 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
-import * as MediaLibrary from 'expo-media-library';
-import * as FileSystem from 'expo-file-system';
-import * as Permissions from 'expo-permissions';
+import { useNavigation } from "@react-navigation/native";
+import * as MediaLibrary from "expo-media-library";
+import * as FileSystem from "expo-file-system";
+import * as Permissions from "expo-permissions";
 import * as Sharing from "expo-sharing";
 import { AuthContext } from "../../../contexts/authContext";
-import {userContext} from '../../../contexts/userContext';
+import { userContext } from "../../../contexts/userContext";
 import { serverURL } from "../../../appConfig";
 import React from "react";
 import {
@@ -15,13 +15,13 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
- 
+
 expoFileLocation = "";
 fileData = "";
 fileName = "";
 navigationChoice = null;
 
-async function getFile(name,token,username,path) {
+async function getFile(name, token, username, path) {
   try {
     let response = await fetch(serverURL + "api/web/user/file/get", {
       method: "POST",
@@ -32,32 +32,27 @@ async function getFile(name,token,username,path) {
       },
       body: JSON.stringify({
         fileName: name,
-        user:username,
+        user: username,
         path: path,
       }),
     });
-    if(response.status == 200) {
-        var jsonResponse = await response.json();
-        if(jsonResponse.hasOwnProperty('error')) {
-          alert("Datoteka ne postoji!");
-        }
-        else if(jsonResponse.hasOwnProperty('fileName')) {
-          fileData = jsonResponse["base64"];
-          fileName = jsonResponse["fileName"];
-          await saveToExpoFileSystem();
-          await copyFromExpoFSToLocalFS();
-        }
-    }
-    else if(response.status == 503) {
+    if (response.status == 200) {
+      var jsonResponse = await response.json();
+      if (jsonResponse.hasOwnProperty("error")) {
+        alert("Datoteka ne postoji!");
+      } else if (jsonResponse.hasOwnProperty("fileName")) {
+        fileData = jsonResponse["base64"];
+        fileName = jsonResponse["fileName"];
+        await saveToExpoFileSystem();
+        await copyFromExpoFSToLocalFS();
+      }
+    } else if (response.status == 503) {
       alert("Servis nedostupan");
-    }
-    else if(response.status == 403) {
+    } else if (response.status == 403) {
       //invalid token, trebalo bi dobaviti novi
-    }
-    else if(response.status == 404) {
+    } else if (response.status == 404) {
       alert("Datoteka vise ne postoji");
-    }
-    else {
+    } else {
       console.log("Promijenjen JSON zahtjeva?");
       alert("Greska pri preuzimanju datoteke");
     }
@@ -66,8 +61,7 @@ async function getFile(name,token,username,path) {
   }
 }
 
-
-async function rename(token,username,path,name,newName) {
+async function rename(token, username, path, name, newName) {
   try {
     let response = await fetch(serverURL + "api/web/user/rename", {
       method: "POST",
@@ -79,39 +73,32 @@ async function rename(token,username,path,name,newName) {
       body: JSON.stringify({
         oldName: name,
         newName: newName,
-        user:username,
+        user: username,
         path: path,
       }),
     });
-    if(response.status == 200) {
-        var jsonResponse = await response.json();
-        if(jsonResponse.hasOwnProperty('error_id')) {
-          //alert("Datoteka/Folder ne postoji!");
-          console.log("Datoteka/Folder ne postoji!");
-        }
-       
-    }
-    else if(response.status == 503) {
+    if (response.status == 200) {
+      var jsonResponse = await response.json();
+      if (jsonResponse.hasOwnProperty("error_id")) {
+        //alert("Datoteka/Folder ne postoji!");
+        console.log("Datoteka/Folder ne postoji!");
+      }
+    } else if (response.status == 503) {
       alert("Servis nedostupan");
-    }
-    else if(response.status == 403) {
+    } else if (response.status == 403) {
       //invalid token, trebalo bi dobaviti novi
-    }
-    else if(response.status == 404) {
+    } else if (response.status == 404) {
       alert("Datoteka vise ne postoji");
-    }
-    else {
+    } else {
       console.log("Promijenjen JSON zahtjeva?");
       alert("Greska pri preuzimanju datoteke");
     }
-    
   } catch (error) {
     console.log(error);
   }
 }
 
-
-async function move(token,username,name,oldPath,newPath) {
+async function move(token, username, name, oldPath, newPath) {
   try {
     let response = await fetch(serverURL + "api/web/agent/move", {
       method: "POST",
@@ -123,41 +110,33 @@ async function move(token,username,name,oldPath,newPath) {
       body: JSON.stringify({
         oldPath: oldPath,
         newPath: newPath,
-        name : name,
-        user:username,
+        name: name,
+        user: username,
       }),
     });
-    if(response.status == 400) {
-        var jsonResponse = await response.json();
-        if(jsonResponse.hasOwnProperty('error_id')) {
-          //alert("Datoteka/Folder ne postoji!");
-          console.log("Zahtjev nije uredu");
-        }
-       
-    }
-    else if(response.status == 200) {
+    if (response.status == 400) {
+      var jsonResponse = await response.json();
+      if (jsonResponse.hasOwnProperty("error_id")) {
+        //alert("Datoteka/Folder ne postoji!");
+        console.log("Zahtjev nije uredu");
+      }
+    } else if (response.status == 200) {
       alert("Uspjesno kopirano");
-    }
-    else if(response.status == 403) {
+    } else if (response.status == 403) {
       alert("Invalid JWT token");
-    }
-    else if(response.status == 403) {
+    } else if (response.status == 403) {
       //invalid token, trebalo bi dobaviti novi
-    }
-    else if(response.status == 404) {
+    } else if (response.status == 404) {
       alert("Datoteka ne postoji");
-    }
-    else {
+    } else {
       console.log("Promijenjen JSON zahtjeva?");
     }
-    
   } catch (error) {
     console.log(error);
   }
 }
 
-
-async function copy(token,username,name,oldPath,newPath) {
+async function copy(token, username, name, oldPath, newPath) {
   try {
     let response = await fetch(serverURL + "api/web/agent/copy", {
       method: "POST",
@@ -169,155 +148,203 @@ async function copy(token,username,name,oldPath,newPath) {
       body: JSON.stringify({
         oldPath: oldPath,
         newPath: newPath,
-        name : name,
-        user:username,
+        name: name,
+        user: username,
       }),
     });
-    if(response.status == 400) {
-        var jsonResponse = await response.json();
-        if(jsonResponse.hasOwnProperty('error_id')) {
-          //alert("Datoteka/Folder ne postoji!");
-          console.log("Zahtjev nije uredu");
-        }
-       
-    }
-    else if(response.status == 200) {
+    if (response.status == 400) {
+      var jsonResponse = await response.json();
+      if (jsonResponse.hasOwnProperty("error_id")) {
+        //alert("Datoteka/Folder ne postoji!");
+        console.log("Zahtjev nije uredu");
+      }
+    } else if (response.status == 200) {
       alert("Uspjesno kopirano");
-    }
-    else if(response.status == 403) {
+    } else if (response.status == 403) {
       alert("Invalid JWT token");
-    }
-    else if(response.status == 403) {
+    } else if (response.status == 403) {
       //invalid token, trebalo bi dobaviti novi
-    }
-    else if(response.status == 404) {
+    } else if (response.status == 404) {
       alert("Datoteka ne postoji");
-    }
-    else {
+    } else {
       console.log("Promijenjen JSON zahtjeva?");
     }
-    
   } catch (error) {
     console.log(error);
   }
 }
 
+async function deleteFileFolder(name, token, username, path) {
+  try {
+    let response = await fetch(serverURL + "api/web/user/file/delete", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        Accept: "text/html",
+        Authorization: "Bearer " + token,
+      },
+      body: JSON.stringify({
+        fileName: name,
+        user: username,
+        path: path,
+      }),
+    });
+    if (response.status == 200) {
+      var jsonResponse = await response.json();
+      if (jsonResponse.hasOwnProperty("error")) {
+        alert("File ne postoji!");
+      } else if (jsonResponse.hasOwnProperty("fileName")) {
+        alert("File deleted successfully.");
+        fileData = jsonResponse["base64"];
+        fileName = jsonResponse["fileName"];
+        await saveToExpoFileSystem();
+        await copyFromExpoFSToLocalFS();
+      }
+    } else if (response.status == 403) {
+      alert("Invalid JWT token");
+    } else if (response.status == 404) {
+      alert("File do not exist");
+    } else {
+      alert("Greska pri brisanju file-a");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-
-
-
-
-
-
-
- 
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
   FileSystem.writeAsStringAsync(expoFileLocation, fileData, {
-    encoding: FileSystem.EncodingType.Base64
+    encoding: FileSystem.EncodingType.Base64,
   }).catch((error) => {
     console.log(error);
   });
 }
- 
+
 async function copyFromExpoFSToLocalFS() {
   try {
     if (Platform.OS === "ios") {
       await Sharing.shareAsync(expoFileLocation);
-    }
-    else {
+    } else {
       const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
       if (status === "granted") {
-          const asset = await MediaLibrary.createAssetAsync(expoFileLocation);
-          await MediaLibrary.createAlbumAsync("Monitor-Downloads", asset, false);
-          alert("Download finished");
+        const asset = await MediaLibrary.createAssetAsync(expoFileLocation);
+        await MediaLibrary.createAlbumAsync("Monitor-Downloads", asset, false);
+        alert("Download finished");
       }
     }
-  }
-  catch(error) {
+  } catch (error) {
     console.log(error);
   }
 }
-export async function downloadFile(token, username, path,name,type,children,navigation){
-  console.log(path)
-  
+export async function downloadFile(
+  token,
+  username,
+  path,
+  name,
+  type,
+  children,
+  navigation
+) {
+  console.log(path);
+
   var extractedPath = path.split("allFiles/" + username)[1];
   extractedPath = extractedPath.split(name)[0];
-  if(extractedPath == "") extractedPath = "/";
-  if(type == 'file') {
-    await getFile(name,token,username,extractedPath);
-  }
-  else if(type == 'directory') {
+  if (extractedPath == "") extractedPath = "/";
+  if (type == "file") {
+    await getFile(name, token, username, extractedPath);
+  } else if (type == "directory") {
     console.log(name + " " + path + " " + children.length);
-    navigation.push("SubDirectory", {name: name, type: type, path: path, children: children});
+    navigation.push("SubDirectory", {
+      name: name,
+      type: type,
+      path: path,
+      children: children,
+    });
   }
 }
 
-
-export async function renameFileFolder(token, username, path,name,newName){
+export async function renameFileFolder(token, username, path, name, newName) {
   //console.log(path)
-  console.log(path + name + newName )
+  console.log(path + name + newName);
   var extractedPath = path.split("allFiles/" + username)[1];
   extractedPath = extractedPath.split(name)[0];
-  if(extractedPath == "") extractedPath = "/";
- await rename(token, username, extractedPath,name,newName);
-
+  if (extractedPath == "") extractedPath = "/";
+  await rename(token, username, extractedPath, name, newName);
 }
 
+export async function deleteFile(username, token, path, name) {
+  var extractedPath = path.split("allFiles/" + username)[1];
+  extractedPath = extractedPath.split(name)[0];
+  if (extractedPath == "") extractedPath = "/";
+  console.log(extractedPath);
+  await deleteFileFolder(name, token, username, extractedPath);
+}
 
-export async function copyFileFolder(token,username,name,oldPath,newPath){
-  console.log(oldPath + name + newPath )
+export async function copyFileFolder(token, username, name, oldPath, newPath) {
+  console.log(oldPath + name + newPath);
   var extractedOldPath = oldPath.split("allFiles/" + username)[1];
   extractedOldPath = extractedOldPath.split(name)[0];
-  if(extractedOldPath == "") extractedOldPath = "/";
+  if (extractedOldPath == "") extractedOldPath = "/";
 
   var extractedNewPath = newPath.split("allFiles/" + username)[1];
   extractedNewPath = extractedOldPath.split(name)[0];
-  if(extractedNewPath == "") extractedNewPath = "/";
+  if (extractedNewPath == "") extractedNewPath = "/";
 
- await copy(token,username,name,extractedOldPath,extractedNewPath);
-
+  await copy(token, username, name, extractedOldPath, extractedNewPath);
 }
 
-export async function moveFileFolder(token,username,name,oldPath,newPath){
-  console.log(oldPath + name + newPath )
+export async function moveFileFolder(token, username, name, oldPath, newPath) {
+  console.log(oldPath + name + newPath);
   var extractedOldPath = oldPath.split("allFiles/" + username)[1];
   extractedOldPath = extractedOldPath.split(name)[0];
-  if(extractedOldPath == "") extractedOldPath = "/";
+  if (extractedOldPath == "") extractedOldPath = "/";
 
   var extractedNewPath = newPath.split("allFiles/" + username)[1];
   extractedNewPath = extractedOldPath.split(name)[0];
-  if(extractedNewPath == "") extractedNewPath = "/";
+  if (extractedNewPath == "") extractedNewPath = "/";
 
- await move(token,username,name,extractedOldPath,extractedNewPath);
-
+  await move(token, username, name, extractedOldPath, extractedNewPath);
 }
 
-
-export default function ListItemVertical({ name, image_url, type, path, children }) {
-  var {getSavedToken} = React.useContext(AuthContext);
+export default function ListItemVertical({
+  name,
+  image_url,
+  type,
+  path,
+  children,
+}) {
+  var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
   const navigation = useNavigation();
-  return(
+  return (
     <TouchableOpacity
-      onPress = {async () => {
+      onPress={async () => {
         let token = await getSavedToken();
-        await downloadFile(token, username,path,name,type,children,navigation);
+        await downloadFile(
+          token,
+          username,
+          path,
+          name,
+          type,
+          children,
+          navigation
+        );
       }}
     >
       <View style={styles.container}>
         <Image
-          source={require('../../../assets/file-icon.jpg')}
+          source={require("../../../assets/file-icon.jpg")}
           style={styles.photo}
         />
         <View style={styles.container_text}>
           <Text style={styles.title}>{name}</Text>
         </View>
-    </View>
-    </TouchableOpacity> 
+      </View>
+    </TouchableOpacity>
   );
 }
- 
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -330,7 +357,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: "#FFF",
     elevation: 2,
-    alignItems: 'center'
+    alignItems: "center",
   },
   title: {
     fontSize: 16,
