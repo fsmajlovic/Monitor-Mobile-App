@@ -19,6 +19,13 @@ export default function Console({ navigation }) {
     const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set", "mkdir", "ping"];
 
     var username = React.useContext(userContext);
+
+    const [folders, setFolders] = useState([]);
+    const [edited, setEdited] = useState(true);
+    const [previous, setPrevious] = useState("");
+    const [indexFolder, setIndexFolder] = useState(0);
+    const [filteredFolders, setFilteredFolders] = useState([]);
+
     const { activeDevice } = useContext(DeviceContext);
     const [id, setId] = useState(activeDevice.deviceUid);
     const [id2, setId2] = useState(activeDevice.deviceId);
@@ -38,9 +45,12 @@ export default function Console({ navigation }) {
         })
     };
 
+    useEffect(() => {
+        getFoldersInCurrentPath();
+    }, [path]);
+
     const connect = async () => {
         let token = await getSavedToken();
-        console.log(token);
 
         fetch('https://si-grupa5.herokuapp.com/api/agent/connect', {
             method: 'POST',
@@ -58,6 +68,7 @@ export default function Console({ navigation }) {
                 console.log("konekcija " + res.message)
                 if (!(username === 'undefined'))
                     setConnected(true);
+                    getFoldersInCurrentPath();
             });
     }
 
@@ -69,7 +80,6 @@ export default function Console({ navigation }) {
     const connectToDataBase = async (command, response) => {
         let token = await getSavedToken();
         let time = moment().utcOffset('+02:00').format('YYYY-MM-DD hh:mm:ss a').toString()
-        console.log("Usla u funkciju!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         fetch('https://si-2021.167.99.244.168.nip.io/api/user-comand-logs', {
             method: 'POST',
             headers: {
@@ -86,8 +96,7 @@ export default function Console({ navigation }) {
             })
         }).then(res => res.text())
             .then(text => {
-                console.log("Stigao odgovor")
-                console.log(text)
+                //console.log(text)
             });
     }
     const sendRequest = async (command, token) => {
@@ -123,10 +132,66 @@ export default function Console({ navigation }) {
                     setPath(res.path);
                     if (res.message.length != 0)
                         addRows(modified);
-
                     connectToDataBase(command, modified);
                 }
             });
+    }
+
+    const getFolders = (unformatted) => {
+        let folderi = [];
+        for(let i = 7; i < unformatted.length; i++){
+            let red = unformatted[i].replace(/\s\s+/g, ' ').split(" ");
+            if(isNaN(red[3]))
+            folderi.push(red.slice(3).join(" ").trim());
+        }
+        return folderi.filter((x)=>{return x != "";});
+    }
+
+    const getFoldersInCurrentPath = async () => {
+        let token = await getSavedToken();
+        fetch('https://si-grupa5.herokuapp.com/api/agent/command', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + token,
+            },
+            body: JSON.stringify({
+                deviceUid: id,
+                command: "ls",
+                path: path,
+                //  parameters: [],
+                user: username
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                let modified = res.message.replace(/\\n/g, "\n");
+                modified = modified.replace(/\\r/g, "\r");
+                modified = modified.split("\n");
+                setFolders(getFolders(modified));
+            });
+    }
+
+    const recommendFolder = async () => {
+        if (edited){
+            setEdited(false);
+            setIndexFolder(0);
+            let text = current.split(" ");
+            text = text[text.length - 1];
+            setFilteredFolders(folders.filter((x)=>{return x.startsWith(text)}));
+            setPrevious(current);
+            return;
+        }
+        let text = previous.split(" ");
+        text = text[text.length - 1];
+        setCurrent(previous+filteredFolders[indexFolder].replace(text, ""));
+        if(indexFolder == filteredFolders.length-1){
+            setIndexFolder(0);
+        }
+        else{
+            setIndexFolder(indexFolder+1);
+        }
     }
 
     return (
@@ -139,7 +204,7 @@ export default function Console({ navigation }) {
                     <TextInput
                         style={styles.inputArea}
                         value={current}
-                        onChangeText={(e) => setCurrent(e)}
+                        onChangeText={(e) => {setCurrent(e);setEdited(true);}}
                         placeholder="..."
                         placeholderTextColor="#bbbbbb"
                         onSubmitEditing={async (event) => {
@@ -147,11 +212,6 @@ export default function Console({ navigation }) {
                             let args = input.split(" ");
                             let command = "";
                             command = args[0].toLowerCase();
-
-                            //    console.log("getUsername " + getUsername());
-                            console.log("username " + username);
-                            //      if (!connected)
-                            //          connect(username);
 
                             addRows(path + "> " + event.nativeEvent.text);
 
@@ -176,7 +236,7 @@ export default function Console({ navigation }) {
                 <View style={styles.buttons}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => { }}>
+                        onPress={() => {recommendFolder();}}>
                         <Text style={styles.buttonText}>Tab</Text>
                     </TouchableOpacity>
                 </View>
