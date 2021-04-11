@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { View, FlatList, StyleSheet, TouchableOpacity, Image, Text, Button } from 'react-native';
+import { View, FlatList, StyleSheet, TouchableOpacity, Image, Text, Button, Alert } from 'react-native';
+import {serverURL} from '../../../appConfig';
 import ListItemVertical from './ListItemVertical';
 import { AuthContext } from "../../../contexts/authContext";
 import { userContext } from '../../../contexts/userContext';
@@ -19,6 +20,7 @@ import {
 var image_source_folder = '../../../assets/file-icon.jpg';
 var image_source_data = '../../../assets/paper-icon.png';
 var image_icon = '';
+var image_url = "https://static.thenounproject.com/png/59103-200.png";
 
 function useSelectionChange(items) {
     const [selectionMode, setSelectionMode] = useState(null);
@@ -32,23 +34,35 @@ function useSelectionChange(items) {
     return selectionMode;
 }
 
-export default function ListViewVertical({ itemList }) {
+export default function ListViewVertical({ itemList, folderPath}) {
+    const [visibleFolder, setVisibleFolder] = React.useState(false);
+    const [folderName, setFolderName] = useState("New Folder");
+
     var { getSavedToken } = React.useContext(AuthContext);
     var username = React.useContext(userContext);
     const navigation = useNavigation();
     const [items, setItems] = useState(itemList);
     const selectionMode = useSelectionChange(items);
     const [visible, setVisible] = useState(false);
+    const [pathFolder, setPathFolder] = useState("allFiles/" + username + "/");
+    
     //varijable potrebne za rename
     const [fileName, setFileName] = useState("");
     const [newFilename, setNewFileName] = useState(fileName);
     const [path, setPath] = useState("");
     //console.log(items);
-
-    useEffect(() => { setItems(itemList) });
-
-
-
+    const showFolderDialog = () => {
+        setVisibleFolder(true);
+      };
+    
+      const handleCancelFolder = () => {
+        setVisibleFolder(false);
+      };
+    
+    useEffect(() => { setItems(itemList);
+            setPathFolder(folderPath)
+        });
+        
 
     const toggleSelect = item => {
         setItems(
@@ -144,12 +158,76 @@ export default function ListViewVertical({ itemList }) {
         );
     };
 
+    async function makeFolder(){
+        console.log(folderName)
+        console.log(pathFolder)
 
+        let exists = false;
+        for (let i = 0; i < items.length; i++) {
+            if(items[i]['type'] == 'directory' && items[i]['name'] == folderName){
+                exists = true
+            }
+        }
+        if(exists){
+            Alert.alert('Folder already exists!')
+        }
+        else{
+            setVisibleFolder(false);
+            let newPath = pathFolder.split('allFiles/' + username + '/')[1]
+            let token = await getSavedToken();
+            console.log('Token je: ' + token);
+            const response = await fetch(serverURL + "api/web/user/folder/create", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                    Accept: "text/html",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    path: newPath,
+                    folderName : folderName,
+                    user: username
+                }),
+            });
+            if(response.status == 200) {
+                Alert.alert('Uspješno dodan folder')
+                /*var newItems = items;
+                newItems.push({ name: folderName, id: '', image_url: image_url, type: 'directory', path: pathFolder })
+                newItems[newItems.length - 1]['children'] = [];
+                setItems(newItems)*/
+            }
+            else if(response.status == 503) {
+                alert("Servis nedostupan");
+            }
+            else if(response.status == 403) {
+                //invalid token, trebalo bi dobaviti novi
+            }
+            else {
+                console.log("Status" + response.status)
+                console.log("Promijenjen JSON zahtjev?");
+                alert("Greska pri pravljenju foldera");
+            }
+        }
+        
+      }
+    
 
     return (
         <>
             <Root>
                 <Container>
+                    <View>
+                        <Button title="+ New Folder" onPress={showFolderDialog}/>
+                        <Dialog.Container visible={visibleFolder}>
+                            <Dialog.Title>Create folder</Dialog.Title>
+                            <Dialog.Input onChangeText={(value) => setFolderName(value)}
+                                >New Folder</Dialog.Input>
+                            <Dialog.Button label="Cancel" onPress={handleCancelFolder} />
+                            <Dialog.Button label="Submit" onPress={async () => {
+                                await makeFolder()
+                            }}/>
+                        </Dialog.Container>
+                    </View>
                     <SelectionListHeader
                         selectionMode={selectionMode}
                         title="Files"

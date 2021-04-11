@@ -12,6 +12,7 @@ var image_url = "https://static.thenounproject.com/png/59103-200.png";
 export default function App({ route, navigation }) {
   var [files, setFiles] = useState([]);
   var [dirName, setDirName] = useState([]);
+  var [folderName, setFolderName] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
 
@@ -19,6 +20,7 @@ export default function App({ route, navigation }) {
     var data = [];
     const { children } = route.params;
     const { path } = route.params;
+    setFolderName(path)
     var pathFragments = path.split("/");
     setDirName(pathFragments[pathFragments.length - 1]);
 
@@ -42,6 +44,7 @@ export default function App({ route, navigation }) {
     <View style={styles.container}>
       <ListViewVertical
         itemList={files}
+        folderPath = {folderName}
       />
     </View>
   );
