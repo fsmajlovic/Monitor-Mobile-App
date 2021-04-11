@@ -8,12 +8,14 @@ import {
   Image,
   Text,
   Button,
+  Alert,
 } from "react-native";
 import ListItemVertical from "./ListItemVertical";
 import { serverURL } from "../../../appConfig";
 import { AuthContext } from "../../../contexts/authContext";
 import { userContext } from "../../../contexts/userContext";
 import SelectionListHeader from "./SelectionListHeader";
+
 import {
   downloadFile,
   renameFileFolder,
@@ -88,7 +90,6 @@ export default function ListViewVertical({ itemList, folderPath }) {
         return i;
       })
     );
-    x;
   };
 
   const onPress = async (item) => {
@@ -128,6 +129,8 @@ export default function ListViewVertical({ itemList, folderPath }) {
     let token = await getSavedToken();
     renameFileFolder(token, username, path, fileName, newFilename);
     setVisible(false);
+    clearSelection();
+    navigation.navigate("FileManager");
   };
 
   const rename = async () => {
