@@ -104,10 +104,11 @@ const styles = StyleSheet.create({
         color: '#ffffff'
     },
     doneButton: {
-        fontWeight: 'bold',
-        fontSize: 16,
+        paddingRight: 12,
+        fontFamily: 'sans-serif',
+        fontSize: 20,
         color: 'white',
-        paddingRight: 5
+        fontWeight: 'bold'
     }
 });
 
