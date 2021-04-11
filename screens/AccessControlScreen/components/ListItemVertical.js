@@ -198,14 +198,10 @@ async function deleteFileFolder(name, token, username, path) {
     if (response.status == 200) {
       var jsonResponse = await response.json();
       console.log(jsonResponse);
-      if (jsonResponse.hasOwnProperty("error")) {
-        alert("File ne postoji!");
-      } else if (jsonResponse.hasOwnProperty("fileName")) {
-        alert("File deleted successfully.");
-        fileData = jsonResponse["base64"];
-        fileName = jsonResponse["fileName"];
-        await saveToExpoFileSystem();
-        await copyFromExpoFSToLocalFS();
+      if (jsonResponse.hasOwnProperty("error_id")) {
+        alert("File ne postoji ili mu nedostaje extenzija u nazivu!");
+      } else {
+        alert("File deleted successfuly!");
       }
     } else if (response.status == 403) {
       alert("Invalid JWT token");
@@ -236,28 +232,24 @@ async function deleteFolder(name, token, username, path) {
       },
       body: JSON.stringify({
         path: path,
-        fileName: name,
+        folderName: name,
         user: username,
       }),
     });
     if (response.status == 200) {
       var jsonResponse = await response.json();
       console.log(jsonResponse);
-      if (jsonResponse.hasOwnProperty("error")) {
-        alert("File ne postoji!");
-      } else if (jsonResponse.hasOwnProperty("fileName")) {
-        alert("File deleted successfully.");
-        fileData = jsonResponse["base64"];
-        fileName = jsonResponse["fileName"];
-        await saveToExpoFileSystem();
-        await copyFromExpoFSToLocalFS();
+      if (jsonResponse.hasOwnProperty("error_id")) {
+        alert("Folder ne postoji ili ima extenziju u svom nazivu!");
+      } else {
+        alert("Folder deleted successfuly!");
       }
     } else if (response.status == 403) {
       alert("Invalid JWT token");
     } else if (response.status == 404) {
       alert("Folder do not exist");
     } else {
-      alert("Greska pri brisanju folder-a");
+      alert("Folder ima extenziju u svom nazivu, greska!");
     }
   } catch (error) {
     console.log(error);
