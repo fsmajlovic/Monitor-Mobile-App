@@ -174,14 +174,10 @@ async function copy(token, username, name, oldPath, newPath) {
   }
 }
 
-async function deleteFileFolder(name, token, username, path) {
+async function deleteFile(name, token, username, path) {
+  console.log("brise se file")
   try {
-    console.log("Body za delete:");
-    console.log(path);
-    console.log("   ");
-    console.log(name);
-    console.log("   ");
-    console.log(username);
+
     let response = await fetch(serverURL + "api/web/user/file/delete", {
       method: "POST",
       headers: {
@@ -197,32 +193,29 @@ async function deleteFileFolder(name, token, username, path) {
     });
     if (response.status == 200) {
       var jsonResponse = await response.json();
-      console.log(jsonResponse);
       if (jsonResponse.hasOwnProperty("error_id")) {
-        alert("File ne postoji ili mu nedostaje extenzija u nazivu!");
-      } else {
-        alert("File deleted successfuly!");
+        //alert("Datoteka/Folder ne postoji!");
+        console.log("Datoteka ne postoji!");
       }
+    } else if (response.status == 503) {
+      alert("Servis nedostupan");
     } else if (response.status == 403) {
-      alert("Invalid JWT token");
+      //invalid token, trebalo bi dobaviti novi
     } else if (response.status == 404) {
-      alert("File do not exist");
+      alert("Datoteka vise ne postoji");
     } else {
-      alert("Greska pri brisanju file-a");
+      console.log("Promijenjen JSON zahtjeva?");
+      alert("Greska pri brisanju datoteke");
     }
   } catch (error) {
     console.log(error);
   }
 }
 
+
 async function deleteFolder(name, token, username, path) {
+  console.log("brise se folder")
   try {
-    console.log("Body za delete folder:");
-    console.log(path);
-    console.log("   ");
-    console.log(name);
-    console.log("   ");
-    console.log(username);
     let response = await fetch(serverURL + "api/web/user/folder/delete", {
       method: "POST",
       headers: {
@@ -238,23 +231,26 @@ async function deleteFolder(name, token, username, path) {
     });
     if (response.status == 200) {
       var jsonResponse = await response.json();
-      console.log(jsonResponse);
       if (jsonResponse.hasOwnProperty("error_id")) {
-        alert("Folder ne postoji ili ima extenziju u svom nazivu!");
-      } else {
-        alert("Folder deleted successfuly!");
+        //alert("Datoteka/Folder ne postoji!");
+        console.log("Folder ne postoji!");
       }
+    } else if (response.status == 503) {
+      alert("Servis nedostupan");
     } else if (response.status == 403) {
-      alert("Invalid JWT token");
+      //invalid token, trebalo bi dobaviti novi
     } else if (response.status == 404) {
-      alert("Folder do not exist");
+      alert("Datoteka vise ne postoji");
     } else {
-      alert("Folder ima extenziju u svom nazivu, greska!");
+      console.log("Promijenjen JSON zahtjeva?");
+      alert("Greska pri brisanju foldera");
     }
   } catch (error) {
     console.log(error);
   }
 }
+
+
 
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
@@ -305,23 +301,15 @@ export async function renameFileFolder(token, username, path, name, newName) {
   await rename(token, username, extractedPath, name, newName);
 }
 
-export async function deleteFile(username, token, path, name) {
-  console.log("Path za brisanje necega je:");
-  console.log(path);
+export async function deleteFileFolder(username, token, path, name, type) {
   var extractedPath = path.split("allFiles/" + username)[1];
-  try {
-    extractedPath = extractedPath.split(name)[0];
-  } catch {}
+  extractedPath = extractedPath.split(name)[0];
   if (extractedPath == "") extractedPath = "/";
-  try {
-    console.log("Extracted path je: ");
-    console.log(extractedPath);
-    if (extractedPath == "/") {
-      await deleteFolder(name, token, username, extractedPath);
-    } else {
-      await deleteFileFolder(name, token, username, extractedPath);
-    }
-  } catch {}
+  if (type == "file") {
+    await deleteFile(name, token, username, extractedPath);
+  } else if (type == "directory") {
+    await deleteFolder(name, token, username, extractedPath);
+  }
 }
 
 export async function copyFileFolder(token, username, name, oldPath, newPath) {

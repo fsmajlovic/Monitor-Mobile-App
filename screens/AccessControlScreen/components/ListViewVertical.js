@@ -21,7 +21,7 @@ import {
   renameFileFolder,
   copyFileFolder,
   moveFileFolder,
-  deleteFile,
+  deleteFileFolder,
 } from "./ListItemVertical";
 import Dialog from "react-native-dialog";
 
@@ -62,7 +62,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
 
     useEffect(() => { 
         setItems(itemList);
-        etPathFolder(folderPath);
+        setPathFolder(folderPath);
         setIsCopyDirectory(isDirectory);
     });
 
@@ -211,23 +211,19 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
         }
     }
 
-    const deleteFileFromFolder = async () => {
-        let selectedItem;
-        let selectedItemsNumber = 0;
-        for (let i = 0; i < items.length; i++) {
-          if (items[i].selected) {
-            selectedItem = items[i];
-            selectedItemsNumber++;
-          }
+    const deleteFromServer = async () => {
+      let selectedItem;
+      
+      let token = await getSavedToken();
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].selected) {
+          selectedItem = items[i];
+          await deleteFileFolder(username, token, selectedItem.path, selectedItem.name,selectedItem.type);
         }
-        if (selectedItemsNumber == 1) {
-          let token = await getSavedToken();
-          try {
-            deleteFile(username, token, selectedItem.path, selectedItem.name);
-            clearSelection();
-          } catch {}
-        }
-      };
+      }
+        clearSelection();
+        navigation.navigate("FileManager");
+    };
     
       const renderItem = (item) => {
         return (
@@ -310,10 +306,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
                   {
                     name: "Delete",
                     method: async function () {
-                      console.log("NOVI POZIV");
-                      try {
-                        await deleteFileFromFolder();
-                      } catch {}
+                      await deleteFromServer();
                     },
                   },
                   {
