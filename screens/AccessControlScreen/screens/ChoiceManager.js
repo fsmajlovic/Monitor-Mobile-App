@@ -16,6 +16,7 @@ export default function App({route, navigation }) {
   const [visible, setVisible] = React.useState(false);
   const [oldPath, setOldPath] = React.useState(false);
   const [isDirectory, setIsDirectory] = React.useState(false);
+  const [action, setAction] = React.useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   var [files, setFiles] = useState([]);
@@ -31,8 +32,10 @@ export default function App({route, navigation }) {
   useEffect(() => {
     const { oldPath } = route.params;
     const { isDirectory } = route.params;
+    const { action } = route.params;
     setOldPath(oldPath);
-    setIsDirectory(isDirectory)
+    setIsDirectory(isDirectory);
+    setAction(action);
 
     async function getFiles() {
       let token = await getSavedToken();
@@ -87,7 +90,9 @@ export default function App({route, navigation }) {
       <View style={styles.container}>
         <ListViewVertical
           itemList={files}
+          folderPath={null}
           isDirectory={isDirectory}
+          action={action}
         />
         {<TouchableOpacity onPress={async () => {
               let token = await getSavedToken();
@@ -104,7 +109,8 @@ export default function App({route, navigation }) {
               extractedOldPath = extractedOldPath.split("allFiles/" + username + "/")[1];
               if(extractedOldPath == undefined) 
                 extractedOldPath = "";
-              await copy(token, username, fileName, extractedOldPath, newDirPath, navigation);
+
+              await copyOrMove(token, username, fileName, extractedOldPath, newDirPath, navigation, action);
           }}>
           <Text style={styles.confirmNewLocation}>Odaberi</Text>
         </TouchableOpacity> }
@@ -114,9 +120,9 @@ export default function App({route, navigation }) {
   );
 }
 
-async function copy(token,username,name,oldPath,newPath,navigation) {
+async function copyOrMove(token,username,name,oldPath,newPath,navigation,action) {
   try {
-    let response = await fetch(serverURL + "api/web/user/copy", {
+    let response = await fetch(serverURL + "api/web/user/" + action, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -139,7 +145,7 @@ async function copy(token,username,name,oldPath,newPath,navigation) {
        
     }
     else if(response.status == 200) {
-      alert("Uspjesno kopirano");
+      alert("Uspjesan copy/move");
       navigation.navigate("FileManager");
     }
     else if(response.status == 403) {

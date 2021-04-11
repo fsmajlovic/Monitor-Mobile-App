@@ -15,6 +15,7 @@ export default function App({ route, navigation }) {
   var [copyFrom, setCopyFrom] = useState([]);
   var [currentDirPath, setCurrentDirPath] = useState([]);
   var [isDirectory, setIsDirectory] = useState([]);
+  var [actionCopyMove, setActionCopyMove] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
 
@@ -24,6 +25,7 @@ export default function App({ route, navigation }) {
     const { path } = route.params;
     const { oldPath } = route.params;
     const { isDirectory } = route.params;
+    const { action } = route.params;
 
     var pathFragments = path.split("/");
     setDirName(pathFragments[pathFragments.length - 1]);
@@ -31,6 +33,7 @@ export default function App({ route, navigation }) {
     var currentDir = path.split("allFiles/" + username + "/")[1];
     setCurrentDirPath(currentDir);
     setIsDirectory(isDirectory);
+    setActionCopyMove(action);
 
     for (let i = 0; i < children.length; i++) {
         let file = children[i];
@@ -51,7 +54,10 @@ export default function App({ route, navigation }) {
   return (
     <View style={styles.container}>
       <ListViewVertical
-        itemList={files}
+          itemList={files}
+          folderPath={null}
+          isDirectory={isDirectory}
+          action={actionCopyMove}
       />
       {<TouchableOpacity onPress={async () => {
               let token = await getSavedToken();
@@ -67,7 +73,7 @@ export default function App({ route, navigation }) {
               }
               extractedOldPath = extractedOldPath.split("allFiles/" + username + "/")[1];
               if(extractedOldPath == undefined) extractedOldPath = "";
-              await copy(token, username, fileName, extractedOldPath, newDirPath, navigation);
+              await copyOrMove(token, username, fileName, extractedOldPath, newDirPath, navigation, actionCopyMove);
           }}>
           <Text style={styles.confirmNewLocation}>Odaberi</Text>
         </TouchableOpacity> }
@@ -75,12 +81,13 @@ export default function App({ route, navigation }) {
   );
 }
 
-async function copy(token,username,name,oldPath,newPath,navigation) {
+async function copyOrMove(token,username,name,oldPath,newPath,navigation,action) {
+  console.log("ACTION: " + action);
   console.log("NAME: " + name);
   console.log("OLDPATH: " + oldPath);
-  console.log("NEWPATH: " + newPath );
+  console.log("NEWPATH: " + newPath);
   try {
-    let response = await fetch(serverURL + "api/web/user/copy", {
+    let response = await fetch(serverURL + "api/web/user/" + action, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -103,7 +110,7 @@ async function copy(token,username,name,oldPath,newPath,navigation) {
        
     }
     else if(response.status == 200) {
-      alert("Uspjesno kopirano");
+      alert("Uspjesan copy/move");
       navigation.navigate("FileManager");
     }
     else if(response.status == 403) {

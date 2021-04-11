@@ -277,7 +277,7 @@ async function copyFromExpoFSToLocalFS() {
     console.log(error);
   }
 }
-export async function downloadFile(token, username, path,name,type,children,oldPath,isDirectory,navigation){
+export async function downloadFile(token, username, path,name,type,children,oldPath,isDirectory,action,navigation){
   console.log(path)
   
   var extractedPath = path.split("allFiles/" + username)[1];
@@ -290,7 +290,7 @@ export async function downloadFile(token, username, path,name,type,children,oldP
     if(oldPath == null)
       navigation.push("SubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath});
     else
-      navigation.push("ChoiceSubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath, isDirectory: isDirectory});
+      navigation.push("ChoiceSubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath, isDirectory: isDirectory, action: action});
   }
 }
 

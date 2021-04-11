@@ -43,7 +43,7 @@ function useSelectionChange(items) {
   return selectionMode;
 }
 
-export default function ListViewVertical({ itemList, folderPath, isDirectory }) {
+export default function ListViewVertical({ itemList, folderPath, isDirectory, action }) {
     var { getSavedToken } = React.useContext(AuthContext);
     var username = React.useContext(userContext);
     const navigation = useNavigation();
@@ -55,6 +55,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
     const [pathFolder, setPathFolder] = useState("");
     //varijable za copy/move
     const [isCopyDirectory, setIsCopyDirectory] = useState(false);
+    const [actionCopyMove, setActionCopyMove] = useState(false);
     //varijable potrebne za rename
     const [fileName, setFileName] = useState("");
     const [newFilename, setNewFileName] = useState(fileName);
@@ -64,6 +65,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
         setItems(itemList);
         setPathFolder(folderPath);
         setIsCopyDirectory(isDirectory);
+        setActionCopyMove(action);
     });
 
     const showFolderDialog = () => {
@@ -101,7 +103,8 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
             console.log("newpath: " + item.oldPath);
             //ovo je za download
             let token = await getSavedToken();
-            downloadFile(token, username, item.path, item.name, item.type, item.children, item.oldPath, isCopyDirectory, navigation);
+            console.log("ACTION IZ ONPRESS: " + actionCopyMove);
+            downloadFile(token, username, item.path, item.name, item.type, item.children, item.oldPath, isCopyDirectory, actionCopyMove, navigation);
         }
     };
 
@@ -194,7 +197,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
         }
       }
 
-      const copy = async (oldPath) => {
+      const copy = async () => {
         let selectedItem;
         let selectedItemsNumber=0;
         for (let i=0;i <items.length; i++) {
@@ -207,9 +210,26 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
         //Poslije ce trebati podrzati i vise oznacenih
         if (selectedItemsNumber==1){
             //console.log("Selektovani item: " + selectedItem.name + " path: " + selectedItem.path);
-            navigation.navigate("ChoiceManager", {oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children')});
+            navigation.navigate("ChoiceManager", {oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children'), action: "copy"});
         }
-    }
+      }
+
+      const move = async () => {
+        let selectedItem;
+        let selectedItemsNumber=0;
+        for (let i=0;i <items.length; i++) {
+            if (items[i].selected) {
+                selectedItem = items[i];
+                selectedItemsNumber++;
+            }
+        }
+        //Za pocetak move moze za samo jedan selektovani item
+        //Poslije ce trebati podrzati i vise oznacenih
+        if (selectedItemsNumber==1){
+            //console.log("Selektovani item: " + selectedItem.name + " path: " + selectedItem.path);
+            navigation.navigate("ChoiceManager", {oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children'), action: "move"});
+        }
+      }
 
     const deleteFromServer = async () => {
       let selectedItem;
@@ -297,30 +317,14 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory }) 
                   {
                     name: "Copy",
                     method: async function () {
-                      //  navigation.navigate("ChoiceManager");
-    
                       await copy();
-    
-                      //let token = await getSavedToken();
-    
-                      //ovdje treba ponuditi listu foldera za  odabir
-                      // u koji cemo folder kopirati i tu cemo uzeti new path
-                      //tako isto i za move
-    
-                      //  if (selectedItemsCount==1){
-                      // await copyFileFolder(token,username,items[0].name,items[0].path,newPath)
-                      //  }
-    
                       clearSelection();
                     },
                   },
                   {
                     name: "Move",
-                    method: function () {
-                      // let token = await getSavedToken();
-    
-                      //await moveFileFolder(token,username,naziv,oldPath,newPath)
-    
+                    method: async function () {
+                      await move();
                       clearSelection();
                     },
                   },
