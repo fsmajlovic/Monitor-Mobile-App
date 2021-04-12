@@ -11,25 +11,25 @@ import {machineURL} from '../../../appConfig'
 
 
 const ImageUploadScreen = (props) => {
+  const { task } = props.route.params;
     const [photos, setPhotos] = useState([]);
     const [selected,setSelected] = useState(false);
-    const [task,setTask] = useState('');
     const { currentDevice, taskList } = useContext(DeviceContext);
     const {getSavedToken} = useContext(AuthContext);
     const [selectedTask, setSelectedTask] = useState("nesto");
     
     const currentDate = () =>{
         let current = new Date();
-        let cDate = current.getFullYear() + ':' + (current.getMonth() + 1) + ':' + current.getDate();
-        let cTime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-        return cDate + ':' + cTime;
+        let cDate = current.getFullYear() + ":" + (current.getMonth() + 1) + ":" + current.getDate();
+        let cTime = current.getHours() +":" + current.getMinutes()  + ":" + current.getSeconds();
+        return cDate + ":" + cTime;
     }
-    const createFormData = (photo,task) =>{
+
+    const createFormData = (photo) => {
         const data = new FormData();
 
         for(let i=0;i<photo.length;i++){
-
-          data.append(currentDevice.name+'-'+currentDate()+'-'+task, {
+          data.append(task.device.deviceUid + '_' + task.taskId + '_' +currentDate()+'_'+i, {
            name: photo[i].name,
            type: photo[i].type,
            uri: Platform.OS === "android" ? photo[i].uri : photo[i].uri.replace("file://", "")
@@ -72,7 +72,7 @@ const ImageUploadScreen = (props) => {
       let response;
       try {
         token = await getSavedToken();
-        response = await axios.post(machineURL+'upload/UploadFile', createFormData(photos, task),{
+        response = await axios.post(machineURL + 'upload/UploadFile', createFormData(photos, props.route.params.taskId),{
           headers:{
             'Authorization': `Bearer ${token}`
              }
@@ -81,7 +81,7 @@ const ImageUploadScreen = (props) => {
 
         setPhotos([]);
         setSelected(false);
-        setTask('');
+        
         alert("Succesfull upload!")
          
       } catch (e) {
@@ -89,7 +89,7 @@ const ImageUploadScreen = (props) => {
         
         setPhotos([]);
         setSelected(false);
-        setTask('');
+        
         alert("Failed to upload!")
       
       }
@@ -97,13 +97,6 @@ const ImageUploadScreen = (props) => {
 
     return (
         <View style={styles.container}>
-           <TextInput
-             style={styles.input}
-             onChangeText={setTask}
-             placeholder="Task"
-             value={task}
-           />
-
             <TouchableOpacity onPress={() => props.navigation.push('ImageBrowserScreen')}>
               <View style={styles.containerButton}>
                 <Text style={styles.button}>Select photos</Text>
