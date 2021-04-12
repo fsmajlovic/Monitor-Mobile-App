@@ -414,9 +414,6 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                     },
                   },
                   {
-                    name: "Download",
-                  },
-                  {
                     name: "Send",
                   },
                   {
