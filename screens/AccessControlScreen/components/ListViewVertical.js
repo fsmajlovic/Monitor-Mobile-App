@@ -353,11 +353,26 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
             <Container>
               <View style={styles.header}>
                 <View style={styles.sort}>                
-                  <Text>Sort by:</Text>
-                  <Button color="#fff" title="Name" onPress={sortByName} />
-                  <Button color="#fff" title="Date" onPress={sortByDate} />
+                  <Text style={{color: 'white', fontSize: 15, marginLeft: 10, marginBottom: 10, marginRight: 10}}>Sort by:</Text>
+                  <TouchableOpacity 
+                    onPress={sortByName}
+                    style={styles.TO}
+                  >
+                    <Text style={{color: 'white', fontSize: 15}}>Name</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={sortByDate}
+                    style={styles.TO}
+                  >
+                    <Text style={{color: 'white', fontSize: 15}}>Date</Text>
+                  </TouchableOpacity>
                 </View>
-                <Button title="+ New Folder" onPress={showFolderDialog} />
+                <TouchableOpacity
+                    onPress={showFolderDialog}
+                    style={styles.TO}
+                >   
+                    <Text style={{color: 'white', fontSize: 15}}>+ New Folder</Text>
+                </TouchableOpacity>
                 <Dialog.Container visible={visibleFolder}>
                   <Dialog.Title>Create folder</Dialog.Title>
                   <Dialog.Input onChangeText={(value) => setFolderName(value)}>
@@ -489,13 +504,21 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
       },
       header: {
         flexDirection: "row",
-        backgroundColor: "#fff",
+        backgroundColor: "#0D47A1",
         alignItems: "center",
         justifyContent: "space-between",
       },
       sort: {
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
+        justifyContent: 'center',
+      },
+      TO: {
+        marginLeft: 10,
+        marginRight: 10,
+        marginBottom: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
       }
     });
     
