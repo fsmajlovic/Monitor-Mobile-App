@@ -18,8 +18,9 @@ import OptionScreen from '../ReportScreen/screens/OptionScreen';
 import MachineScreen from '../ReportScreen/screens/MachineScreen';
 import EditTask from '../TehnicianScreen/screens/EditTask';
 import FileManager from '../AccessControlScreen/screens/FileManager'
-import ImageUploadScreen from '../TehnicianScreen/screens/ImageUploadScreen';
-import ImageBrowserScreen from '../TehnicianScreen/screens/ImageBrowserScreen';
+import SubDirectory from '../AccessControlScreen/screens/SubDirectory'
+import ChoiceManager from '../AccessControlScreen/screens/ChoiceManager'
+import ChoiceSubDirectory from '../AccessControlScreen/screens/ChoiceSubDirectory'
 import TaskView from '../TehnicianScreen/screens/TaskView';
 import ShowImagesScreen from "../TehnicianScreen/screens/ShowImagesScreen";
 
@@ -128,7 +129,12 @@ const HomeStackScreen = ({navigation}) => (
             <HomeStack.Screen name="FileManager" component={FileManager} options={{
                 title: 'File Manager',
             }} />
-
+            <HomeStack.Screen name="SubDirectory" component={SubDirectory} options={{
+            }} />
+            <HomeStack.Screen name="ChoiceManager" component={ChoiceManager} options={{
+            }} />
+             <HomeStack.Screen name="ChoiceSubDirectory" component={ChoiceSubDirectory} options={{
+            }} />
     </HomeStack.Navigator>
     );
 
