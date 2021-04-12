@@ -29,6 +29,8 @@ import { List, Content, Container, Root } from "native-base";
 
 var image_source_folder = require("../../../assets/file-icon.jpg");
 var image_source_data = require("../../../assets/paper-icon.png");
+var nameAscending = true;
+var dateAscending = true;
 
 function useSelectionChange(items) {
   const [selectionMode, setSelectionMode] = useState(null);
@@ -48,7 +50,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
     const navigation = useNavigation();
     const [visibleFolder, setVisibleFolder] = React.useState(false);
     const [folderName, setFolderName] = useState("New Folder");
-    const [items, setItems] = useState(itemList);
+    const [items, setItems] = useState([]);
     const selectionMode = useSelectionChange(items);
     const [visible, setVisible] = useState(false);
     const [pathFolder, setPathFolder] = useState("");
@@ -285,17 +287,76 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
               <View style={styles.container_text}>
                 <Text style={styles.title}>{item.name}</Text>
               </View>
+              <View style={styles.container_text}>
+                <Text style={styles.title}>{item.birthtime}</Text>
+              </View>
             </View>
           </TouchableOpacity>
         );
       };
+      
+      async function sortByName() {
+        items.sort((a, b) => {
+          if (a.name.toLowerCase() == b.name.toLowerCase()) {
+            return 0;
+          } else {
+              return a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1;
+          }
+        });
 
+        // ascending/descending radi po on/off principu
+        if(nameAscending) {
+          items.reverse();
+          nameAscending = false;
+        }
+        else {
+          nameAscending = true;
+        }
+
+        setItems(
+          items.map((i) => {
+            return i;
+          })
+        );
+      }
+
+      async function sortByDate() {
+        items.sort((a, b) => {
+          var d1 = new Date(a.dateTimeFormat);
+          var d2 = new Date(b.dateTimeFormat);
+          if (d1 == d2) {
+            return 0;
+          } else {
+              return d1 > d2 ? -1 : 1;
+          }
+        });
+
+        // ascending/descending radi po on/off principu
+        if(dateAscending) {
+          items.reverse();
+          dateAscending = false;
+        }
+        else {
+          dateAscending = true;
+        }
+
+        setItems(
+          items.map((i) => {
+            return i;
+          })
+        );
+      }
 
       return (
         <>
           <Root>
             <Container>
-              <View>
+              <View style={styles.header}>
+                <View style={styles.sort}>                
+                  <Text>Sort by:</Text>
+                  <Button color="#fff" title="Name" onPress={sortByName} />
+                  <Button color="#fff" title="Date" onPress={sortByDate} />
+                </View>
                 <Button title="+ New Folder" onPress={showFolderDialog} />
                 <Dialog.Container visible={visibleFolder}>
                   <Dialog.Title>Create folder</Dialog.Title>
@@ -426,5 +487,15 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         alignItems: "center",
         justifyContent: "center",
       },
+      header: {
+        flexDirection: "row",
+        backgroundColor: "#fff",
+        alignItems: "center",
+        justifyContent: "space-between",
+      },
+      sort: {
+        flexDirection: "row",
+        alignItems: "center"
+      }
     });
     

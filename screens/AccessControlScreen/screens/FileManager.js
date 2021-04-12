@@ -48,7 +48,10 @@ export default function App({ navigation }) {
       var newDataSet = [];
       for (let i = 0; i < jsonResponseArray.length; i++) {
         let file = jsonResponseArray[i];
-        newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: null });
+        let birthtime = file['birthtime'].split("T");
+        let time = birthtime[1].split(".")[0];
+        let dateTime = birthtime[0] + "\n" + time;
+        newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: null, birthtime: dateTime, dateTimeFormat: file['birthtime'] });
         if(file['type'] == 'directory') {
           newDataSet[newDataSet.length - 1]['children'] = file['children'];
         }
