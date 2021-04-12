@@ -23,7 +23,8 @@ import ChoiceManager from '../AccessControlScreen/screens/ChoiceManager'
 import ChoiceSubDirectory from '../AccessControlScreen/screens/ChoiceSubDirectory'
 import TaskView from '../TehnicianScreen/screens/TaskView';
 import ShowImagesScreen from "../TehnicianScreen/screens/ShowImagesScreen";
-
+import ImageUploadScreen from "../TehnicianScreen/screens/ImageUploadScreen";
+import ImageBrowserScreen from "../TehnicianScreen/screens/ImageBrowserScreen";
 
 
 const HomeStack = createStackNavigator();
