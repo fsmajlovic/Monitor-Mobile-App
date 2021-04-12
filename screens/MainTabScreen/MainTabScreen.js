@@ -21,10 +21,6 @@ import FileManager from '../AccessControlScreen/screens/FileManager'
 import SubDirectory from '../AccessControlScreen/screens/SubDirectory'
 import ChoiceManager from '../AccessControlScreen/screens/ChoiceManager'
 import ChoiceSubDirectory from '../AccessControlScreen/screens/ChoiceSubDirectory'
-import ImageUploadScreen from '../ReportScreen/screens/ImageUploadScreen';
-import ImageBrowserScreen from '../ReportScreen/screens/ImageBrowserScreen';
-import ImageUploadScreen from '../TehnicianScreen/screens/ImageUploadScreen';
-import ImageBrowserScreen from '../TehnicianScreen/screens/ImageBrowserScreen';
 import TaskView from '../TehnicianScreen/screens/TaskView';
 import ShowImagesScreen from "../TehnicianScreen/screens/ShowImagesScreen";
 
