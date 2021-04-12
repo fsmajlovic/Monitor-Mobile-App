@@ -510,6 +510,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         alignItems: "center",
         justifyContent: 'center',
       },
+      //TouchableOpacity
       TO: {
         marginLeft: 10,
         marginRight: 10,
