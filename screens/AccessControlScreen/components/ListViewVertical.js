@@ -27,9 +27,8 @@ import Dialog from "react-native-dialog";
 
 import { List, Content, Container, Root } from "native-base";
 
-var image_source_folder = "../../../assets/file-icon.jpg";
-var image_source_data = "../../../assets/paper-icon.png";
-var image_icon = "";
+var image_source_folder = require("../../../assets/file-icon.jpg");
+var image_source_data = require("../../../assets/paper-icon.png");
 
 function useSelectionChange(items) {
   const [selectionMode, setSelectionMode] = useState(null);
@@ -128,6 +127,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         renameFileFolder(token, username, path, fileName, newFilename);
         setVisible(false);
         clearSelection();
+        navigation.pop();
         navigation.navigate("FileManager");
       };
     
@@ -181,6 +181,8 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
           });
           if (response.status == 200) {
             Alert.alert("Uspješno dodan folder");
+            navigation.pop();
+            navigation.navigate("FileManager");
             /*var newItems = items;
                     newItems.push({ name: folderName, id: '', image_url: image_url, type: 'directory', path: pathFolder })
                     newItems[newItems.length - 1]['children'] = [];
@@ -263,6 +265,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         }
       }
         clearSelection();
+        navigation.pop();
         navigation.navigate("FileManager");
     };
     
@@ -276,7 +279,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
           >
             <View style={styles.container}>
               <Image
-                source={require("../../../assets/file-icon.jpg")}
+                source={item["type"] == "file" ? image_source_data : image_source_folder}
                 style={styles.photo}
               />
               <View style={styles.container_text}>
