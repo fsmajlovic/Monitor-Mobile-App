@@ -354,8 +354,8 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
               <View style={styles.header}>
                 <View style={styles.sort}>                
                   <Text>Sort by:</Text>
-                  <Button color="#fff" title="Name" onPress={sortByName} />
-                  <Button color="#fff" title="Date" onPress={sortByDate} />
+                  <Button title="Name" onPress={sortByName} />
+                  <Button title="Date" onPress={sortByDate} />
                 </View>
                 <Button title="+ New Folder" onPress={showFolderDialog} />
                 <Dialog.Container visible={visibleFolder}>
