@@ -286,7 +286,6 @@ export async function downloadFile(token, username, path,name,type,children,oldP
   if(extractedPath == "") extractedPath = "/";
   if(type == 'file') {
     await getFile(name,token,username,extractedPath);
-    navigation.push('WebViewScreen', {location: expoFileLocation});
   }
   else if(type == 'directory') {
     if(oldPath == null)

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import * as FileSystem from "expo-file-system";
 import {
   View,
   FlatList,
@@ -218,6 +219,39 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         }
       }
 
+      const preview = async () => {
+        let selectedItem;
+        let selectedItemsNumber=0;
+        for (let i=0;i <items.length; i++) {
+            if (items[i].selected) {
+                selectedItem = items[i];
+                selectedItemsNumber++;
+            }
+        }
+
+        if (selectedItemsNumber==1 && selectedItem.type === 'file'){
+          let expoFileLocation = FileSystem.documentDirectory + selectedItem.name;
+          let dirInfo = await FileSystem.getInfoAsync(expoFileLocation);
+          let supportedExtensions = ['.log', '.txt', '.html', '.png', '.jpg', '.xml'];
+          console.log("ekstenzija" + selectedItem.extension);
+
+          
+            if(dirInfo.exists){
+              if(!supportedExtensions.includes(selectedItem.extension)){
+                alert('Unsupported Format!');
+              }
+              else{
+                navigation.push('WebViewScreen', {location: expoFileLocation});
+              }
+            }
+            else{
+              alert('This file is not downloaded.')
+            }
+        }
+      }
+
+
+
       const move = async () => {
         let selectedItem;
         let selectedItemsNumber=0;
@@ -423,8 +457,11 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                     },
                   },
                   {
-                    name: "Cancel",
-                  },
+                    name: "Preview",
+                    method: async function () {
+                      await preview();
+                    },
+                  }
                 ]}
               />
               <Content>
