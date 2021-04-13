@@ -235,18 +235,17 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
           let supportedExtensions = ['.log', '.txt', '.html', '.png', '.jpg', '.xml'];
           console.log("ekstenzija" + selectedItem.extension);
 
-          
-            if(dirInfo.exists){
-              if(!supportedExtensions.includes(selectedItem.extension)){
-                alert('Unsupported Format!');
-              }
-              else{
-                navigation.push('WebViewScreen', {location: expoFileLocation});
-              }
+          if(dirInfo.exists){
+            if(!supportedExtensions.includes(selectedItem.extension)){
+              alert('Unsupported Format!');
             }
             else{
-              alert('This file is not downloaded.')
+              navigation.push('WebViewScreen', {location: expoFileLocation});
             }
+          }
+          else{
+            alert('This file is not downloaded.')
+          }
         }
       }
 
