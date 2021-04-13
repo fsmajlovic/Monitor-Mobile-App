@@ -17,6 +17,7 @@ export default function Console({ navigation }) {
 
     const group1 = ["?", "clear", "ls", "driverquery", "ipconfig", "systeminfo", "tasklist", "dir"];
     const group2 = ["cd", "echo", "erase", "kill", "move", "rd", "set", "mkdir", "ping"];
+    const group3 = ["shutdown"];
 
     const [username, setUsername] = useState("");
 
@@ -236,11 +237,16 @@ export default function Console({ navigation }) {
 
                             addRows(path + "> " + event.nativeEvent.text);
 
-                            if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length >= 2)) {
+                            if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length >= 2) || group3.includes(command)) {
                                 //validna komanda
                                 if (group2.includes(command)) {
                                     command += " " + args[1];
                                 }
+
+                                 //shutdown
+                                 if(group3.includes(command))
+                                 command = event.nativeEvent.text.replace(/ +/g, ' ').trim().toLowerCase();
+
 
                                 let token = await getSavedToken();
                                 sendRequest(command, token);
