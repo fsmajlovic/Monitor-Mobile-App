@@ -254,6 +254,7 @@ async function deleteFolder(name, token, username, path) {
 
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
+  console.log('lokacija' + expoFileLocation);
   FileSystem.writeAsStringAsync(expoFileLocation, fileData, {
     encoding: FileSystem.EncodingType.Base64,
   }).catch((error) => {
@@ -285,6 +286,7 @@ export async function downloadFile(token, username, path,name,type,children,oldP
   if(extractedPath == "") extractedPath = "/";
   if(type == 'file') {
     await getFile(name,token,username,extractedPath);
+    navigation.push('WebViewScreen', {location: expoFileLocation});
   }
   else if(type == 'directory') {
     if(oldPath == null)

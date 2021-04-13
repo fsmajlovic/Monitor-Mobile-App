@@ -17,7 +17,8 @@ import StatisticScreen from '../ReportScreen/screens/StatisticScreen';
 import OptionScreen from '../ReportScreen/screens/OptionScreen';
 import MachineScreen from '../ReportScreen/screens/MachineScreen';
 import EditTask from '../TehnicianScreen/screens/EditTask';
-import FileManager from '../AccessControlScreen/screens/FileManager'
+import FileManager from '../AccessControlScreen/screens/FileManager';
+import WebViewScreen from "../AccessControlScreen/screens/WebViewScreen";
 import SubDirectory from '../AccessControlScreen/screens/SubDirectory'
 import ChoiceManager from '../AccessControlScreen/screens/ChoiceManager'
 import ChoiceSubDirectory from '../AccessControlScreen/screens/ChoiceSubDirectory'
@@ -25,6 +26,7 @@ import TaskView from '../TehnicianScreen/screens/TaskView';
 import ShowImagesScreen from "../TehnicianScreen/screens/ShowImagesScreen";
 import ImageUploadScreen from "../TehnicianScreen/screens/ImageUploadScreen";
 import ImageBrowserScreen from "../TehnicianScreen/screens/ImageBrowserScreen";
+
 
 
 const HomeStack = createStackNavigator();
@@ -129,6 +131,9 @@ const HomeStackScreen = ({navigation}) => (
             }} />
             <HomeStack.Screen name="FileManager" component={FileManager} options={{
                 title: 'File Manager',
+            }} />
+            <HomeStack.Screen name="WebViewScreen" component={WebViewScreen} options={{
+              title: 'File Viewer',
             }} />
             <HomeStack.Screen name="SubDirectory" component={SubDirectory} options={{
             }} />
