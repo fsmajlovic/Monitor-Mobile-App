@@ -106,7 +106,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
             //ovo je za download
             let token = await getSavedToken();
             console.log("ACTION IZ ONPRESS: " + actionCopyMove);
-            downloadFile(token, username, item.path, item.name, item.type, item.children, item.oldPath, isCopyDirectory, actionCopyMove, navigation);
+            downloadFile(token, username, item.path, item.name, item.type, item.children, item.oldPath, isCopyDirectory, actionCopyMove, navigation, item.extension);
         }
     };
 
