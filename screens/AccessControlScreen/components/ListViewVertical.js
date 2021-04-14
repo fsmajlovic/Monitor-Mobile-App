@@ -321,13 +321,13 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                 <Text style={styles.title}>{item.name}</Text>
               </View>
               <View style={styles.container_text}>
-                <Text style={styles.title}>{item.birthtime}</Text>
+                <Text style={styles.title}>{item.birthtime.toLocaleDateString() + "\n" + item.birthtime.getHours() + ":" + item.birthtime.getMinutes() + ":" +  item.birthtime.getSeconds()}</Text>
               </View>
             </View>
           </TouchableOpacity>
         );
       };
-      
+
       async function sortByName() {
         items.sort((a, b) => {
           if (a.name.toLowerCase() == b.name.toLowerCase()) {
@@ -337,7 +337,6 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
           }
         });
 
-        // ascending/descending radi po on/off principu
         if(nameAscending) {
           items.reverse();
           nameAscending = false;
@@ -354,17 +353,14 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
       }
 
       async function sortByDate() {
-        items.sort((a, b) => {
-          var d1 = new Date(a.dateTimeFormat);
-          var d2 = new Date(b.dateTimeFormat);
-          if (d1 == d2) {
+        items.sort((d1, d2) => {
+          if (d1.birthtime == d2.birthtime) {
             return 0;
           } else {
-              return d1 > d2 ? -1 : 1;
+              return d1.birthtime > d2.birthtime ? -1 : 1;
           }
         });
 
-        // ascending/descending radi po on/off principu
         if(dateAscending) {
           items.reverse();
           dateAscending = false;

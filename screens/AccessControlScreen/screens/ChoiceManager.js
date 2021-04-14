@@ -58,7 +58,8 @@ export default function App({route, navigation }) {
         var newDataSet = [];
         for (let i = 0; i < jsonResponseArray.length; i++) {
           let file = jsonResponseArray[i];
-          newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: oldPath });
+          let correctZoneBirthtime = new Date(file['birthtime']);
+          newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: oldPath, birthtime: correctZoneBirthtime });
           if(file['type'] == 'directory') {
             newDataSet[newDataSet.length - 1]['children'] = file['children'];
           }
