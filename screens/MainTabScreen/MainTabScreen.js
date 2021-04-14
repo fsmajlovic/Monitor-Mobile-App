@@ -19,6 +19,7 @@ import MachineScreen from '../ReportScreen/screens/MachineScreen';
 import EditTask from '../TehnicianScreen/screens/EditTask';
 import FileManager from '../AccessControlScreen/screens/FileManager';
 import WebViewScreen from "../AccessControlScreen/screens/WebViewScreen";
+import ChoiceDevices from "../AccessControlScreen/screens/ChoiceDevices";
 import SubDirectory from '../AccessControlScreen/screens/SubDirectory'
 import ChoiceManager from '../AccessControlScreen/screens/ChoiceManager'
 import ChoiceSubDirectory from '../AccessControlScreen/screens/ChoiceSubDirectory'
@@ -134,6 +135,9 @@ const HomeStackScreen = ({navigation}) => (
             }} />
             <HomeStack.Screen name="WebViewScreen" component={WebViewScreen} options={{
               title: 'File Viewer',
+            }} />
+            <HomeStack.Screen name="ChoiceDevices" component={ChoiceDevices} options={{
+              title: 'Devices',
             }} />
             <HomeStack.Screen name="SubDirectory" component={SubDirectory} options={{
             }} />

@@ -444,6 +444,9 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                   },
                   {
                     name: "Send",
+                    method: async function () {
+                      navigation.navigate("ChoiceDevices");
+                    },
                   },
                   {
                     name: "Rename",
