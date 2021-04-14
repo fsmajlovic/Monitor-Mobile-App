@@ -21,7 +21,7 @@ fileData = "";
 fileName = "";
 navigationChoice = null;
 
-async function getFile(name, token, username, path) {
+async function getFile(name, token, username, path, downloadLocally) {
   try {
     let response = await fetch(serverURL + "api/web/user/file/get", {
       method: "POST",
@@ -44,7 +44,7 @@ async function getFile(name, token, username, path) {
         fileData = jsonResponse["base64"];
         fileName = jsonResponse["fileName"];
         await saveToExpoFileSystem();
-        await copyFromExpoFSToLocalFS();
+        if(downloadLocally) await copyFromExpoFSToLocalFS();
       }
     } else if (response.status == 503) {
       alert("Servis nedostupan");
@@ -278,14 +278,14 @@ async function copyFromExpoFSToLocalFS() {
     console.log(error);
   }
 }
-export async function downloadFile(token, username, path,name,type,children,oldPath,isDirectory,action,navigation,extension){
+export async function downloadFile(token, username, path,name,type,children,oldPath,isDirectory,action,navigation,extension,downloadLocally = true){
   console.log(path)
   
   var extractedPath = path.split("allFiles/" + username)[1];
   extractedPath = extractedPath.split(name)[0];
   if(extractedPath == "") extractedPath = "/";
   if(type == 'file') {
-    await getFile(name,token,username,extractedPath);
+    await getFile(name,token,username,extractedPath,downloadLocally);
   }
   else if(type == 'directory') {
     if(oldPath == null)

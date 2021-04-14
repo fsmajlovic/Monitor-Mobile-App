@@ -229,22 +229,22 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
             }
         }
 
-        if (selectedItemsNumber==1 && selectedItem.type === 'file'){
-          let expoFileLocation = FileSystem.documentDirectory + selectedItem.name;
-          let dirInfo = await FileSystem.getInfoAsync(expoFileLocation);
+        if (selectedItemsNumber==1 && selectedItem.type === 'file') {
           let supportedExtensions = ['.log', '.txt', '.html', '.png', '.jpg', '.xml'];
-          console.log("ekstenzija" + selectedItem.extension);
-
-          if(dirInfo.exists){
-            if(!supportedExtensions.includes(selectedItem.extension)){
-              alert('Unsupported Format!');
-            }
-            else{
-              navigation.push('WebViewScreen', {location: expoFileLocation});
-            }
+          if(!supportedExtensions.includes(selectedItem.extension)){
+            alert('Unsupported Format!');
           }
           else{
-            alert('This file is not downloaded.')
+            let token = await getSavedToken();
+            await downloadFile(token, username, selectedItem.path, selectedItem.name, selectedItem.type, selectedItem.children, selectedItem.oldPath, isCopyDirectory, actionCopyMove, navigation, selectedItem.extension, false);
+            let expoFileLocation = FileSystem.documentDirectory + selectedItem.name;
+            let dirInfo = await FileSystem.getInfoAsync(expoFileLocation);
+            if(dirInfo.exists){
+              navigation.push('WebViewScreen', {location: expoFileLocation});
+            }
+            else{
+              alert('Datoteka nedostupna');
+            }  
           }
         }
       }
