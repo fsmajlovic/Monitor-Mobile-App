@@ -46,6 +46,7 @@ export default function App({ route, navigation }) {
       <ListViewVertical
         itemList={files}
         folderPath = {folderName}
+        showAdditionalOptions = {true}
       />
     </View>
   );

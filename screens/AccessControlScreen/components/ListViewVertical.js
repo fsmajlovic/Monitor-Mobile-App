@@ -45,7 +45,7 @@ function useSelectionChange(items) {
   return selectionMode;
 }
 
-export default function ListViewVertical({ itemList, folderPath, isDirectory, action }) {
+export default function ListViewVertical({ itemList, folderPath, isDirectory, action, showAdditionalOptions }) {
     var { getSavedToken } = React.useContext(AuthContext);
     var username = React.useContext(userContext);
     const navigation = useNavigation();
@@ -58,6 +58,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
     //varijable za copy/move
     const [isCopyDirectory, setIsCopyDirectory] = useState(false);
     const [actionCopyMove, setActionCopyMove] = useState(false);
+    const [additionalOptions, setAdditionalOptions] = useState(false);
     //varijable potrebne za rename
     const [fileName, setFileName] = useState("");
     const [newFilename, setNewFileName] = useState(fileName);
@@ -68,6 +69,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         setPathFolder(folderPath);
         setIsCopyDirectory(isDirectory);
         setActionCopyMove(action);
+        setAdditionalOptions(showAdditionalOptions);
     });
 
     const showFolderDialog = () => {
@@ -111,7 +113,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
     };
 
     const onLongPress = (item) => {
-        if (selectionMode === false) {
+        if (selectionMode === false && additionalOptions) {
           toggleSelect(item);
         }
       };
@@ -396,12 +398,12 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                     <Text style={{color: 'white', fontSize: 15}}>Date</Text>
                   </TouchableOpacity>
                 </View>
-                <TouchableOpacity
+                {additionalOptions && <TouchableOpacity
                     onPress={showFolderDialog}
                     style={styles.TO}
                 >   
                     <Text style={{color: 'white', fontSize: 15}}>+ New Folder</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> }
                 <Dialog.Container visible={visibleFolder}>
                   <Dialog.Title>Create folder</Dialog.Title>
                   <Dialog.Input onChangeText={(value) => setFolderName(value)}>

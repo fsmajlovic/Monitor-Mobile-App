@@ -59,6 +59,7 @@ export default function App({ route, navigation }) {
           folderPath={null}
           isDirectory={isDirectory}
           action={actionCopyMove}
+          showAdditionalOptions = {false}
       />
       {<TouchableOpacity onPress={async () => {
               let token = await getSavedToken();
