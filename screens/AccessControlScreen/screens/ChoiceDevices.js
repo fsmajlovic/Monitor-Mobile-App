@@ -11,27 +11,10 @@ import {
     Content,
 } from 'native-base';
 import { StyleSheet } from 'react-native';
-import SelectionListHeader from '../components/SelectionListHeader';
+import { AuthContext } from '../../../contexts/authContext';
+import { machineURL, activeMachineURL } from '../../../appConfig';
+import axios from 'axios';
 
-const mockItems = [
-    {
-        id: '1',
-        name: 'masina 1',
-    },
-    {
-        id: '2',
-        name: 'masina 2',
-    },
-    {
-        id: '3',
-        name: 'masina 3',
-    },
-    {
-        id: '4',
-        name: 'masina 4',
-    },
-   
-];
 
 function useSelectionChange(items) {
     const [selectionMode, setSelectionMode] = useState(null);
@@ -45,9 +28,29 @@ function useSelectionChange(items) {
     return selectionMode;
 }
 
-function Main() {
-    const [items, setItems] = useState(mockItems);
+export default function App() {
+    const [items, setItems] = useState([]);
     const selectionMode = useSelectionChange(items);
+
+    var { getSavedToken } = React.useContext(AuthContext);
+
+    useEffect(() => {
+        async function getData(getSavedToken) {
+            let token = await getSavedToken();
+            let activeMachines = [];
+            try {
+                activeMachines = await axios.get(activeMachineURL + 'agents/online', {
+                    headers: {
+                        'Authorization': `Bearer ` + token
+                    }
+                });
+            } catch (e) {
+                console.log(e)
+            }
+            setItems(activeMachines.data)
+        }
+        getData(getSavedToken);
+    }, []);
 
     const toggleSelect = item => {
         setItems(
@@ -90,10 +93,8 @@ function Main() {
     const renderItem = item => {
         return (
             <ListItem
-
                 onPress={() => onPress(item)}
                 onLongPress={() => onLongPress(item)}
-                key={item.id}
                 style={[item.selected ? styles.selected : styles.normal]}>
                 <Image source={require('../../../assets/monitor-icon.gif')} style={styles.photo} />
                 <View style={styles.container_text}>
@@ -101,10 +102,7 @@ function Main() {
                         {item.name}
                     </Text>
                     <Text style={styles.description}>
-                    {"lokacija"}
-                    </Text>
-                    <Text style={styles.description}>
-                        {"last time online"}
+                        {item.location}
                     </Text>
                 </View>
             </ListItem>
@@ -115,7 +113,7 @@ function Main() {
         <>
             <Root>
                 <Container>
-                    
+
                     <Content>
                         <List>
                             {items.map(item => {
@@ -130,7 +128,6 @@ function Main() {
     );
 }
 
-export default Main;
 
 const styles = StyleSheet.create({
     selected: {
