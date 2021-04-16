@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as FileSystem from "expo-file-system";
 import {
-  View,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  Text,
-  Button,
-  Alert,
+    View,
+    FlatList,
+    StyleSheet,
+    TouchableOpacity,
+    Image,
+    Text,
+    Button,
+    Alert,
 } from "react-native";
 import ListItemVertical from "./ListItemVertical";
 import { serverURL } from "../../../appConfig";
@@ -18,11 +18,11 @@ import { userContext } from "../../../contexts/userContext";
 import SelectionListHeader from "./SelectionListHeader";
 
 import {
-  downloadFile,
-  renameFileFolder,
-  copyFileFolder,
-  moveFileFolder,
-  deleteFileFolder,
+    downloadFile,
+    renameFileFolder,
+    copyFileFolder,
+    moveFileFolder,
+    deleteFileFolder,
 } from "./ListItemVertical";
 import Dialog from "react-native-dialog";
 
@@ -34,15 +34,15 @@ var nameAscending = true;
 var dateAscending = true;
 
 function useSelectionChange(items) {
-  const [selectionMode, setSelectionMode] = useState(null);
-  useEffect(() => {
-    if (items.filter((i) => i.selected).length > 0) {
-      setSelectionMode(true);
-    } else {
-      setSelectionMode(false);
-    }
-  });
-  return selectionMode;
+    const [selectionMode, setSelectionMode] = useState(null);
+    useEffect(() => {
+        if (items.filter((i) => i.selected).length > 0) {
+            setSelectionMode(true);
+        } else {
+            setSelectionMode(false);
+        }
+    });
+    return selectionMode;
 }
 
 export default function ListViewVertical({ itemList, folderPath, isDirectory, action, showAdditionalOptions }) {
@@ -64,7 +64,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
     const [newFilename, setNewFileName] = useState(fileName);
     const [path, setPath] = useState("");
 
-    useEffect(() => { 
+    useEffect(() => {
         setItems(itemList);
         setPathFolder(folderPath);
         setIsCopyDirectory(isDirectory);
@@ -74,29 +74,29 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
 
     const showFolderDialog = () => {
         setVisibleFolder(true);
-      };
-    
+    };
+
     const handleCancelFolder = () => {
         setVisibleFolder(false);
     };
 
     const toggleSelect = (item) => {
         setItems(
-          items.map((i) => {
-            if (item === i) {
-              i.selected = !i.selected;
-            }
-            return i;
-          })
+            items.map((i) => {
+                if (item === i) {
+                    i.selected = !i.selected;
+                }
+                return i;
+            })
         );
-      };
-    
+    };
+
     const clearSelection = () => {
         setItems(
-          items.map((i) => {
-            i.selected = false;
-            return i;
-          })
+            items.map((i) => {
+                i.selected = false;
+                return i;
+            })
         );
     };
 
@@ -114,100 +114,100 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
 
     const onLongPress = (item) => {
         if (selectionMode === false && additionalOptions) {
-          toggleSelect(item);
+            toggleSelect(item);
         }
-      };
-    
-      //3 funkcije za rename Dialog
-      const showDialog = () => {
+    };
+
+    //3 funkcije za rename Dialog
+    const showDialog = () => {
         setVisible(true);
-      };
-    
-      const handleCancel = () => {
+    };
+
+    const handleCancel = () => {
         setVisible(false);
-      };
-    
-      const handleOK = async () => {
+    };
+
+    const handleOK = async () => {
         let token = await getSavedToken();
         renameFileFolder(token, username, path, fileName, newFilename);
         setVisible(false);
         clearSelection();
         navigation.pop();
         navigation.navigate("FileManager");
-      };
-    
-      const rename = async () => {
+    };
+
+    const rename = async () => {
         let selectedItem;
         let selectedItemsNumber = 0;
         for (let i = 0; i < items.length; i++) {
-          if (items[i].selected) {
-            selectedItem = items[i];
-            selectedItemsNumber++;
-          }
+            if (items[i].selected) {
+                selectedItem = items[i];
+                selectedItemsNumber++;
+            }
         }
         //rename moze jedino ako je samo jedan selektovan
         if (selectedItemsNumber == 1) {
-          setFileName(selectedItem.name);
-          setNewFileName(selectedItem.name);
-          setPath(selectedItem.path);
-          showDialog();
+            setFileName(selectedItem.name);
+            setNewFileName(selectedItem.name);
+            setPath(selectedItem.path);
+            showDialog();
         }
     };
 
     async function makeFolder() {
         console.log(folderName);
         console.log(pathFolder);
-    
+
         let exists = false;
         for (let i = 0; i < items.length; i++) {
-          if (items[i]["type"] == "directory" && items[i]["name"] == folderName) {
-            exists = true;
-          }
+            if (items[i]["type"] == "directory" && items[i]["name"] == folderName) {
+                exists = true;
+            }
         }
         if (exists) {
-          Alert.alert("Folder already exists!");
+            Alert.alert("Folder already exists!");
         } else {
-          setVisibleFolder(false);
-          let newPath = pathFolder.split("allFiles/" + username + "/")[1];
-          let token = await getSavedToken();
-          console.log("Token je: " + token);
-          const response = await fetch(serverURL + "api/web/user/folder/create", {
-            method: "POST",
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-              Accept: "text/html",
-              Authorization: "Bearer " + token,
-            },
-            body: JSON.stringify({
-              path: newPath,
-              folderName: folderName,
-              user: username,
-            }),
-          });
-          if (response.status == 200) {
-            Alert.alert("Uspješno dodan folder");
-            navigation.pop();
-            navigation.navigate("FileManager");
-            /*var newItems = items;
-                    newItems.push({ name: folderName, id: '', image_url: image_url, type: 'directory', path: pathFolder })
-                    newItems[newItems.length - 1]['children'] = [];
-                    setItems(newItems)*/
-          } else if (response.status == 503) {
-            alert("Servis nedostupan");
-          } else if (response.status == 403) {
-            //invalid token, trebalo bi dobaviti novi
-          } else {
-            console.log("Status" + response.status);
-            console.log("Promijenjen JSON zahtjev?");
-            alert("Greska pri pravljenju foldera");
-          }
+            setVisibleFolder(false);
+            let newPath = pathFolder.split("allFiles/" + username + "/")[1];
+            let token = await getSavedToken();
+            console.log("Token je: " + token);
+            const response = await fetch(serverURL + "api/web/user/folder/create", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                    Accept: "text/html",
+                    Authorization: "Bearer " + token,
+                },
+                body: JSON.stringify({
+                    path: newPath,
+                    folderName: folderName,
+                    user: username,
+                }),
+            });
+            if (response.status == 200) {
+                Alert.alert("Uspješno dodan folder");
+                navigation.pop();
+                navigation.navigate("FileManager");
+                /*var newItems = items;
+                        newItems.push({ name: folderName, id: '', image_url: image_url, type: 'directory', path: pathFolder })
+                        newItems[newItems.length - 1]['children'] = [];
+                        setItems(newItems)*/
+            } else if (response.status == 503) {
+                alert("Servis nedostupan");
+            } else if (response.status == 403) {
+                //invalid token, trebalo bi dobaviti novi
+            } else {
+                console.log("Status" + response.status);
+                console.log("Promijenjen JSON zahtjev?");
+                alert("Greska pri pravljenju foldera");
+            }
         }
-      }
+    }
 
-      const copy = async () => {
+    const copy = async () => {
         let selectedItem;
-        let selectedItemsNumber=0;
-        for (let i=0;i <items.length; i++) {
+        let selectedItemsNumber = 0;
+        for (let i = 0; i < items.length; i++) {
             if (items[i].selected) {
                 selectedItem = items[i];
                 selectedItemsNumber++;
@@ -215,48 +215,90 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         }
         //Za pocetak copy moze za samo jedan selektovani item
         //Poslije ce trebati podrzati i vise oznacenih
-        if (selectedItemsNumber==1){
+        if (selectedItemsNumber == 1) {
             //console.log("Selektovani item: " + selectedItem.name + " path: " + selectedItem.path);
-            navigation.navigate("ChoiceManager", {oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children'), action: "copy"});
+            navigation.navigate("ChoiceManager", { oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children'), action: "copy" });
         }
-      }
+    }
 
-      const preview = async () => {
+    const preview = async () => {
         let selectedItem;
-        let selectedItemsNumber=0;
-        for (let i=0;i <items.length; i++) {
+        let selectedItemsNumber = 0;
+        for (let i = 0; i < items.length; i++) {
             if (items[i].selected) {
                 selectedItem = items[i];
                 selectedItemsNumber++;
             }
         }
 
-        if (selectedItemsNumber==1 && selectedItem.type === 'file') {
-          let supportedExtensions = ['.log', '.txt', '.html', '.png', '.jpg', '.xml'];
-          if(!supportedExtensions.includes(selectedItem.extension)){
-            alert('Unsupported Format!');
-          }
-          else{
-            let token = await getSavedToken();
-            await downloadFile(token, username, selectedItem.path, selectedItem.name, selectedItem.type, selectedItem.children, selectedItem.oldPath, isCopyDirectory, actionCopyMove, navigation, selectedItem.extension, false);
-            let expoFileLocation = FileSystem.documentDirectory + selectedItem.name;
-            let dirInfo = await FileSystem.getInfoAsync(expoFileLocation);
-            if(dirInfo.exists){
-              navigation.push('WebViewScreen', {location: expoFileLocation});
+
+
+
+        if (selectedItemsNumber == 1 && selectedItem.type === 'file') {
+            let supportedExtensions = ['.log', '.txt', '.html', '.png', '.jpg', '.xml'];
+            if (!supportedExtensions.includes(selectedItem.extension)) {
+                alert('Unsupported Format!');
             }
-            else{
-              alert('Datoteka nedostupna');
-            }  
-          }
+            else {
+                let token = await getSavedToken();
+                await downloadFile(token, username, selectedItem.path, selectedItem.name, selectedItem.type, selectedItem.children, selectedItem.oldPath, isCopyDirectory, actionCopyMove, navigation, selectedItem.extension, false);
+                let expoFileLocation = FileSystem.documentDirectory + selectedItem.name;
+                let dirInfo = await FileSystem.getInfoAsync(expoFileLocation);
+                if (dirInfo.exists) {
+                    navigation.push('WebViewScreen', { location: expoFileLocation });
+                }
+                else {
+                    alert('Datoteka nedostupna');
+                }
+            }
         }
-      }
+    }
 
 
+    expoFileLocation = "";
+    fileData = "";
+    fileName = "";
+    async function saveToExpoFileSystem() {
+        fileData = base64Icon;
+        fileName = "screenshot.jpg";
+        expoFileLocation = FileSystem.documentDirectory + fileName;
+        FileSystem.writeAsStringAsync(expoFileLocation, fileData, {
+            encoding: FileSystem.EncodingType.Base64
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
 
-      const move = async () => {
+
+    const share = async () => {
+
+        //metoda koja radi share fajla na mail iznad smo eklarisali metodu 
+        //saveToExpoFileSys koju cemo koristiti za share
+        //ideja je da se fajl spremi u ExpoFileLocation i odatle shera 
+        //ne mozemo nista probati dok ova grupa ne uradi svoje
+
         let selectedItem;
-        let selectedItemsNumber=0;
-        for (let i=0;i <items.length; i++) {
+        let selectedItemsNumber = 0;
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].selected) {
+                selectedItem = items[i];
+                selectedItemsNumber++;
+            }
+        }
+
+
+        if (selectedItemsNumber == 1 && selectedItem.type === 'file') {
+            //ovdje bi trebali pozivati ovu metodu iznad nad selectedItem
+            
+        }            //selectedItem.path
+
+
+    }
+
+    const move = async () => {
+        let selectedItem;
+        let selectedItemsNumber = 0;
+        for (let i = 0; i < items.length; i++) {
             if (items[i].selected) {
                 selectedItem = items[i];
                 selectedItemsNumber++;
@@ -264,241 +306,247 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         }
         //Za pocetak move moze za samo jedan selektovani item
         //Poslije ce trebati podrzati i vise oznacenih
-        if (selectedItemsNumber==1){
+        if (selectedItemsNumber == 1) {
             //console.log("Selektovani item: " + selectedItem.name + " path: " + selectedItem.path);
-            navigation.navigate("ChoiceManager", {oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children'), action: "move"});
+            navigation.navigate("ChoiceManager", { oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children'), action: "move" });
         }
-      }
+    }
 
     const deleteFromServer = async () => {
-      let selectedItem;
-      
-      let token = await getSavedToken();
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].selected) {
-          selectedItem = items[i];
-          if (selectedItem.type=="directory" && selectedItem.children.length!=0) {
-            
-            //console.log("nije prazan folder")
-            Alert.alert(
-              'Alert',
-              'Folder '+selectedItem.name+' is not empty. Are you sure you want to delete it?',
-              [   
-                {       
-                  text: 'NO',       
-                  onPress: () => console.log("pressed no"),       
-                  style: 'cancel',     
-                },     
-                {
-                  text: 'YES', 
-                  onPress: async () => await deleteFileFolder(username, token, selectedItem.path, selectedItem.name,selectedItem.type),
-                },   
-              ],   
-              { cancelable: false }, 
-            )
-            
-          }
-          else await deleteFileFolder(username, token, selectedItem.path, selectedItem.name,selectedItem.type);
+        let selectedItem;
+
+        let token = await getSavedToken();
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].selected) {
+                selectedItem = items[i];
+                if (selectedItem.type == "directory" && selectedItem.children.length != 0) {
+
+                    //console.log("nije prazan folder")
+                    Alert.alert(
+                        'Alert',
+                        'Folder ' + selectedItem.name + ' is not empty. Are you sure you want to delete it?',
+                        [
+                            {
+                                text: 'NO',
+                                onPress: () => console.log("pressed no"),
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'YES',
+                                onPress: async () => await deleteFileFolder(username, token, selectedItem.path, selectedItem.name, selectedItem.type),
+                            },
+                        ],
+                        { cancelable: false },
+                    )
+
+                }
+                else await deleteFileFolder(username, token, selectedItem.path, selectedItem.name, selectedItem.type);
+            }
         }
-      }
         clearSelection();
         navigation.pop();
         navigation.navigate("FileManager");
     };
-    
-      const renderItem = (item) => {
+
+    const renderItem = (item) => {
         return (
-          <TouchableOpacity
-            onPress={() => onPress(item)}
-            onLongPress={() => onLongPress(item)}
-            key={item.id}
-            style={[item.selected ? styles.selected : styles.normal]}
-          >
-            <View style={styles.container}>
-              <Image
-                source={item["type"] == "file" ? image_source_data : image_source_folder}
-                style={styles.photo}
-              />
-              <View style={styles.container_text}>
-                <Text style={styles.title}>{item.name}</Text>
-              </View>
-              <View style={styles.container_text}>
-                <Text style={styles.title}>{item.birthtime.toLocaleDateString() + "\n" + item.birthtime.getHours() + ":" + item.birthtime.getMinutes() + ":" +  item.birthtime.getSeconds()}</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        );
-      };
-
-      async function sortByName() {
-        items.sort((a, b) => {
-          if (a.name.toLowerCase() == b.name.toLowerCase()) {
-            return 0;
-          } else {
-              return a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1;
-          }
-        });
-
-        if(nameAscending) {
-          items.reverse();
-          nameAscending = false;
-        }
-        else {
-          nameAscending = true;
-        }
-
-        setItems(
-          items.map((i) => {
-            return i;
-          })
-        );
-      }
-
-      async function sortByDate() {
-        items.sort((d1, d2) => {
-          if (d1.birthtime == d2.birthtime) {
-            return 0;
-          } else {
-              return d1.birthtime > d2.birthtime ? -1 : 1;
-          }
-        });
-
-        if(dateAscending) {
-          items.reverse();
-          dateAscending = false;
-        }
-        else {
-          dateAscending = true;
-        }
-
-        setItems(
-          items.map((i) => {
-            return i;
-          })
-        );
-      }
-
-      return (
-        <>
-          <Root>
-            <Container>
-              <View style={styles.header}>
-                <View style={styles.sort}>                
-                  <Text style={{color: 'white', fontSize: 15, marginLeft: 10, marginBottom: 10, marginRight: 10}}>Sort by:</Text>
-                  <TouchableOpacity 
-                    onPress={sortByName}
-                    style={styles.TO}
-                  >
-                    <Text style={{color: 'white', fontSize: 15}}>Name</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={sortByDate}
-                    style={styles.TO}
-                  >
-                    <Text style={{color: 'white', fontSize: 15}}>Date</Text>
-                  </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => onPress(item)}
+                onLongPress={() => onLongPress(item)}
+                key={item.id}
+                style={[item.selected ? styles.selected : styles.normal]}
+            >
+                <View style={styles.container}>
+                    <Image
+                        source={item["type"] == "file" ? image_source_data : image_source_folder}
+                        style={styles.photo}
+                    />
+                    <View style={styles.container_text}>
+                        <Text style={styles.title}>{item.name}</Text>
+                    </View>
+                    <View style={styles.container_text}>
+                        <Text style={styles.title}>{item.birthtime.toLocaleDateString() + "\n" + item.birthtime.getHours() + ":" + item.birthtime.getMinutes() + ":" + item.birthtime.getSeconds()}</Text>
+                    </View>
                 </View>
-                {additionalOptions && <TouchableOpacity
-                    onPress={showFolderDialog}
-                    style={styles.TO}
-                >   
-                    <Text style={{color: 'white', fontSize: 15}}>+ New Folder</Text>
-                </TouchableOpacity> }
-                <Dialog.Container visible={visibleFolder}>
-                  <Dialog.Title>Create folder</Dialog.Title>
-                  <Dialog.Input onChangeText={(value) => setFolderName(value)}>
-                    New Folder
-                  </Dialog.Input>
-                  <Dialog.Button label="Cancel" onPress={handleCancelFolder} />
-                  <Dialog.Button
-                    label="Submit"
-                    onPress={async () => {
-                      await makeFolder();
-                    }}
-                  />
-                </Dialog.Container>
-              </View>
-              <SelectionListHeader
-                selectionMode={selectionMode}
-                title="Files"
-                selectedItemsCount={items.filter((i) => i.selected).length}
-                clearSelection={clearSelection}
-                selectActions={[
-                  {
-                    name: "Copy",
-                    method: async function () {
-                      await copy();
-                      clearSelection();
-                    },
-                  },
-                  {
-                    name: "Move",
-                    method: async function () {
-                      await move();
-                      clearSelection();
-                    },
-                  },
-                  {
-                    name: "Delete",
-                    method: async function () {
-                      await deleteFromServer();
-                    },
-                  },
-                  {
-                    name: "Send",
-                    method: async function () {
-                      navigation.navigate("ChoiceDevices");
-                    },
-                  },
-                  {
-                    name: "Rename",
-                    method: async function () {
-                      await rename();
-                    },
-                  },
-                  {
-                    name: "Preview",
-                    method: async function () {
-                      await preview();
-                    },
-                  }
-                ]}
-              />
-              <Content>
-                <List>
-                  {items.map((item) => {
-                    return renderItem(item);
-                  })}
-                </List>
-              </Content>
-            </Container>
-          </Root>
-    
-          <Dialog.Container visible={visible}>
-            <Dialog.Title>Rename</Dialog.Title>
-            <Dialog.Description>Enter new name</Dialog.Description>
-            <Dialog.Input
-              value={newFilename}
-              onChangeText={(text) => setNewFileName(text)}
-            ></Dialog.Input>
-            <Dialog.Button label="Cancel" onPress={handleCancel} />
-            <Dialog.Button label="OK" onPress={handleOK} />
-          </Dialog.Container>
-        </>
-      );
+            </TouchableOpacity>
+        );
+    };
+
+    async function sortByName() {
+        items.sort((a, b) => {
+            if (a.name.toLowerCase() == b.name.toLowerCase()) {
+                return 0;
+            } else {
+                return a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1;
+            }
+        });
+
+        if (nameAscending) {
+            items.reverse();
+            nameAscending = false;
+        }
+        else {
+            nameAscending = true;
+        }
+
+        setItems(
+            items.map((i) => {
+                return i;
+            })
+        );
     }
-    
-    const styles = StyleSheet.create({
-      container: {
+
+    async function sortByDate() {
+        items.sort((d1, d2) => {
+            if (d1.birthtime == d2.birthtime) {
+                return 0;
+            } else {
+                return d1.birthtime > d2.birthtime ? -1 : 1;
+            }
+        });
+
+        if (dateAscending) {
+            items.reverse();
+            dateAscending = false;
+        }
+        else {
+            dateAscending = true;
+        }
+
+        setItems(
+            items.map((i) => {
+                return i;
+            })
+        );
+    }
+
+    return (
+        <>
+            <Root>
+                <Container>
+                    <View style={styles.header}>
+                        <View style={styles.sort}>
+                            <Text style={{ color: 'white', fontSize: 15, marginLeft: 10, marginBottom: 10, marginRight: 10 }}>Sort by:</Text>
+                            <TouchableOpacity
+                                onPress={sortByName}
+                                style={styles.TO}
+                            >
+                                <Text style={{ color: 'white', fontSize: 15 }}>Name</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={sortByDate}
+                                style={styles.TO}
+                            >
+                                <Text style={{ color: 'white', fontSize: 15 }}>Date</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {additionalOptions && <TouchableOpacity
+                            onPress={showFolderDialog}
+                            style={styles.TO}
+                        >
+                            <Text style={{ color: 'white', fontSize: 15 }}>+ New Folder</Text>
+                        </TouchableOpacity>}
+                        <Dialog.Container visible={visibleFolder}>
+                            <Dialog.Title>Create folder</Dialog.Title>
+                            <Dialog.Input onChangeText={(value) => setFolderName(value)}>
+                                New Folder
+                  </Dialog.Input>
+                            <Dialog.Button label="Cancel" onPress={handleCancelFolder} />
+                            <Dialog.Button
+                                label="Submit"
+                                onPress={async () => {
+                                    await makeFolder();
+                                }}
+                            />
+                        </Dialog.Container>
+                    </View>
+                    <SelectionListHeader
+                        selectionMode={selectionMode}
+                        title="Files"
+                        selectedItemsCount={items.filter((i) => i.selected).length}
+                        clearSelection={clearSelection}
+                        selectActions={[
+                            {
+                                name: "Copy",
+                                method: async function () {
+                                    await copy();
+                                    clearSelection();
+                                },
+                            },
+                            {
+                                name: "Move",
+                                method: async function () {
+                                    await move();
+                                    clearSelection();
+                                },
+                            },
+                            {
+                                name: "Delete",
+                                method: async function () {
+                                    await deleteFromServer();
+                                },
+                            },
+                            {
+                                name: "Send",
+                                method: async function () {
+                                    navigation.navigate("ChoiceDevices");
+                                },
+                            },
+                            {
+                                name: "Rename",
+                                method: async function () {
+                                    await rename();
+                                },
+                            },
+                            {
+                                name: "Preview",
+                                method: async function () {
+                                    await preview();
+                                },
+                            },
+                            {
+                                name: "Share",
+                                method: async function () {
+                                    await share();
+                                },
+                            }
+                        ]}
+                    />
+                    <Content>
+                        <List>
+                            {items.map((item) => {
+                                return renderItem(item);
+                            })}
+                        </List>
+                    </Content>
+                </Container>
+            </Root>
+
+            <Dialog.Container visible={visible}>
+                <Dialog.Title>Rename</Dialog.Title>
+                <Dialog.Description>Enter new name</Dialog.Description>
+                <Dialog.Input
+                    value={newFilename}
+                    onChangeText={(text) => setNewFileName(text)}
+                ></Dialog.Input>
+                <Dialog.Button label="Cancel" onPress={handleCancel} />
+                <Dialog.Button label="OK" onPress={handleOK} />
+            </Dialog.Container>
+        </>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
         flex: 1,
-      },
-      selected: {
+    },
+    selected: {
         backgroundColor: "lightblue",
         marginLeft: 0,
         paddingLeft: 18,
-      },
-      normal: {},
-      container: {
+    },
+    normal: {},
+    container: {
         flex: 1,
         flexDirection: "row",
         padding: 10,
@@ -510,50 +558,49 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         backgroundColor: "#FFF",
         elevation: 2,
         alignItems: "center",
-      },
-      title: {
+    },
+    title: {
         fontSize: 16,
         color: "#0D47A1",
         fontWeight: "bold",
-      },
-      container_text: {
+    },
+    container_text: {
         flex: 1,
         flexDirection: "column",
         marginLeft: 12,
         justifyContent: "center",
-      },
-      description: {
+    },
+    description: {
         fontSize: 11,
         fontStyle: "italic",
-      },
-      photo: {
+    },
+    photo: {
         height: 50,
         width: 50,
-      },
-      containerDialog: {
+    },
+    containerDialog: {
         flex: 1,
         backgroundColor: "#fff",
         alignItems: "center",
         justifyContent: "center",
-      },
-      header: {
+    },
+    header: {
         flexDirection: "row",
         backgroundColor: "#0D47A1",
         alignItems: "center",
         justifyContent: "space-between",
-      },
-      sort: {
+    },
+    sort: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: 'center',
-      },
-      //TouchableOpacity
-      TO: {
+    },
+    //TouchableOpacity
+    TO: {
         marginLeft: 10,
         marginRight: 10,
         marginBottom: 10,
         alignItems: 'center',
         justifyContent: 'center',
-      }
-    });
-    
+    }
+});
