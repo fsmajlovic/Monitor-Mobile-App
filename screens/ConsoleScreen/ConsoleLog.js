@@ -77,7 +77,8 @@ export default function ConsoleLog({ navigation }) {
             .then(res => {
                 for (var i = 0; i < res.data.length; i++) {
                     var log = res.data[i];
-                    addTableRow([log.user.email, log.time.slice(0, 10), log.command, log.response.slice(0, 3000)]);
+                    var fullName = log.user.name + " "  + log.user.lastname
+                    addTableRow([fullName, log.time, log.command, log.response.slice(0, 3000)]);
                 }
             });
     }
