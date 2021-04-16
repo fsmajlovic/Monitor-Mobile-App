@@ -17,7 +17,7 @@ export default function ConsoleLogRow({ rows }) {
                         </View>
                         <View style={[styles.row, styles.logRow]}>
                             <Text style={styles.tableHead}>{tableHead[1]}</Text>
-                            <Text style={styles.tableRow}>{row[1]}</Text>
+                            <Text style={styles.tableRow}>{row[1].slice(0,19).replace("T", " ")}</Text>
                         </View>
                         <View style={[styles.row, styles.logRow]}>
                             <Text style={styles.tableHead}>{tableHead[2]}</Text>

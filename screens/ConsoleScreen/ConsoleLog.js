@@ -11,11 +11,13 @@ export default function ConsoleLog({ navigation }) {
     const { activeDevice } = useContext(DeviceContext);
 
     const [TableData, setTableData] = useState([]);
+    const [SortByDate, setSortByDate] = useState(["Sort by date: ascending", "Sort by date: descending"]);
     const [users, setUsers] = useState([["All users", -1]]);
     const [id2, setId2] = useState(activeDevice.deviceId);
     const [logs, setLogs] = useState(false);
     const [users2, setUsers2] = useState(false);
     const [selectedValue, setSelectedValue] = useState(0);
+    const [selectedSort, setSelectedSort] = useState(0);
 
     const addTableRow = (newRow) => {
         setTableData((prevRows) => {
@@ -98,6 +100,18 @@ export default function ConsoleLog({ navigation }) {
                 onValueChange={(itemValue, itemIndex) => { setSelectedValue(itemValue); getLogs(users[itemIndex][1]); }}>
                 {users.map((item, index) => {
                     return (<Picker.Item label={item[0]} value={index} key={index} />)
+                })}
+            </Picker>
+            </View>
+            <View style={styles.picker}>
+            <Picker
+                mode="dropdown"
+                selectedValue={selectedSort} 
+                onValueChange={(itemValue, itemIndex) => { setSelectedSort(itemValue); if (itemValue == 0)  
+                    TableData.sort((a, b) => Date.parse(a[1]) - Date.parse(b[1]))
+                    else TableData.sort((a, b) => Date.parse(b[1]) - Date.parse(a[1]))}}>
+                {SortByDate.map((item, index) => {
+                    return (<Picker.Item label={item} value={index} key={index} />)
                 })}
             </Picker>
             </View>
