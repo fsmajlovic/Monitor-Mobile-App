@@ -25,6 +25,8 @@ import TaskView from '../TehnicianScreen/screens/TaskView';
 import ShowImagesScreen from "../TehnicianScreen/screens/ShowImagesScreen";
 import ImageUploadScreen from "../TehnicianScreen/screens/ImageUploadScreen";
 import ImageBrowserScreen from "../TehnicianScreen/screens/ImageBrowserScreen";
+import ComponentView from '../TehnicianScreen/screens/ComponentView';
+import AddComponent from '../TehnicianScreen/screens/AddComponent';
 
 
 const HomeStack = createStackNavigator();
@@ -236,6 +238,12 @@ const HomeStackScreen = ({navigation}) => (
                     }} />
                     <TehnicianStack.Screen name="ShowImagesScreen" component={ShowImagesScreen} options={{
                         title: 'Pictures'
+                    }} />
+                    <TehnicianStack.Screen name="ComponentView" component={ComponentView} options={{
+                      title: 'Components'
+                    }} />
+                    <TehnicianStack.Screen name="AddComponent" component={AddComponent} options={{
+                      title: 'Add component'
                     }} />
             </TehnicianStack.Navigator>
             );

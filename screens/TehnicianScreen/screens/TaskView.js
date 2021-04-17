@@ -47,6 +47,12 @@ const TaskView = (props) => {
                     <Text style={styles.button}>Show pictures</Text>
                 </View>
             </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => props.navigation.push('ComponentView', { task: task })}>
+                <View style={styles.containerButton}>
+                    <Text style={styles.button}>Components</Text>
+                </View>
+            </TouchableOpacity>
         </View>
     )
 }
