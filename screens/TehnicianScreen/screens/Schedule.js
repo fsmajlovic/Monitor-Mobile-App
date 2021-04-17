@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Agenda } from 'react-native-calendars';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card } from 'react-native-paper';
 import { format } from 'date-fns';
@@ -35,8 +35,11 @@ function Schedule(props) {
                         <Text>{format(Date.parse(item.startTime), 'HH:mm ')} - {format(Date.parse(item.endTime), ' HH:mm')}</Text>
                         { item.device ? <Text>{item.device.location}</Text> : <Text>{item.location}</Text> }
                     </View>
-                    <View>
+                    <View style={ styles.item }>
                         <Text>{item.description}</Text>
+                        { item.photoUploaded &&
+                        <Image source={require('../../../assets/image-icon.jpg')} style={ styles.photo }  />
+                        }
                     </View>
                 </Card.Content>
             </Card>
@@ -93,7 +96,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-    }
+    },
+    photo: {
+        height: 25,
+        width: 25,
+    },
 })
 
 export default Schedule;
