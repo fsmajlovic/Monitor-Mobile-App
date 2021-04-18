@@ -45,6 +45,7 @@ const AddComponent = (props) => {
                 async (values) => {
                     let token = await getSavedToken();
                     await submit({ token, type: values.type, name: values.name, quantity: quantity, taskId: task.taskId, task: task })
+                    alert("Successfully added!")
                     props.navigation.navigate('TaskView')
                 }
             }
@@ -52,33 +53,41 @@ const AddComponent = (props) => {
             {({ handleChange, handleSubmit, values }) => (
                 <View>
                     <View>
-                    <Text style={styles.title}>Type</Text>
-                    <TextInput style={styles.input} value={values.type}
-                        onChangeText={handleChange('type')} />
-                    <Text style={styles.title}>Name</Text>
-                    <TextInput style={styles.input} value={values.name}
-                        onChangeText={handleChange('name')} />
+                        <Text style={styles.title}>Type</Text>
+                        <TextInput style={styles.input} value={values.type}
+                            onChangeText={handleChange('type')}
+                            placeholder={"Tastatura"}  />
+                        <Text style={styles.title}>Name</Text>
+                        <TextInput style={styles.input} value={values.name}
+                            onChangeText={handleChange('name')} />
                     </View>
                     <Text style={styles.title}>Quantity</Text>
-                    <NumericInput
-                        value={quantity}
-                        onChange={value => setQuantity(value)}
-                        totalWidth={140}
-                        totalHeight={35}
-                        iconSize={25}
-                        step={1}
-                        minValue={1}
-                        maxValue={10}
-                        valueType='real'
-                        rounded
-                        textColor='#0D47A1'
-                        marginTop={15}
-                        iconStyle={{ color: 'white' }}
-                        style={styles.numeric}
-                        rightButtonBackgroundColor='#0074e8'
-                        leftButtonBackgroundColor='#0074e8'
-                    />
-                    <Button onPress={handleSubmit} title="Submit" />
+                    <View style={styles.numeric}>
+                        <NumericInput
+                            value={quantity}
+                            onChange={value => setQuantity(value)}
+                            totalWidth={140}
+                            totalHeight={40}
+                            iconSize={25}
+                            step={1}
+                            minValue={1}
+                            maxValue={100}
+                            valueType='real'
+                            rounded
+                            textColor='#0D47A1'
+                            iconStyle={{ color: 'white' }}
+                            rightButtonBackgroundColor='#0074e8'
+                            leftButtonBackgroundColor='#0074e8'
+                        />
+                    </View>
+                    {/*<Button onPress={handleSubmit} title="Submit" />*/}
+                    <View style={styles.submitView}>
+                        <TouchableOpacity onPress={() => {handleSubmit()}}>
+                            <View style={styles.containerButton}>
+                                <Text style={styles.button}>Submit</Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             )}
         </Formik>
@@ -114,7 +123,10 @@ const styles = StyleSheet.create({
         marginLeft:20,
         marginRight:20,
         borderColor: 'black',
-        borderWidth: 1
+        borderWidth: 1,
+        borderRadius: 5,
+        height: 40,
+        paddingLeft: 10
     },
     title: {
         // alignSelf: 'flex-start',
@@ -126,7 +138,12 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     numeric: {
-        margin: 15
+        marginLeft: 15,
+        marginTop: 10,
+        padding: 10
+    },
+    submitView: {
+        alignItems: 'center'
     }
 })
 

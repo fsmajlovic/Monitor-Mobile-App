@@ -23,6 +23,7 @@ const ComponentView = (props) => {
     const { task } = props.route.params;
 
     useEffect(() => {
+        
         async function getData(getSavedToken) {
             let token = await getSavedToken();
             fetch("https://si-2021.167.99.244.168.nip.io/api/Components/" + task.taskId, {
@@ -32,7 +33,6 @@ const ComponentView = (props) => {
                 return response.json();
             }).then((responseJson) => {
                 setComponents(responseJson.data);
-
             })
 
         }
