@@ -240,10 +240,10 @@ const HomeStackScreen = ({navigation}) => (
                         title: 'Pictures'
                     }} />
                     <TehnicianStack.Screen name="ComponentView" component={ComponentView} options={{
-                      title: 'Components'
+                      title: 'Parts'
                     }} />
                     <TehnicianStack.Screen name="AddComponent" component={AddComponent} options={{
-                      title: 'Add component'
+                      title: 'Add part'
                     }} />
             </TehnicianStack.Navigator>
             );

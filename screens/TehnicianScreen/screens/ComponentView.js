@@ -24,9 +24,9 @@ const ComponentView = (props) => {
                 return response.json();
             }).then((responseJson) => {
                 setComponents(responseJson.data);
-                
+
             })
-            
+
         }
         getData(getSavedToken);
     }, [])
@@ -44,7 +44,7 @@ const ComponentView = (props) => {
             />
             <TouchableOpacity onPress={() => props.navigation.push('AddComponent', { task: task })}>
                 <View style={styles.containerButton}>
-                    <Text style={styles.button}>Add component</Text>
+                    <Text style={styles.button}>Add part</Text>
                 </View>
             </TouchableOpacity>
         </View>
@@ -89,14 +89,16 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     item: {
-        backgroundColor: '#f9c2ff',
+        backgroundColor: "#78a3f3",
         padding: 20,
         marginVertical: 8,
         marginHorizontal: 16,
+        borderRadius: 30,
         width: 250
     },
     title: {
-        fontSize: 32,
+        fontSize: 24,
+        textAlign: 'center',
     },
 })
 

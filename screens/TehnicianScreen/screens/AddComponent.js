@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React, { useContext, useState } from 'react';
-import { Text, View, StyleSheet, Button, TextInput } from 'react-native';
+import {Text, View, StyleSheet, Button, TextInput, TouchableOpacity} from 'react-native';
 import NumericInput from 'react-native-numeric-input';
 import { AuthContext } from '../../../contexts/authContext';
 
@@ -38,7 +38,7 @@ const AddComponent = (props) => {
 
 
     return (
-        <Formik 
+        <Formik
             initialValues={{ type: '', name: '', quantity: 1 }}
             style={styles.container}
             onSubmit={
@@ -51,12 +51,15 @@ const AddComponent = (props) => {
         >
             {({ handleChange, handleSubmit, values }) => (
                 <View>
+                    <View>
                     <Text style={styles.title}>Type</Text>
                     <TextInput style={styles.input} value={values.type}
                         onChangeText={handleChange('type')} />
                     <Text style={styles.title}>Name</Text>
                     <TextInput style={styles.input} value={values.name}
                         onChangeText={handleChange('name')} />
+                    </View>
+                <View style={styles.container}>
                     <Text style={styles.title}>Quantity</Text>
                     <NumericInput
                         value={quantity}
@@ -76,7 +79,13 @@ const AddComponent = (props) => {
                         rightButtonBackgroundColor='#0074e8'
                         leftButtonBackgroundColor='#0074e8'
                     />
-                    <Button onPress={handleSubmit} title="Submit" />
+                    <TouchableOpacity onPress={handleSubmit}>
+                        <View style={styles.containerButton}>
+                            <Text style={styles.button}>Add</Text>
+                        </View>
+                    </TouchableOpacity>
+                    {/*<Button onPress={handleSubmit} title="Submit" />*/}
+                </View>
                 </View>
             )}
         </Formik>
@@ -90,19 +99,40 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10
     },
+    containerButton: {
+        justifyContent: 'center',
+        backgroundColor: "#0D47A1",
+        height: 40,
+        width: 250,
+        margin: 10,
+        borderRadius: 30,
+        paddingHorizontal: 30,
+        marginTop: 30,
+        alignItems: 'center'
+    },
+    button: {
+        fontSize: 20,
+        color: "#FFF",
+        fontWeight: "bold",
+
+    },
     input: {
-        margin: 15,
+        marginBottom:20,
+        marginLeft:20,
+        marginRight:20,
         borderColor: 'black',
         borderWidth: 1
     },
     title: {
-        alignSelf: 'flex-start',
+        // alignSelf: 'flex-start',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
         fontSize: 16,
         marginLeft: 15,
-        marginTop: 10
+        marginTop: 10,
     },
     numeric: {
-        
         margin: 15
     }
 })

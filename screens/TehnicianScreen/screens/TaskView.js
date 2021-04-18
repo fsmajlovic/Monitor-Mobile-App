@@ -38,8 +38,9 @@ const TaskView = (props) => {
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => props.navigation.push('ShowImagesScreen', {
-                machineId: machine.deviceId, 
-                taskId: task.taskId,
+                //ovi parametri svakako ne trebaju, a bacaju izuzetak ako mašina nije definisana
+                // machineId: machine.deviceId,
+                // taskId: task.taskId,
                 machine: machine,
                 task: task
             })}>
@@ -50,7 +51,7 @@ const TaskView = (props) => {
 
             <TouchableOpacity onPress={() => props.navigation.push('ComponentView', { task: task })}>
                 <View style={styles.containerButton}>
-                    <Text style={styles.button}>Components</Text>
+                    <Text style={styles.button}>Parts</Text>
                 </View>
             </TouchableOpacity>
         </View>
