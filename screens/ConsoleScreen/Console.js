@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { DeviceContext } from '../../contexts/DeviceContext';
 import ConsoleRow from './ConsoleRow'
@@ -34,11 +34,14 @@ export default function Console({ navigation }) {
     const [connected, setConnected] = useState(false);
     const [userId, setUserId] = useState("");
     const [user, setUser] = useState(false);
+    const [restart, setRestart] = useState(false);
 
     const [rows, setRows] = useState([]);
     const [current, setCurrent] = useState("");
 
     const { getSavedToken } = React.useContext(AuthContext);
+
+    const [restartCommand, setRestartCommand] = useState([]);
 
     const addRows = (newRow) => {
         setRows((prevRows) => {
@@ -48,14 +51,26 @@ export default function Console({ navigation }) {
         })
     };
 
-    useEffect(() => {
-        getFoldersInCurrentPath();
-    }, [path]);
+    const addRestartCommand = (newRow) => {
+        setRestartCommand((prevRows) => {
+            return (
+                [...prevRows, newRow]
+            )
+        })
+    };
+
+    const deleteRestartCommand = () => {
+        setRestartCommand([]);
+    };
+
+    //   useEffect(() => {
+    //       getFoldersInCurrentPath();
+    //   }, [path]);
 
     const getUser = async () => {
         setUser(true);
         let token = await getSavedToken();
-        
+
         fetch("https://si-2021.167.99.244.168.nip.io:3333/jwt/verify", {
             method: 'GET',
             headers: {
@@ -90,7 +105,7 @@ export default function Console({ navigation }) {
                 console.log("konekcija " + res.message)
                 if (!(username === 'undefined'))
                     setConnected(true);
-                    getFoldersInCurrentPath();
+                //   getFoldersInCurrentPath();
             });
     }
 
@@ -121,7 +136,10 @@ export default function Console({ navigation }) {
                 //console.log(text)
             });
     }
-    const sendRequest = async (command, token) => {
+    const sendRequest = async (command) => {
+        console.log("Komanda: " + command);
+
+        let token = await getSavedToken();
 
         fetch('https://si-grupa5.herokuapp.com/api/agent/command', {
             method: 'POST',
@@ -134,13 +152,11 @@ export default function Console({ navigation }) {
                 deviceUid: id,
                 command: command,
                 path: path,
-                //  parameters: [],
                 user: username
             })
         })
             .then(res => res.json())
             .then(res => {
-                //  Token = res.token;
 
                 if (typeof res.message === 'undefined') {
                     addRows(res.error)
@@ -154,22 +170,25 @@ export default function Console({ navigation }) {
                     setPath(res.path);
                     if (res.message.length != 0)
                         addRows(modified);
+
                     connectToDataBase(command, modified);
                 }
             });
     }
 
     const getFolders = (unformatted) => {
+        console.log("Pozvalo se ovo 1");
         let folderi = [];
-        for(let i = 7; i < unformatted.length; i++){
+        for (let i = 7; i < unformatted.length; i++) {
             let red = unformatted[i].replace(/\s\s+/g, ' ').split(" ");
-            if(isNaN(red[3]))
-            folderi.push(red.slice(3).join(" ").trim());
+            if (isNaN(red[3]))
+                folderi.push(red.slice(3).join(" ").trim());
         }
-        return folderi.filter((x)=>{return x != "";});
+        return folderi.filter((x) => { return x != ""; });
     }
 
     const getFoldersInCurrentPath = async () => {
+        console.log("Pozvalo se ovo 1");
         let token = await getSavedToken();
         fetch('https://si-grupa5.herokuapp.com/api/agent/command', {
             method: 'POST',
@@ -182,7 +201,6 @@ export default function Console({ navigation }) {
                 deviceUid: id,
                 command: "ls",
                 path: path,
-                //  parameters: [],
                 user: username
             })
         })
@@ -196,23 +214,24 @@ export default function Console({ navigation }) {
     }
 
     const recommendFolder = async () => {
-        if (edited){
+        console.log("Pozvalo se ovo 1");
+        if (edited) {
             setEdited(false);
             setIndexFolder(0);
             let text = current.split(" ");
             text = text[text.length - 1];
-            setFilteredFolders(folders.filter((x)=>{return x.startsWith(text)}));
+            setFilteredFolders(folders.filter((x) => { return x.startsWith(text) }));
             setPrevious(current);
             return;
         }
         let text = previous.split(" ");
         text = text[text.length - 1];
-        setCurrent(previous+filteredFolders[indexFolder].replace(text, ""));
-        if(indexFolder == filteredFolders.length-1){
+        setCurrent(previous + filteredFolders[indexFolder].replace(text, ""));
+        if (indexFolder == filteredFolders.length - 1) {
             setIndexFolder(0);
         }
-        else{
-            setIndexFolder(indexFolder+1);
+        else {
+            setIndexFolder(indexFolder + 1);
         }
     }
 
@@ -226,7 +245,7 @@ export default function Console({ navigation }) {
                     <TextInput
                         style={styles.inputArea}
                         value={current}
-                        onChangeText={(e) => {setCurrent(e);setEdited(true);}}
+                        onChangeText={(e) => { setCurrent(e); setEdited(true); }}
                         placeholder="..."
                         placeholderTextColor="#bbbbbb"
                         onSubmitEditing={async (event) => {
@@ -237,21 +256,28 @@ export default function Console({ navigation }) {
 
                             addRows(path + "> " + event.nativeEvent.text);
 
-                            if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length >= 2) || group3.includes(command)) {
-                                //validna komanda
-                                if (group2.includes(command)) {
-                                    command += " " + args[1];
-                                }
-
-                                 //shutdown
-                                 if(group3.includes(command))
-                                 command = event.nativeEvent.text.replace(/ +/g, ' ').trim().toLowerCase();
-
-
-                                let token = await getSavedToken();
-                                sendRequest(command, token);
-                            } else {
-                                //nevalidna komanda
+                            //unesen restart
+                            if (restartCommand.length == 0 && input.toLowerCase().includes("shutdown -r")) {
+                                addRestartCommand("shutdown -r");
+                                addRows("Username: ");
+                                setPath("");
+                            }
+                            //unesen username
+                            else if (restartCommand.length == 1) {
+                                addRestartCommand(input);
+                                addRows("Password: ");
+                            }
+                            //unsene password
+                            else if (restartCommand.length == 2) {
+                                sendRequest(restartCommand[0] + " " + restartCommand[1] + " " + input);
+                                deleteRestartCommand();
+                            }
+                            //ostale validne komande
+                            else if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length >= 2) || group3.includes(command)) {
+                                sendRequest(input);
+                            }
+                            //nevalidna komanda
+                            else {
                                 addRows("Invalid command!");
                             }
 
@@ -263,7 +289,8 @@ export default function Console({ navigation }) {
                 <View style={styles.buttons}>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => {recommendFolder();}}>
+                    //    onPress={() => { recommendFolder(); }}
+                    >
                         <Text style={styles.buttonText}>Tab</Text>
                     </TouchableOpacity>
                 </View>
