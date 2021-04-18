@@ -16,13 +16,15 @@ import { serverURL } from "../../../appConfig";
 import { AuthContext } from "../../../contexts/authContext";
 import { userContext } from "../../../contexts/userContext";
 import SelectionListHeader from "./SelectionListHeader";
+import * as Sharing from 'expo-sharing';
 
 import {
     downloadFile,
     renameFileFolder,
     copyFileFolder,
     moveFileFolder,
-    deleteFileFolder,
+    deleteFileFolder
+   // shareFile
 } from "./ListItemVertical";
 import Dialog from "react-native-dialog";
 
@@ -230,10 +232,6 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                 selectedItemsNumber++;
             }
         }
-
-
-
-
         if (selectedItemsNumber == 1 && selectedItem.type === 'file') {
             let supportedExtensions = ['.log', '.txt', '.html', '.png', '.jpg', '.xml'];
             if (!supportedExtensions.includes(selectedItem.extension)) {
@@ -254,29 +252,17 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         }
     }
 
-
-    expoFileLocation = "";
-    fileData = "";
-    fileName = "";
-    async function saveToExpoFileSystem() {
-        fileData = base64Icon;
-        fileName = "screenshot.jpg";
-        expoFileLocation = FileSystem.documentDirectory + fileName;
-        FileSystem.writeAsStringAsync(expoFileLocation, fileData, {
-            encoding: FileSystem.EncodingType.Base64
-        }).catch((error) => {
-            console.log(error);
-        });
-    }
-
+    let expoFileLocationShare = "";
+    let openShareDialogAsync = async () => {
+        if (!(await Sharing.isAvailableAsync())) {
+          alert(`Sharing isn't available on your platform`);
+          return;
+        }
+      
+        await Sharing.shareAsync(expoFileLocationShare);
+      };
 
     const share = async () => {
-
-        //metoda koja radi share fajla na mail iznad smo eklarisali metodu 
-        //saveToExpoFileSys koju cemo koristiti za share
-        //ideja je da se fajl spremi u ExpoFileLocation i odatle shera 
-        //ne mozemo nista probati dok ova grupa ne uradi svoje
-
         let selectedItem;
         let selectedItemsNumber = 0;
         for (let i = 0; i < items.length; i++) {
@@ -285,14 +271,18 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                 selectedItemsNumber++;
             }
         }
-
-
         if (selectedItemsNumber == 1 && selectedItem.type === 'file') {
-            //ovdje bi trebali pozivati ovu metodu iznad nad selectedItem
-            
-        }            //selectedItem.path
-
-
+            let token = await getSavedToken();
+            await downloadFile(token, username, selectedItem.path, selectedItem.name, selectedItem.type, selectedItem.children, selectedItem.oldPath, isCopyDirectory, actionCopyMove, navigation, selectedItem.extension, false);
+            expoFileLocationShare = FileSystem.documentDirectory + selectedItem.name;
+            let dirInfo = await FileSystem.getInfoAsync(expoFileLocationShare);
+            if (dirInfo.exists) {
+                await openShareDialogAsync();
+            }
+            else {
+                alert('Datoteka nedostupna');
+            }           
+        }            
     }
 
     const move = async () => {

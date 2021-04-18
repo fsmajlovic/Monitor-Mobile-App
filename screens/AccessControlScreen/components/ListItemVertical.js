@@ -295,6 +295,25 @@ export async function downloadFile(token, username, path,name,type,children,oldP
   }
 }
 
+
+//SHARE FAJLA
+export async function shareFile(token, username, path,name,type,children,oldPath,isDirectory,action,navigation,extension,downloadLocally = true){
+  console.log(path)
+  
+  var extractedPath = path.split("allFiles/" + username)[1];
+  extractedPath = extractedPath.split(name)[0];
+  if(extractedPath == "") extractedPath = "/";
+  if(type == 'file') {
+    await getFile(name,token,username,extractedPath,downloadLocally);
+  }
+  else if(type == 'directory') {
+    if(oldPath == null)
+      navigation.push("SubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath, extension: extension});
+    else
+      navigation.push("ChoiceSubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath, isDirectory: isDirectory, action: action});
+  }
+}
+
 export async function renameFileFolder(token, username, path, name, newName) {
   var extractedPath = path.split("allFiles/" + username)[1];
   extractedPath = extractedPath.split(name)[0];
