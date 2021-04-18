@@ -59,7 +59,6 @@ const AddComponent = (props) => {
                     <TextInput style={styles.input} value={values.name}
                         onChangeText={handleChange('name')} />
                     </View>
-                <View style={styles.container}>
                     <Text style={styles.title}>Quantity</Text>
                     <NumericInput
                         value={quantity}
@@ -79,13 +78,7 @@ const AddComponent = (props) => {
                         rightButtonBackgroundColor='#0074e8'
                         leftButtonBackgroundColor='#0074e8'
                     />
-                    <TouchableOpacity onPress={handleSubmit}>
-                        <View style={styles.containerButton}>
-                            <Text style={styles.button}>Add</Text>
-                        </View>
-                    </TouchableOpacity>
-                    {/*<Button onPress={handleSubmit} title="Submit" />*/}
-                </View>
+                    <Button onPress={handleSubmit} title="Submit" />
                 </View>
             )}
         </Formik>
