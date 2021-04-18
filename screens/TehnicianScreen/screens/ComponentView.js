@@ -3,9 +3,17 @@ import { Text, TouchableOpacity, View, StyleSheet, FlatList, StatusBar } from 'r
 import { machineURL } from '../../../appConfig';
 import { AuthContext } from '../../../contexts/authContext';
 
-const Item = ({ name }) => (
-    <View style={styles.item}>
-        <Text style={styles.title}>{name}</Text>
+const Item = ({ name, type, quantity }) => (
+    <View style={styles.container_text}>
+        <Text style={styles.title}>
+            { name }
+        </Text>
+        <Text style={styles.description}>
+            { type }
+        </Text>
+        <Text style={styles.description}>
+            Quantity: { quantity }
+        </Text>
     </View>
 );
 
@@ -32,7 +40,9 @@ const ComponentView = (props) => {
     }, [])
 
     const renderItem = ({ item }) => (
-        <Item name={item.name} />
+        <View style={ styles.containerItem }>
+            <Item name={ item.name } quantity={ item.quantity } type={ item.type }  />
+        </View>
     );
 
     return (
@@ -42,11 +52,13 @@ const ComponentView = (props) => {
                 renderItem={renderItem}
                 keyExtractor={item => item.componentId.toString()}
             />
-            <TouchableOpacity onPress={() => props.navigation.push('AddComponent', { task: task })}>
-                <View style={styles.containerButton}>
-                    <Text style={styles.button}>Add part</Text>
-                </View>
-            </TouchableOpacity>
+            <View style={ styles.containerButton }>
+                <TouchableOpacity onPress={() => props.navigation.push('AddComponent', { task: task })}>
+                    <View style={styles.containerButtonText}>
+                        <Text style={styles.button}>Add part</Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -55,17 +67,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
         marginTop: StatusBar.currentHeight || 0,
     },
-    editButton: {
-        paddingRight: 12,
-        fontFamily: 'sans-serif',
-        fontSize: 20,
-        color: 'white',
-        fontWeight: 'bold'
-    },
     containerButton: {
+        alignItems: 'center'
+    },  
+    containerButtonText: {
         justifyContent: 'center',
         backgroundColor: "#0D47A1",
         height: 40,
@@ -80,13 +87,19 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "#FFF",
         fontWeight: "bold",
-
+        
     },
-    description: {
-        textAlign: 'center',
-        fontFamily: 'sans-serif',
-        fontSize: 25,
-        fontWeight: 'bold'
+    containerItem: {
+        flex: 1,
+        flexDirection: 'row',
+        padding: 10,
+        marginLeft: 16,
+        marginRight: 16,
+        marginTop: 8,
+        marginBottom: 8,
+        borderRadius: 5,
+        backgroundColor: '#D3D3D3',
+        elevation: 2,
     },
     item: {
         backgroundColor: "#78a3f3",
@@ -97,8 +110,20 @@ const styles = StyleSheet.create({
         width: 250
     },
     title: {
-        fontSize: 24,
-        textAlign: 'center',
+        fontSize: 16,
+        color: 'black',
+    },
+    container_text: {
+        flex: 1,
+        flexDirection: 'column',
+        marginLeft: 12,
+        justifyContent: 'center',
+    },
+    description: {
+        fontSize: 11,
+        fontStyle: 'italic',
+        color: '#0D47A1',
+        fontWeight: 'bold',
     },
 })
 
