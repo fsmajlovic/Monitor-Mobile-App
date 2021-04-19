@@ -32,3 +32,7 @@ Sprint 4:
 
     • Korisnik želi da ima mogućnost uploada slika, i prikaza slika, za odabrani task u kalendaru
 
+Sprint 5:
+
+    • Korisnik želi da ima mogućnost dodavanja potrošenih rezervnih dijelova u listu za odabrani task
+    • Korisnik želi da na prikazu taska ima indikator ako task ima upload-ane slike
