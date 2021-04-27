@@ -254,6 +254,7 @@ async function deleteFolder(name, token, username, path) {
 
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
+  console.log('lokacija' + expoFileLocation);
   FileSystem.writeAsStringAsync(expoFileLocation, fileData, {
     encoding: FileSystem.EncodingType.Base64,
   }).catch((error) => {
