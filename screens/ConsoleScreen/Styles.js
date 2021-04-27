@@ -100,7 +100,9 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     color: "white",
     fontSize: 18,
-  }, picker: {
-    borderWidth: 1,
+  },
+  picker: {
+    borderBottomWidth: 1,
+    height: "8%",
   }
 })
