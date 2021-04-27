@@ -12,7 +12,6 @@ import axios from 'axios';
 import moment from "moment";
 import 'moment-timezone';
 
-
 export default function Console({ navigation }) {
 
     const group1 = ["?", "clear", "ls", "driverquery", "ipconfig", "systeminfo", "tasklist", "dir"];
@@ -35,6 +34,7 @@ export default function Console({ navigation }) {
     const [userId, setUserId] = useState("");
     const [user, setUser] = useState(false);
     const [restart, setRestart] = useState(false);
+    const [password, setPassword] = useState(false);
 
     const [rows, setRows] = useState([]);
     const [current, setCurrent] = useState("");
@@ -245,6 +245,7 @@ export default function Console({ navigation }) {
                     <TextInput
                         style={styles.inputArea}
                         value={current}
+                        secureTextEntry={password}
                         onChangeText={(e) => { setCurrent(e); setEdited(true); }}
                         placeholder="..."
                         placeholderTextColor="#bbbbbb"
@@ -254,7 +255,7 @@ export default function Console({ navigation }) {
                             let command = "";
                             command = args[0].toLowerCase();
 
-                            addRows(path + "> " + event.nativeEvent.text);
+                            if(restartCommand.length != 2) addRows(path + "> " + event.nativeEvent.text);
 
                             //unesen restart
                             if (restartCommand.length == 0 && input.toLowerCase().includes("shutdown -r")) {
@@ -266,10 +267,12 @@ export default function Console({ navigation }) {
                             else if (restartCommand.length == 1) {
                                 addRestartCommand(input);
                                 addRows("Password: ");
+                                setPassword(true);
                             }
-                            //unsene password
+                            //unsen password
                             else if (restartCommand.length == 2) {
                                 sendRequest(restartCommand[0] + " " + restartCommand[1] + " " + input);
+                                setPassword(false);
                                 deleteRestartCommand();
                             }
                             //ostale validne komande
