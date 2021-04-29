@@ -37,7 +37,8 @@ export default function App({ route, navigation }) {
 
     for (let i = 0; i < children.length; i++) {
         let file = children[i];
-        data.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: oldPath });
+        let correctZoneBirthtime = new Date(file['birthtime']);
+        data.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: oldPath, birthtime: correctZoneBirthtime });
         if(file['type'] == 'directory') {
           data[data.length - 1]['children'] = file['children'];
         }
@@ -58,6 +59,7 @@ export default function App({ route, navigation }) {
           folderPath={null}
           isDirectory={isDirectory}
           action={actionCopyMove}
+          showAdditionalOptions = {false}
       />
       {<TouchableOpacity onPress={async () => {
               let token = await getSavedToken();

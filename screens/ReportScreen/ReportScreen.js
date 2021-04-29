@@ -38,7 +38,7 @@ const ReportScreen = ({ navigation }) => {
         let allMachines = responseJson.data;
         let activeMachines = [];
         try{
-          activeMachines = await axios.get(activeMachineURL+'agent/online',{
+          activeMachines = await axios.get(activeMachineURL+'agents/online',{
             headers:{
               'Authorization': `Bearer ` + token
                }

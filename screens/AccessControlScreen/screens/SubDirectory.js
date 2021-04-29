@@ -26,9 +26,8 @@ export default function App({ route, navigation }) {
 
     for (let i = 0; i < children.length; i++) {
         let file = children[i];
-        let birthtime = file['birthtime'].split("T");
-        let dateTime = birthtime[0] + "\n" + birthtime[1];
-        data.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: null, birthtime: dateTime, dateTimeFormat: file['birthtime'] });
+        let correctZoneBirthtime = new Date(file['birthtime']);
+        data.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: null, birthtime: correctZoneBirthtime, extension: file['extension'] });
         if(file['type'] == 'directory') {
           data[data.length - 1]['children'] = file['children'];
         }
@@ -47,6 +46,7 @@ export default function App({ route, navigation }) {
       <ListViewVertical
         itemList={files}
         folderPath = {folderName}
+        showAdditionalOptions = {true}
       />
     </View>
   );
