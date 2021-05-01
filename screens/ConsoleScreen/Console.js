@@ -301,3 +301,8 @@ export default function Console({ navigation }) {
         </View>
     );
 }
+
+export function testZaJest(broj) {
+    if(broj % 2 == 0) return true;
+    else return false;
+  }
