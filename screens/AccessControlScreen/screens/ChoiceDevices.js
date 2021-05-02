@@ -28,9 +28,11 @@ function useSelectionChange(items) {
     return selectionMode;
 }
 
-export default function App() {
+export default function App({ route }) {
     const [items, setItems] = useState([]);
     const selectionMode = useSelectionChange(items);
+    
+    //setFilesToSend(route.params)
 
     var { getSavedToken } = React.useContext(AuthContext);
 
@@ -122,7 +124,19 @@ export default function App() {
                         </List>
                     </Content>
                 </Container>
-                <Button title="Send" color='#0D47A1'></Button>
+                <Button title="Send" color='#0D47A1' onPress={()=>{
+                    let selectedMachines=items.filter((i) => i.selected);
+                    let deviceUids=[];
+                    for (let i = 0; i < selectedMachines.length; i++) deviceUids.push({deviceUid:selectedMachines[i].deviceUid});
+                    //console.log(deviceUids)
+                    let filesToSend=[];
+                    filesToSend=route.params;
+                    //console.log(filesToSend)
+
+
+                    //poziv rute agent/files/put
+                    //u body ce ici deviceUids i filesToSend
+                }}></Button>
             </Root>
         </>
     );
