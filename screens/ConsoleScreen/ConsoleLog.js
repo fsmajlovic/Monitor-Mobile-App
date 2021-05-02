@@ -93,9 +93,10 @@ export default function ConsoleLog({ navigation }) {
         getUsers();
 
     return (
-        <View style={styles.componentContainer2}>
+        <View testID={'console-log'} style={styles.componentContainer2}>
             <View style={styles.picker}>
                 <Picker
+                    testID={'picker-users'}
                     mode="dropdown"
                     selectedValue={selectedValue}
                     onValueChange={(itemValue, itemIndex) => { setSelectedValue(itemValue); getLogs(users[itemIndex][1]); }}>

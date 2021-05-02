@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">15.79% </span>
+                <span class="strong">73.68% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/19</span>
+                <span class='fraction'>14/19</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>1/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.67% </span>
+                <span class="strong">77.78% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/18</span>
+                <span class='fraction'>14/18</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -121,28 +121,19 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -153,6 +144,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -162,7 +154,15 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -175,17 +175,17 @@ export const DeviceContext = React.createContext();
 &nbsp;
 const URL = "https://si-2021.167.99.244.168.nip.io/api/device/AllDevices";
 &nbsp;
-export const DeviceProvider = <span class="fstat-no" title="function not covered" >(p</span>rops) =&gt; {
-    const { getSavedToken } = <span class="cstat-no" title="statement not covered" >useContext(AuthContext);</span>
-    const [devices, setDevices] = <span class="cstat-no" title="statement not covered" >useState([]);</span>
-    const [activeDevice, setActiveDevice] = <span class="cstat-no" title="statement not covered" >useState("nesto");</span>
-    const [activeDevices, setActiveDevices] = <span class="cstat-no" title="statement not covered" >useState([]);</span>
-    const [page, setPage] = <span class="cstat-no" title="statement not covered" >useState(1);</span>
-    const [loading, setLoading] = <span class="cstat-no" title="statement not covered" >useState(false);</span>
-    const [currentDevice,setCurrentDevice] = <span class="cstat-no" title="statement not covered" >useState({})</span>
-    const [taskList, setTaskList] = <span class="cstat-no" title="statement not covered" >useState([]) </span>// For current device
+export const DeviceProvider = (props) =&gt; {
+    const { getSavedToken } = useContext(AuthContext);
+    const [devices, setDevices] = useState([]);
+    const [activeDevice, setActiveDevice] = useState("nesto");
+    const [activeDevices, setActiveDevices] = useState([]);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [currentDevice,setCurrentDevice] = useState({})
+    const [taskList, setTaskList] = useState([]) // For current device
 &nbsp;
-    const addActiveDevice = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(d</span>evice) =&gt; {</span>
+    const addActiveDevice = <span class="fstat-no" title="function not covered" >(d</span>evice) =&gt; {
 <span class="cstat-no" title="statement not covered" >        if (!activeDevices.find(<span class="fstat-no" title="function not covered" >it</span>em =&gt; <span class="cstat-no" title="statement not covered" >item.deviceId === device.deviceId)</span>) {</span>
 <span class="cstat-no" title="statement not covered" >            setActiveDevices([...activeDevices, device]);</span>
 <span class="cstat-no" title="statement not covered" >            alert("Successfully added to active!")</span>
@@ -199,7 +199,7 @@ export const DeviceProvider = <span class="fstat-no" title="function not covered
     //     setLoading(true);
     // };
 &nbsp;
-    const values = <span class="cstat-no" title="statement not covered" >{</span>
+    const values = {
         activeDevices,
         addActiveDevice,
         activeDevice,
@@ -217,7 +217,7 @@ export const DeviceProvider = <span class="fstat-no" title="function not covered
         //Fali loadMore
     }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >    return (</span>
+    return (
         &lt;DeviceContext.Provider value={values}&gt;
             { props.children}
         &lt;/DeviceContext.Provider&gt;
@@ -229,7 +229,7 @@ export const DeviceProvider = <span class="fstat-no" title="function not covered
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat May 01 2021 21:18:21 GMT+0200 (GMT+02:00)
+                at Sun May 02 2021 22:15:37 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>
