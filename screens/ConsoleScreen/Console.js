@@ -236,7 +236,7 @@ export default function Console({ navigation }) {
     }
 
     return (
-        <View style={styles.componentContainer1}>
+        <View testID={'console'} style={styles.componentContainer1}>
 
             <ScrollView style={styles.scrollView}>
                 <ConsoleRow rows={rows} />

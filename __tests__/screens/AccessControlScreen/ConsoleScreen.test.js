@@ -1,27 +1,31 @@
 import * as React from "react";
-import renderer from 'react-test-renderer';
 import { render } from '@testing-library/react-native';
 
-import { testZaJest } from '../../../screens/ConsoleScreen/Console';
 import { DeviceProvider } from "../../../contexts/DeviceContext";
 import { AuthProvider} from "../../../contexts/authContext";
 import ConsoleScreen from '../../../screens/ConsoleScreen/Console';
 import ConsoleLogRow from '../../../screens/ConsoleScreen/ConsoleLogRow';
 import ConsoleLog from '../../../screens/ConsoleScreen/ConsoleLog';
 import ConsoleRow from '../../../screens/ConsoleScreen/ConsoleRow';
-import StatisticScreen from "../../../screens/ReportScreen/screens/StatisticScreen";
-import { NavigationContainer } from '@react-navigation/native';
 
+//testovi za ConsoleScreen
 describe('ConsoleScreen', () => {
-    it('Primjer 1', () => {
-        //const tree = renderer.create(<App />).toJSON();
-        //expect(tree.children.length).toBe(1);
-        var rezultat = testZaJest(2);
-        expect(rezultat).toEqual(true);
+    it('should render ConsoleLog screen', () => {
+        const { getAllByTestId } = render(
+            <AuthProvider>
+                <DeviceProvider>
+                    <ConsoleScreen/>
+                </DeviceProvider>
+            </AuthProvider>
+        );
+            
+        let views = getAllByTestId('console');
+        expect(views.length).toBe(1);
     });
 });
 
 
+//testovi za ConsoleLog
 describe('ConsoleLog', () => {
 
     it('should render ConsoleLog screen', () => {
@@ -49,6 +53,7 @@ describe('ConsoleLog', () => {
     });
 });
 
+//testovi za ConsoleLogRow
 describe('ConsoleLogRow', () => {
     it('should render 0 rows', () => {
         const { getAllByText } = render(
@@ -72,6 +77,7 @@ describe('ConsoleLogRow', () => {
     });
 });
 
+//testovi za ConsoleRow
 describe('ConsoleRow', () => {
     it('should render 2 rows with text command', () => {
         const { getAllByText } = render(
