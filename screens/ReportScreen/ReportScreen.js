@@ -1,96 +1,95 @@
-import React from 'react'
-import { StyleSheet, ScrollView } from 'react-native';
-import ListView from './components/ListView';
-//import StatisticsView from './components/StatisticsView';
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, FlatList, ActivityIndicator, Text } from 'react-native';
+import ListItem from './components/ListItem';
+import { AuthContext } from '../../contexts/authContext';
+import { useContext } from 'react';
+import { DeviceContext } from '../../contexts/DeviceContext';
+import {machineURL, activeMachineURL} from '../../appConfig';
+import axios from 'axios';
 
-const dataSet = [
-  {
-    key: '1',
-    title: 'Mašina 1',
-    description: 'Aktivna prije 3 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '2',
-    title: 'Mašina 1',
-    description: 'Aktivna prije 10 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '3',
-    title: 'Mašina 1',
-    description: 'Aktivna prije 35 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '4',
-    title: 'Mašina 4',
-    description: 'Aktivna prije 43 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '5',
-    title: 'Mašina 5',
-    description: 'Aktivna prije 4 dana',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '6',
-    title: 'Mašina 6',
-    description: 'Aktivna prije 23 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '7',
-    title: 'Mašina 7',
-    description: 'Aktivna prije 26 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '8',
-    title: 'Mašina 8',
-    description: 'Aktivna prije 7 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '9',
-    title: 'Mašina 9',
-    description: 'Aktivna prije 9 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '10',
-    title: 'Mašina 10',
-    description: 'Aktivna prije 9 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
-  },
-  {
-    key: '11',
-    title: 'Mašina 11',
-    description: 'Aktivna prije 9 minuta',
-    image_url: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ'
+
+const ReportScreen = ({ navigation }) => {
+  const [state, setState] = useState(-1);
+  const { getSavedToken } = React.useContext(AuthContext);
+  const { setDevices, devices, page, setPage, loadMore, loading, setLoading } = useContext(DeviceContext);
+
+  function filterActive(activeMachines, allMachines) {
+    return activeMachines ? activeMachines.filter((machine) => {
+        const existingMachine = allMachines.find(({deviceUid}) => {
+            return machine.deviceUid === deviceUid;
+        });
+        if (existingMachine) {
+            machine.deviceId = existingMachine.deviceId;
+            machine.lastTimeOnline = existingMachine.lastTimeOnline;
+        }
+        return existingMachine;
+    }) : [];
   }
-]
 
-export default function ReportScreen({navigation}) {
-  return(
-    <ScrollView>
-      <ListView
-        itemList={dataSet}
-      />
-       {
-         //<StatisticsView dataSet={dataSet}/>
-       }
-    </ScrollView>
+  useEffect(() => {
+    async function getData(getSavedToken) {
+      let token = await getSavedToken();
+      fetch(machineURL + `device/AllDevices`, {
+        method: 'GET',
+        headers: { "Authorization": "Bearer " + token },
+      }).then((response) => {
+        return response.json();
+      }).then(async (responseJson) => {
+        let allMachines = responseJson.data;
+        let activeMachines = [];
+        try{
+          activeMachines = await axios.get(activeMachineURL+'agents/online',{
+            headers:{
+              'Authorization': `Bearer ` + token
+               }
+            });
+        }catch(e){
+          console.log(e)
+        }
+        console.log("AKTIVNA" + JSON.stringify(activeMachines.data))
+        console.log("ALL MACHINES " + allMachines.data)
+        setDevices(filterActive(activeMachines.data, allMachines));
+      }).catch((error) => {
+        console.error(error);
+      });
+    }
+    getData(getSavedToken);
+  }, []);
+
+
+  return (
+
+    <View style={styles.container}>
+      <Text style={{alignSelf: 'center', color: 'black', fontSize: 35}}>Active</Text>
+        <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
+      <FlatList style={{flex: 1}}
+            keyExtractor={(item) => item.deviceId.toString()}
+            data={devices}
+            renderItem={({ item }) => <ListItem
+                item = {item}
+                navigation={navigation}
+            />}
+            ListFooterComponent={
+              loading ?
+              <View>
+                <ActivityIndicator/>
+              </View> : null
+            }
+            onEndReached={loadMore}
+            onEndReachedThreshold={0}
+        />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     padding: 10,
-    backgroundColor: '#FFF',
+    backgroundColor: 'white',
     elevation: 2,
   }
 });
+
+export default ReportScreen;

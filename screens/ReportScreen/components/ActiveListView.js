@@ -1,19 +1,20 @@
 import React from 'react';
 import { View, FlatList, StyleSheet, Button } from 'react-native';
+import ActiveListItem from './ActiveListItem';
 import ListItem from './ListItem';
 
 
-const ListView = ({ itemList, navigation }) => (
+const ActiveListView = ({ itemList, navigation }) => (
     <View style={styles.container}>
         <FlatList
             keyExtractor={(item) => item.deviceId.toString()}
             data={itemList}
-            renderItem={({ item }) => <ListItem
-                item = {item}
+            renderItem={({ item }) => <ActiveListItem
+                item={item}
                 navigation={navigation}
             />}
         />
-        
+
     </View>
 );
 
@@ -27,4 +28,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ListView;
+export default ActiveListView;

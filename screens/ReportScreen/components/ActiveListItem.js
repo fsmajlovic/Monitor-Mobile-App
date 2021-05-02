@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContext } from 'react';
-import { View, Text, StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
 import { DeviceContext } from '../../../contexts/DeviceContext';
 
 const styles = StyleSheet.create({
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
         marginBottom: 8,
         borderRadius: 5,
-        backgroundColor: '#D3D3D3',
+        backgroundColor: '#80D8FF',
         elevation: 2,
     },
     title: {
@@ -29,6 +29,7 @@ const styles = StyleSheet.create({
     description: {
         fontSize: 11,
         fontStyle: 'italic',
+        color: '#cbbfa8',
         color: '#0D47A1',
         fontWeight: 'bold',
     },
@@ -38,14 +39,14 @@ const styles = StyleSheet.create({
     },
 });
 
-const ListItem = ({ item, navigation }) => {
-    const { setCurrentDevice } = useContext(DeviceContext);
+const ActiveListItem = ({ item, navigation }) => {
+    const { setActiveDevice, addActiveDevice } = useContext(DeviceContext);
     return (
-        <TouchableWithoutFeedback onPress={() => { navigation.push('MachineScreen'); setCurrentDevice(item) }}>
+        <TouchableWithoutFeedback onPress={() => { setActiveDevice(item); navigation.push('Options'); }}>
             <View style={styles.container}>
                 <Image source={require('../../../assets/monitor-icon.gif')} style={styles.photo} />
                 <View style={styles.container_text}>
-                    <Text style={styles.title}> 
+                    <Text style={styles.title}>
                         {item.name}
                     </Text>
                     <Text style={styles.description}>
@@ -60,4 +61,4 @@ const ListItem = ({ item, navigation }) => {
     )
 };
 
-export default ListItem;
+export default ActiveListItem;

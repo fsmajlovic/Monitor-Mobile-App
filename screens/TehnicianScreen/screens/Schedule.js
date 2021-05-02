@@ -1,32 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { Agenda } from 'react-native-calendars';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Card } from 'react-native-paper';
 import { format } from 'date-fns';
 import {AuthContext} from '../../../contexts/authContext';
 
 
-const renderItem = (item) => {
-    return <TouchableOpacity style={{marginRight: 17, marginTop: 17}}>
-        <Card>
-            <Card.Content>
-                <View style={styles.item}>
-                    <Text>{format(Date.parse(item.time), 'HH:mm ')}</Text>
-                    <Text>{item.location}</Text>
-                </View>
-                <View>
-                    <Text>{item.description}</Text>
-                </View>
-            </Card.Content>
-        </Card>
-    </TouchableOpacity>
-  }
-
-
 function Schedule(props) {
     const [items, setItems] = useState({});
     const {getSavedToken} = React.useContext(AuthContext);
+
+    const getColor = (item) => {
+        //console.log("Status je " + item.statusId)
+        switch(item.statusId) {
+            case 1:
+              return "#fc6b5b"
+            case 2:
+              return "#7eddf7"
+            case 3:
+              return "#f8ff7d"
+            case 4:
+              return "#73ff98"
+
+        }
+      }
+
+    const renderItem = (item) => {
+
+        return <TouchableOpacity style={{marginRight: 17, marginTop: 17}} onPress={() => props.navigation.navigate("TaskView", {machine:item.device,task: item})}>
+            <Card style={{ backgroundColor: getColor(item)}}>
+                <Card.Content>
+                    <View style={styles.item}>
+                        <Text>{format(Date.parse(item.startTime), 'HH:mm ')} - {format(Date.parse(item.endTime), ' HH:mm')}</Text>
+                        { item.device ? <Text>{item.device.location}</Text> : <Text>{item.location}</Text> }
+                    </View>
+                    <View style={ styles.item }>
+                        <Text>{item.description}</Text>
+                        { item.photoUploaded &&
+                        <Image source={require('../../../assets/image-icon.jpg')} style={ styles.photo }  />
+                        }
+                    </View>
+                </Card.Content>
+            </Card>
+        </TouchableOpacity>
+      }
+
+
 
       useEffect(()=>{
         async function getData(getSavedToken){
@@ -37,9 +57,9 @@ function Schedule(props) {
                     headers: {"Authorization" : "Bearer "+ token},
                   });
                   var data = await response.json();
-
+                  var data = data.data;
                 const mappedData = data.map((post) => {
-                      const date = new Date(post.time);
+                      const date = new Date(post.startTime);
                       return {
                           ...post,
                           date: format(date, 'yyyy-MM-dd'),
@@ -76,7 +96,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-    }
+    },
+    photo: {
+        height: 25,
+        width: 25,
+    },
 })
 
 export default Schedule;
