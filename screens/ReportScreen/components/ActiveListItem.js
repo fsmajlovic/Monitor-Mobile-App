@@ -43,7 +43,7 @@ const ActiveListItem = ({ item, navigation }) => {
     const { setActiveDevice, addActiveDevice } = useContext(DeviceContext);
     return (
         <TouchableWithoutFeedback onPress={() => { setActiveDevice(item); navigation.push('Options'); }}>
-            <View style={styles.container}>
+            <View style={styles.container} testID="view">
                 <Image source={require('../../../assets/monitor-icon.gif')} style={styles.photo} />
                 <View style={styles.container_text}>
                     <Text style={styles.title}>
