@@ -75,10 +75,17 @@ TN:
 SF:appConfig.js
 FNF:0
 FNH:0
+<<<<<<< HEAD
 DA:1,0
 DA:2,0
 DA:3,0
 DA:4,0
+=======
+DA:1,2
+DA:2,2
+DA:3,2
+DA:4,2
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 LF:4
 LH:0
 BRF:0
@@ -91,6 +98,7 @@ FN:19,(anonymous_1)
 FN:20,(anonymous_2)
 FNF:3
 FNH:1
+<<<<<<< HEAD
 FNDA:2,(anonymous_0)
 FNDA:0,(anonymous_1)
 FNDA:0,(anonymous_2)
@@ -106,6 +114,23 @@ DA:15,2
 DA:16,2
 DA:17,2
 DA:19,2
+=======
+FNDA:5,(anonymous_0)
+FNDA:0,(anonymous_1)
+FNDA:0,(anonymous_2)
+DA:5,5
+DA:7,5
+DA:9,5
+DA:10,5
+DA:11,4
+DA:12,4
+DA:13,4
+DA:14,4
+DA:15,4
+DA:16,4
+DA:17,4
+DA:19,4
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 DA:20,0
 DA:21,0
 DA:22,0
@@ -124,11 +149,19 @@ SF:contexts\authContext.js
 FN:5,(anonymous_0)
 FNF:1
 FNH:1
+<<<<<<< HEAD
 FNDA:2,(anonymous_0)
 DA:3,1
 DA:5,1
 DA:6,2
 DA:8,2
+=======
+FNDA:8,(anonymous_0)
+DA:3,6
+DA:5,6
+DA:6,8
+DA:8,8
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 LF:4
 LH:4
 BRF:0
@@ -138,7 +171,11 @@ TN:
 SF:contexts\userContext.js
 FNF:0
 FNH:0
+<<<<<<< HEAD
 DA:3,0
+=======
+DA:3,1
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 LF:1
 LH:0
 BRF:0
@@ -164,10 +201,17 @@ FNDA:0,(anonymous_4)
 FNDA:0,(anonymous_5)
 FNDA:0,(anonymous_6)
 FNDA:0,testZaJest
+<<<<<<< HEAD
 DA:13,0
 DA:14,0
 DA:15,0
 DA:16,0
+=======
+DA:13,1
+DA:14,1
+DA:15,1
+DA:16,1
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 DA:20,0
 DA:21,0
 DA:22,0
@@ -214,11 +258,19 @@ DA:117,0
 DA:118,0
 DA:130,0
 DA:131,0
+<<<<<<< HEAD
 DA:141,0
 DA:181,0
 DA:182,0
 LF:53
 LH:0
+=======
+DA:141,1
+DA:181,0
+DA:182,0
+LF:53
+LH:5
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 BRDA:36,0,0,0
 BRDA:36,0,1,0
 BRDA:42,1,0,0
@@ -244,8 +296,13 @@ FN:40,(anonymous_0)
 FNF:1
 FNH:0
 FNDA:0,(anonymous_0)
+<<<<<<< HEAD
 DA:4,0
 DA:40,0
+=======
+DA:4,1
+DA:40,1
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 DA:41,0
 LF:3
 LH:0
@@ -290,10 +347,17 @@ FNDA:0,copyFileFolder
 FNDA:0,moveFileFolder
 FNDA:0,ListItemVertical
 FNDA:0,(anonymous_16)
+<<<<<<< HEAD
 DA:19,0
 DA:20,0
 DA:21,0
 DA:22,0
+=======
+DA:19,1
+DA:20,1
+DA:21,1
+DA:22,1
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 DA:25,0
 DA:26,0
 DA:39,0
@@ -453,7 +517,11 @@ DA:370,0
 DA:371,0
 DA:374,0
 DA:375,0
+<<<<<<< HEAD
 DA:399,0
+=======
+DA:399,1
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 LF:164
 LH:0
 BRDA:39,0,0,0
@@ -573,8 +641,13 @@ FNF:2
 FNH:0
 FNDA:0,(anonymous_0)
 FNDA:0,(anonymous_1)
+<<<<<<< HEAD
 DA:6,0
 DA:13,0
+=======
+DA:6,1
+DA:13,1
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 DA:14,0
 DA:18,0
 LF:4
@@ -680,10 +753,17 @@ FNDA:0,(anonymous_43)
 FNDA:0,(anonymous_44)
 FNDA:0,(anonymous_45)
 FNDA:0,(anonymous_46)
+<<<<<<< HEAD
 DA:33,0
 DA:34,0
 DA:35,0
 DA:36,0
+=======
+DA:33,1
+DA:34,1
+DA:35,1
+DA:36,1
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 DA:39,0
 DA:40,0
 DA:41,0
@@ -884,7 +964,11 @@ DA:494,0
 DA:500,0
 DA:508,0
 DA:520,0
+<<<<<<< HEAD
 DA:529,0
+=======
+DA:529,1
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
 LF:205
 LH:0
 BRDA:41,0,0,0
@@ -1985,16 +2069,16 @@ SF:screens\ReportScreen\components\ActiveListItem.js
 FN:42,(anonymous_0)
 FN:45,(anonymous_1)
 FNF:2
-FNH:0
-FNDA:0,(anonymous_0)
+FNH:1
+FNDA:1,(anonymous_0)
 FNDA:0,(anonymous_1)
-DA:6,0
-DA:42,0
-DA:43,0
-DA:44,0
+DA:6,2
+DA:42,2
+DA:43,1
+DA:44,1
 DA:45,0
 LF:5
-LH:0
+LH:4
 BRF:0
 BRH:0
 end_of_record
@@ -2004,17 +2088,17 @@ FN:7,(anonymous_0)
 FN:10,(anonymous_1)
 FN:12,(anonymous_2)
 FNF:3
-FNH:0
-FNDA:0,(anonymous_0)
+FNH:1
+FNDA:1,(anonymous_0)
 FNDA:0,(anonymous_1)
 FNDA:0,(anonymous_2)
-DA:7,0
-DA:8,0
+DA:7,1
+DA:8,1
 DA:10,0
 DA:12,0
-DA:21,0
+DA:21,1
 LF:5
-LH:0
+LH:3
 BRF:0
 BRH:0
 end_of_record
@@ -2026,13 +2110,13 @@ FNF:2
 FNH:0
 FNDA:0,(anonymous_0)
 FNDA:0,(anonymous_1)
-DA:6,0
-DA:41,0
+DA:6,1
+DA:41,1
 DA:42,0
 DA:43,0
 DA:44,0
 LF:5
-LH:0
+LH:2
 BRF:0
 BRH:0
 end_of_record

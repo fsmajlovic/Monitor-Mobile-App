@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <coverage generated="1620054976371" clover="3.2.0">
   <project timestamp="1620054976372" name="All files">
     <metrics statements="1374" coveredstatements="28" conditionals="378" coveredconditionals="0" methods="333" coveredmethods="3" elements="2085" coveredelements="31" complexity="0" loc="1374" ncloc="1374" packages="14" files="45" classes="45"/>
     <package name="Yes">
       <metrics statements="39" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="10" coveredmethods="0"/>
       <file name="App.js" path="C:\Users\kerim\Desktop\Yes\App.js">
+=======
+<coverage generated="1620056257795" clover="3.2.0">
+  <project timestamp="1620056257795" name="All files">
+    <metrics statements="1374" coveredstatements="126" conditionals="378" coveredconditionals="5" methods="333" coveredmethods="17" elements="2085" coveredelements="148" complexity="0" loc="1374" ncloc="1374" packages="14" files="45" classes="45"/>
+    <package name="Monitor-Mobile-App">
+      <metrics statements="39" coveredstatements="4" conditionals="9" coveredconditionals="0" methods="10" coveredmethods="0"/>
+      <file name="App.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\App.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="35" coveredstatements="0" conditionals="9" coveredconditionals="0" methods="10" coveredmethods="0"/>
         <line num="18" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
@@ -42,6 +51,7 @@
         <line num="108" count="0" type="stmt"/>
         <line num="113" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="appConfig.js" path="C:\Users\kerim\Desktop\Yes\appConfig.js">
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="0" type="stmt"/>
@@ -66,6 +76,32 @@
         <line num="16" count="2" type="stmt"/>
         <line num="17" count="2" type="stmt"/>
         <line num="19" count="2" type="stmt"/>
+=======
+      <file name="appConfig.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\appConfig.js">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="Monitor-Mobile-App.contexts">
+      <metrics statements="23" coveredstatements="19" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="2"/>
+      <file name="DeviceContext.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\contexts\DeviceContext.js">
+        <metrics statements="18" coveredstatements="14" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="5" count="5" type="stmt"/>
+        <line num="7" count="5" type="stmt"/>
+        <line num="9" count="5" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="11" count="4" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
+        <line num="14" count="4" type="stmt"/>
+        <line num="15" count="4" type="stmt"/>
+        <line num="16" count="4" type="stmt"/>
+        <line num="17" count="4" type="stmt"/>
+        <line num="19" count="4" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="20" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
@@ -73,6 +109,7 @@
         <line num="33" count="2" type="stmt"/>
         <line num="51" count="2" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="authContext.js" path="C:\Users\kerim\Desktop\Yes\contexts\authContext.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="3" count="1" type="stmt"/>
@@ -93,6 +130,28 @@
         <line num="14" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
+=======
+      <file name="authContext.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\contexts\authContext.js">
+        <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="3" count="6" type="stmt"/>
+        <line num="5" count="6" type="stmt"/>
+        <line num="6" count="8" type="stmt"/>
+        <line num="8" count="8" type="stmt"/>
+      </file>
+      <file name="userContext.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\contexts\userContext.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="Monitor-Mobile-App.screens.AccessControlScreen">
+      <metrics statements="53" coveredstatements="5" conditionals="16" coveredconditionals="0" methods="8" coveredmethods="0"/>
+      <file name="AccessControlScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\AccessControlScreen.js">
+        <metrics statements="53" coveredstatements="5" conditionals="16" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
@@ -139,11 +198,16 @@
         <line num="118" count="0" type="stmt"/>
         <line num="130" count="0" type="stmt"/>
         <line num="131" count="0" type="stmt"/>
+<<<<<<< HEAD
         <line num="141" count="0" type="stmt"/>
+=======
+        <line num="141" count="1" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="181" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="182" count="0" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
     <package name="Yes.screens.AccessControlScreen.components">
       <metrics statements="384" coveredstatements="0" conditionals="192" coveredconditionals="0" methods="72" coveredmethods="0"/>
       <file name="ListItem.js" path="C:\Users\kerim\Desktop\Yes\screens\AccessControlScreen\components\ListItem.js">
@@ -158,6 +222,22 @@
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
+=======
+    <package name="Monitor-Mobile-App.screens.AccessControlScreen.components">
+      <metrics statements="384" coveredstatements="14" conditionals="192" coveredconditionals="0" methods="72" coveredmethods="0"/>
+      <file name="ListItem.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\components\ListItem.js">
+        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="0" type="stmt"/>
+      </file>
+      <file name="ListItemVertical.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\components\ListItemVertical.js">
+        <metrics statements="164" coveredstatements="5" conditionals="106" coveredconditionals="0" methods="17" coveredmethods="0"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="25" count="0" type="stmt"/>
         <line num="26" count="0" type="stmt"/>
         <line num="39" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -317,6 +397,7 @@
         <line num="371" count="0" type="stmt"/>
         <line num="374" count="0" type="stmt"/>
         <line num="375" count="0" type="stmt"/>
+<<<<<<< HEAD
         <line num="399" count="0" type="stmt"/>
       </file>
       <file name="ListView.js" path="C:\Users\kerim\Desktop\Yes\screens\AccessControlScreen\components\ListView.js">
@@ -332,6 +413,23 @@
         <line num="34" count="0" type="stmt"/>
         <line num="35" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
+=======
+        <line num="399" count="1" type="stmt"/>
+      </file>
+      <file name="ListView.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\components\ListView.js">
+        <metrics statements="4" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+      </file>
+      <file name="ListViewVertical.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\components\ListViewVertical.js">
+        <metrics statements="205" coveredstatements="5" conditionals="78" coveredconditionals="0" methods="47" coveredmethods="0"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="39" count="0" type="stmt"/>
         <line num="40" count="0" type="stmt"/>
         <line num="41" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -532,9 +630,15 @@
         <line num="500" count="0" type="stmt"/>
         <line num="508" count="0" type="stmt"/>
         <line num="520" count="0" type="stmt"/>
+<<<<<<< HEAD
         <line num="529" count="0" type="stmt"/>
       </file>
       <file name="SelectionListHeader.js" path="C:\Users\kerim\Desktop\Yes\screens\AccessControlScreen\components\SelectionListHeader.js">
+=======
+        <line num="529" count="1" type="stmt"/>
+      </file>
+      <file name="SelectionListHeader.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\components\SelectionListHeader.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="8" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
@@ -546,9 +650,15 @@
         <line num="33" count="0" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
     <package name="Yes.screens.AccessControlScreen.screens">
       <metrics statements="243" coveredstatements="0" conditionals="64" coveredconditionals="0" methods="41" coveredmethods="0"/>
       <file name="ChoiceDevices.js" path="C:\Users\kerim\Desktop\Yes\screens\AccessControlScreen\screens\ChoiceDevices.js">
+=======
+    <package name="Monitor-Mobile-App.screens.AccessControlScreen.screens">
+      <metrics statements="243" coveredstatements="0" conditionals="64" coveredconditionals="0" methods="41" coveredmethods="0"/>
+      <file name="ChoiceDevices.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\screens\ChoiceDevices.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="42" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="17" coveredmethods="0"/>
         <line num="20" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
@@ -593,7 +703,11 @@
         <line num="120" count="0" type="stmt"/>
         <line num="132" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ChoiceManager.js" path="C:\Users\kerim\Desktop\Yes\screens\AccessControlScreen\screens\ChoiceManager.js">
+=======
+      <file name="ChoiceManager.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\screens\ChoiceManager.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="73" coveredstatements="0" conditionals="24" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="12" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
@@ -669,7 +783,11 @@
         <line num="167" count="0" type="stmt"/>
         <line num="171" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ChoiceSubDirectory.js" path="C:\Users\kerim\Desktop\Yes\screens\AccessControlScreen\screens\ChoiceSubDirectory.js">
+=======
+      <file name="ChoiceSubDirectory.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\screens\ChoiceSubDirectory.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="66" coveredstatements="0" conditionals="18" coveredconditionals="0" methods="5" coveredmethods="0"/>
         <line num="10" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
@@ -738,7 +856,11 @@
         <line num="132" count="0" type="stmt"/>
         <line num="136" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="FileManager.js" path="C:\Users\kerim\Desktop\Yes\screens\AccessControlScreen\screens\FileManager.js">
+=======
+      <file name="FileManager.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\screens\FileManager.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="33" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="11" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
@@ -774,7 +896,11 @@
         <line num="72" count="0" type="stmt"/>
         <line num="86" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="SubDirectory.js" path="C:\Users\kerim\Desktop\Yes\screens\AccessControlScreen\screens\SubDirectory.js">
+=======
+      <file name="SubDirectory.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\screens\SubDirectory.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="24" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="10" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
@@ -801,7 +927,11 @@
         <line num="44" count="0" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="WebViewScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\AccessControlScreen\screens\WebViewScreen.js">
+=======
+      <file name="WebViewScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\AccessControlScreen\screens\WebViewScreen.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="5" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
@@ -810,6 +940,7 @@
         <line num="11" count="0" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
     <package name="Yes.screens.ConsoleScreen">
       <metrics statements="179" coveredstatements="0" conditionals="41" coveredconditionals="0" methods="49" coveredmethods="0"/>
       <file name="Console.js" path="C:\Users\kerim\Desktop\Yes\screens\ConsoleScreen\Console.js">
@@ -837,6 +968,35 @@
         <line num="42" count="0" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
         <line num="46" count="0" type="stmt"/>
+=======
+    <package name="Monitor-Mobile-App.screens.ConsoleScreen">
+      <metrics statements="179" coveredstatements="39" conditionals="41" coveredconditionals="1" methods="49" coveredmethods="4"/>
+      <file name="Console.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ConsoleScreen\Console.js">
+        <metrics statements="124" coveredstatements="37" conditionals="33" coveredconditionals="1" methods="28" coveredmethods="3"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="33" count="1" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="46" count="1" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="47" count="0" type="stmt"/>
         <line num="48" count="0" type="stmt"/>
         <line num="54" count="0" type="stmt"/>
@@ -939,7 +1099,11 @@
         <line num="284" count="0" type="stmt"/>
         <line num="287" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ConsoleLog.js" path="C:\Users\kerim\Desktop\Yes\screens\ConsoleScreen\ConsoleLog.js">
+=======
+      <file name="ConsoleLog.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ConsoleScreen\ConsoleLog.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="49" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="17" coveredmethods="0"/>
         <line num="10" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
@@ -991,12 +1155,17 @@
         <line num="114" count="0" type="stmt"/>
         <line num="117" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ConsoleLogRow.js" path="C:\Users\kerim\Desktop\Yes\screens\ConsoleScreen\ConsoleLogRow.js">
+=======
+      <file name="ConsoleLogRow.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ConsoleScreen\ConsoleLogRow.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="3" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="7" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ConsoleRow.js" path="C:\Users\kerim\Desktop\Yes\screens\ConsoleScreen\ConsoleRow.js">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="7" count="0" type="stmt"/>
@@ -1010,6 +1179,21 @@
     <package name="Yes.screens.HomeScreen">
       <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
       <file name="HomeScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\HomeScreen\HomeScreen.js">
+=======
+      <file name="ConsoleRow.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ConsoleScreen\ConsoleRow.js">
+        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="10" count="0" type="stmt"/>
+      </file>
+      <file name="Styles.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ConsoleScreen\Styles.js">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="Monitor-Mobile-App.screens.HomeScreen">
+      <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <file name="HomeScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\HomeScreen\HomeScreen.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="7" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="10" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
@@ -1020,6 +1204,7 @@
         <line num="40" count="0" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
     <package name="Yes.screens.LoginScreen">
       <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
       <file name="LoadingScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\LoginScreen\LoadingScreen.js">
@@ -1027,6 +1212,15 @@
         <line num="5" count="0" type="stmt"/>
       </file>
       <file name="LoginScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\LoginScreen\LoginScreen.js">
+=======
+    <package name="Monitor-Mobile-App.screens.LoginScreen">
+      <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
+      <file name="LoadingScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\LoginScreen\LoadingScreen.js">
+        <metrics statements="1" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="5" count="0" type="stmt"/>
+      </file>
+      <file name="LoginScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\LoginScreen\LoginScreen.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
         <line num="7" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
@@ -1038,9 +1232,15 @@
         <line num="47" count="0" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
     <package name="Yes.screens.MainTabScreen">
       <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="0"/>
       <file name="MainTabScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\MainTabScreen\MainTabScreen.js">
+=======
+    <package name="Monitor-Mobile-App.screens.MainTabScreen">
+      <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="0"/>
+      <file name="MainTabScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\MainTabScreen\MainTabScreen.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="9" coveredmethods="0"/>
         <line num="35" count="0" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
@@ -1061,9 +1261,15 @@
         <line num="215" count="0" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
     <package name="Yes.screens.ReportScreen">
       <metrics statements="29" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="11" coveredmethods="0"/>
       <file name="ReportScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\ReportScreen\ReportScreen.js">
+=======
+    <package name="Monitor-Mobile-App.screens.ReportScreen">
+      <metrics statements="29" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="11" coveredmethods="0"/>
+      <file name="ReportScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ReportScreen\ReportScreen.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="29" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="11" coveredmethods="0"/>
         <line num="11" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
@@ -1096,6 +1302,7 @@
         <line num="85" count="0" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
     <package name="Yes.screens.ReportScreen.components">
       <metrics statements="39" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="17" coveredmethods="0"/>
       <file name="ActiveListItem.js" path="C:\Users\kerim\Desktop\Yes\screens\ReportScreen\components\ActiveListItem.js">
@@ -1110,19 +1317,46 @@
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="7" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
+=======
+    <package name="Monitor-Mobile-App.screens.ReportScreen.components">
+      <metrics statements="39" coveredstatements="24" conditionals="4" coveredconditionals="4" methods="17" coveredmethods="6"/>
+      <file name="ActiveListItem.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ReportScreen\components\ActiveListItem.js">
+        <metrics statements="5" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+        <line num="6" count="2" type="stmt"/>
+        <line num="42" count="2" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="44" count="1" type="stmt"/>
+        <line num="45" count="0" type="stmt"/>
+      </file>
+      <file name="ActiveListView.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ReportScreen\components\ActiveListView.js">
+        <metrics statements="5" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="10" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
-        <line num="21" count="0" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ListItem.js" path="C:\Users\kerim\Desktop\Yes\screens\ReportScreen\components\ListItem.js">
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="6" count="0" type="stmt"/>
         <line num="41" count="0" type="stmt"/>
+=======
+      <file name="ListItem.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ReportScreen\components\ListItem.js">
+        <metrics statements="5" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="42" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
         <line num="44" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ListView.js" path="C:\Users\kerim\Desktop\Yes\screens\ReportScreen\components\ListView.js">
+=======
+      <file name="ListView.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ReportScreen\components\ListView.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="5" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
@@ -1130,6 +1364,7 @@
         <line num="11" count="0" type="stmt"/>
         <line num="20" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="StatisticsView.js" path="C:\Users\kerim\Desktop\Yes\screens\ReportScreen\components\StatisticsView.js">
         <metrics statements="19" coveredstatements="0" conditionals="4" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="9" count="0" type="cond" truecount="0" falsecount="4"/>
@@ -1142,6 +1377,20 @@
         <line num="19" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
+=======
+      <file name="StatisticsView.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ReportScreen\components\StatisticsView.js">
+        <metrics statements="19" coveredstatements="15" conditionals="4" coveredconditionals="4" methods="7" coveredmethods="4"/>
+        <line num="9" count="3" type="cond" truecount="4" falsecount="0"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="15" count="3" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="24" count="0" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
         <line num="33" count="0" type="stmt"/>
@@ -1153,9 +1402,15 @@
         <line num="64" count="0" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
     <package name="Yes.screens.ReportScreen.screens">
       <metrics statements="24" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
       <file name="MachineScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\ReportScreen\screens\MachineScreen.js">
+=======
+    <package name="Monitor-Mobile-App.screens.ReportScreen.screens">
+      <metrics statements="24" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="2"/>
+      <file name="MachineScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ReportScreen\screens\MachineScreen.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="13" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="13" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -1171,6 +1426,7 @@
         <line num="63" count="0" type="stmt"/>
         <line num="73" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="OptionScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\ReportScreen\screens\OptionScreen.js">
         <metrics statements="8" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="12" count="0" type="stmt"/>
@@ -1192,6 +1448,29 @@
     <package name="Yes.screens.TehnicianScreen">
       <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
       <file name="TehnicianScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\TehnicianScreen.js">
+=======
+      <file name="OptionScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ReportScreen\screens\OptionScreen.js">
+        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
+        <line num="63" count="1" type="stmt"/>
+      </file>
+      <file name="StatisticScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\ReportScreen\screens\StatisticScreen.js">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="Monitor-Mobile-App.screens.TehnicianScreen">
+      <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+      <file name="TehnicianScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\TehnicianScreen.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
         <line num="7" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -1199,9 +1478,15 @@
         <line num="41" count="0" type="stmt"/>
       </file>
     </package>
+<<<<<<< HEAD
     <package name="Yes.screens.TehnicianScreen.screens">
       <metrics statements="324" coveredstatements="10" conditionals="44" coveredconditionals="0" methods="95" coveredmethods="1"/>
       <file name="AddComponent.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\screens\AddComponent.js">
+=======
+    <package name="Monitor-Mobile-App.screens.TehnicianScreen.screens">
+      <metrics statements="324" coveredstatements="10" conditionals="44" coveredconditionals="0" methods="95" coveredmethods="3"/>
+      <file name="AddComponent.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\screens\AddComponent.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="19" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="0"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -1223,7 +1508,11 @@
         <line num="86" count="0" type="stmt"/>
         <line num="98" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="AddTask.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\screens\AddTask.js">
+=======
+      <file name="AddTask.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\screens\AddTask.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="58" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="15" coveredmethods="0"/>
         <line num="13" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -1284,7 +1573,11 @@
         <line num="206" count="0" type="stmt"/>
         <line num="217" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ComponentView.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\screens\ComponentView.js">
+=======
+      <file name="ComponentView.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\screens\ComponentView.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="18" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="0"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
@@ -1305,7 +1598,11 @@
         <line num="56" count="0" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="EditTask.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\screens\EditTask.js">
+=======
+      <file name="EditTask.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\screens\EditTask.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="90" coveredstatements="0" conditionals="14" coveredconditionals="0" methods="19" coveredmethods="0"/>
         <line num="14" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
@@ -1398,10 +1695,17 @@
         <line num="290" count="0" type="stmt"/>
         <line num="305" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ImageBrowserScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\screens\ImageBrowserScreen.js">
         <metrics statements="28" coveredstatements="10" conditionals="2" coveredconditionals="0" methods="11" coveredmethods="1"/>
         <line num="6" count="1" type="stmt"/>
         <line num="9" count="2" type="stmt"/>
+=======
+      <file name="ImageBrowserScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\screens\ImageBrowserScreen.js">
+        <metrics statements="28" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="11" coveredmethods="0"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="10" count="0" type="stmt"/>
         <line num="13" count="2" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -1429,7 +1733,11 @@
         <line num="66" count="2" type="stmt"/>
         <line num="80" count="1" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ImageUploadScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\screens\ImageUploadScreen.js">
+=======
+      <file name="ImageUploadScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\screens\ImageUploadScreen.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="49" coveredstatements="0" conditionals="8" coveredconditionals="0" methods="11" coveredmethods="0"/>
         <line num="12" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
@@ -1481,7 +1789,11 @@
         <line num="152" count="0" type="stmt"/>
         <line num="166" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="Schedule.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\screens\Schedule.js">
+=======
+      <file name="Schedule.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\screens\Schedule.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="28" coveredstatements="0" conditionals="10" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="11" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
@@ -1512,6 +1824,7 @@
         <line num="84" count="0" type="stmt"/>
         <line num="94" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="ShowImagesScreen.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\screens\ShowImagesScreen.js">
         <metrics statements="20" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="6" count="0" type="stmt"/>
@@ -1521,6 +1834,17 @@
         <line num="10" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
+=======
+      <file name="ShowImagesScreen.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\screens\ShowImagesScreen.js">
+        <metrics statements="20" coveredstatements="10" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="3"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+        <line num="15" count="2" type="stmt"/>
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <line num="16" count="0" type="stmt"/>
         <line num="28" count="0" type="stmt"/>
         <line num="30" count="0" type="stmt"/>
@@ -1535,7 +1859,11 @@
         <line num="52" count="0" type="stmt"/>
         <line num="57" count="0" type="stmt"/>
       </file>
+<<<<<<< HEAD
       <file name="TaskView.js" path="C:\Users\kerim\Desktop\Yes\screens\TehnicianScreen\screens\TaskView.js">
+=======
+      <file name="TaskView.js" path="C:\Users\Amar\Desktop\SI projekat\code\Monitor-Mobile-App\screens\TehnicianScreen\screens\TaskView.js">
+>>>>>>> 7720a4f6c1deea96359fab50d191d0e8ebca578e
         <metrics statements="14" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0"/>
         <line num="8" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
