@@ -102,8 +102,8 @@ async function saveToExpoFileSystem() {
   var username = React.useContext(userContext);
 
   return(
-  <View style={styles.container}>
-    <View>
+  <View style={styles.container} testID="ACS_ID">
+    <View testID="ACS_ID_1">
       <TouchableOpacity onPress={async () => {
        let token = await getSavedToken();
        await postScreenshot(token, id, username);
@@ -120,12 +120,12 @@ async function saveToExpoFileSystem() {
       }}>
       <Text style={styles.loadScreenshotText}>Load Screenshot</Text></TouchableOpacity>
     </View>
-    <View style={{alignItems: 'center'}}>
+    <View style={{alignItems: 'center'}} testID="ACS_ID_2">
       <Image  source={{ uri: image }}
         style={styles.imageView}
       />
     </View>
-   <View>
+   <View testID="ACS_ID_3">
      { buttonPressed && <TouchableOpacity onPress={async () => {
        await saveToExpoFileSystem()
        await openShareDialogAsync()
