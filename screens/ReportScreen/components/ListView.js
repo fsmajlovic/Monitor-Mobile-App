@@ -4,7 +4,7 @@ import ListItem from './ListItem';
 
 
 const ListView = ({ itemList, navigation }) => (
-    <View style={styles.container}>
+    <View style={styles.container} testID = {"listview"}>
         <FlatList
             keyExtractor={(item) => item.deviceId.toString()}
             data={itemList}

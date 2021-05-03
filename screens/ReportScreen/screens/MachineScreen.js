@@ -54,7 +54,7 @@ const MachineScreen = ({navigation}) => {
   }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID={"machinescreen"}>
             <Text style={styles.title}> { currentDevice.name } </Text>
             <Text> { currentDevice.location } </Text>
             
