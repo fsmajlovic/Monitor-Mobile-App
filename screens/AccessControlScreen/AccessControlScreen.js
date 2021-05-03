@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } f
 import React, {useEffect, useState} from 'react'
 import {AuthContext} from '../../contexts/authContext';
 import {serverURL} from '../../appConfig';
-import ListView from './components/ListView';
 import ListViewVertical from './components/ListViewVertical';
 import { DeviceContext } from '../../contexts/DeviceContext';
 import { useContext } from 'react';
