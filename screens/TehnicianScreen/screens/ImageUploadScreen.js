@@ -8,10 +8,40 @@ import axios from 'axios';
 import {machineURL} from '../../../appConfig'
 
 
+async function putTask({ token, taskId, deviceId, startTime, endTime, location, description, statusId, photoUploaded }) {
+  try {
+
+    let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks/" + taskId, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({
+        deviceId: deviceId,
+        startTime: startTime,
+        endTime: endTime,
+        location: location,
+        description: description,
+        statusId: statusId,
+        photoUploaded: true
+      })
+    });
+    var json = await response.json();
+    
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
 
 
 const ImageUploadScreen = (props) => {
+  
   const { task } = props.route.params;
+  
     const [photos, setPhotos] = useState([]);
     const [selected,setSelected] = useState(false);
     const { currentDevice, taskList } = useContext(DeviceContext);
@@ -42,7 +72,7 @@ const ImageUploadScreen = (props) => {
         updateComponent();
     })
 
-    
+  
 
     const updateComponent = () => {
       const { params } = props.route;
@@ -65,25 +95,28 @@ const ImageUploadScreen = (props) => {
       )
     }
 
-    const uploadImages = async () => {
+    
+    const uploadImages = async (token) => {
 
     
-      let token;
+      //let token;
       let response;
       try {
-        token = await getSavedToken();
-        response = await axios.post(machineURL + 'upload/UploadFile', createFormData(photos, props.route.params.taskId),{
+        //token = await getSavedToken();
+        response = await axios.post(machineURL + 'upload/UploadFile', createFormData(photos, task.taskId),{
           headers:{
             'Authorization': `Bearer ${token}`
              }
           }
         )
-
+        
         setPhotos([]);
         setSelected(false);
+        putTask({ token, taskId: task.taskId, deviceId: task.deviceId, startTime: task.startTime, endTime: task.endTime, location: task.location, description: task.description, statusId: task.statusId })
         
         alert("Succesfull upload!")
-         
+        
+        
       } catch (e) {
         console.log('GREŠKAAAAA '+e);
         
@@ -93,6 +126,7 @@ const ImageUploadScreen = (props) => {
         alert("Failed to upload!")
       
       }
+      
     }
 
     return (
@@ -114,7 +148,11 @@ const ImageUploadScreen = (props) => {
                 columnWrapperStyle={{  flex: 1, justifyContent: 'flex-start'}}
               >
               </FlatList>
-              <TouchableOpacity onPress={async () => await uploadImages()}>
+            <TouchableOpacity onPress={async () => {
+              let token = await getSavedToken();
+              await uploadImages(token)
+              props.navigation.popToTop()
+            }}>
                 <View style={styles.containerButton}>
                   <Text style={styles.button}>Upload</Text>
                 </View>
