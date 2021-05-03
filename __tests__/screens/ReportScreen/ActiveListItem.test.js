@@ -8,9 +8,9 @@ import { DeviceProvider } from "../../../contexts/DeviceContext";
 describe('ActiveListItem', () => {
 
     const item = {
-        name: "",
-        location:"",
-        lastTimeOnline:""
+        name: "Desktop PC 3",
+        location:"Sarajevo - Ložionička",
+        lastTimeOnline:"Thu, 24 Apr 2021 05:49:04 GMT"
     }
     it('Test ispravnog prikaza', () => {
         const screen =  render(
