@@ -14,12 +14,4 @@ describe('BrowserScreen', () => {
         const views = screen.getByTestId("browserscreen");
         expect(views.children.length).toBe(1);
     });
-
-    it('Test ispravnog pritiska na masinu', () => {
-        const screen = render(
-            <AuthProvider children={<DeviceProvider children={<ImageBrowserScreen />} />}/>
-        );
-        fireEvent.press(screen.getByTestId( 'browserscreen'));
-        expect(test).toHaveBeenCalled();
-    });
 })
