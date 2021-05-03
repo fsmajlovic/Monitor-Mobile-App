@@ -9,7 +9,7 @@ describe('ReportScreen', () => {
         const screen=render(
             <AuthProvider children={<DeviceProvider children={<ReportScreen/>} />}/>
         );
-        //StatisticScreen 3 childa, ako je ispravno prikazan
+        //ReportScreen 3 childa, ako je ispravno prikazan
         let view=screen.getByTestId( 'view');
         expect(view.children.length).toBe(3);
     });
