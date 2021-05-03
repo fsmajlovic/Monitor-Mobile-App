@@ -35,7 +35,11 @@ async function putTask({ token, taskId, deviceId, startTime, endTime, location, 
   }
 };
 
-
+export function currentDate(current){
+  let cDate = current.getFullYear() + ":" + (current.getMonth() + 1) + ":" + current.getDate();
+  let cTime = current.getHours() +":" + current.getMinutes()  + ":" + current.getSeconds();
+  return cDate + ":" + cTime;
+}
 
 
 const ImageUploadScreen = (props) => {
@@ -48,18 +52,12 @@ const ImageUploadScreen = (props) => {
     const {getSavedToken} = useContext(AuthContext);
     const [selectedTask, setSelectedTask] = useState("nesto");
     
-    const currentDate = () =>{
-        let current = new Date();
-        let cDate = current.getFullYear() + ":" + (current.getMonth() + 1) + ":" + current.getDate();
-        let cTime = current.getHours() +":" + current.getMinutes()  + ":" + current.getSeconds();
-        return cDate + ":" + cTime;
-    }
 
     const createFormData = (photo) => {
         const data = new FormData();
 
         for(let i=0;i<photo.length;i++){
-          data.append(task.device.deviceUid + '_' + task.taskId + '_' +currentDate()+'_'+i, {
+          data.append(task.device.deviceUid + '_' + task.taskId + '_' +currentDate(new Date())+'_'+i, {
            name: photo[i].name,
            type: photo[i].type,
            uri: Platform.OS === "android" ? photo[i].uri : photo[i].uri.replace("file://", "")
@@ -130,7 +128,7 @@ const ImageUploadScreen = (props) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID="views">
             <TouchableOpacity onPress={() => props.navigation.push('ImageBrowserScreen')}>
               <View style={styles.containerButton}>
                 <Text style={styles.button}>Select photos</Text>

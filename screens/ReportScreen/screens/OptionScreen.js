@@ -41,7 +41,7 @@ const OptionScreen = ({ navigation }) => {
         />
     ); */
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID="view">
             {/*
             {
                 console.log(activeDevice.name + " " + activeDevice.location) // Ovako se pristupa lokaciji i imenu kliknutog uredjaja

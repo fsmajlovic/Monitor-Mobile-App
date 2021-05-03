@@ -46,14 +46,14 @@ const ComponentView = (props) => {
     );
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID="flatList">
             <FlatList
                 data={components}
                 renderItem={renderItem}
                 keyExtractor={item => item.componentId.toString()}
             />
-            <View style={ styles.containerButton }>
-                <TouchableOpacity onPress={() => props.navigation.push('AddComponent', { task: task })}>
+            <View style={ styles.containerButton } testID="view">
+                <TouchableOpacity testID="add" onPress={() => props.navigation.push('AddComponent', { task: task })}>
                     <View style={styles.containerButtonText}>
                         <Text style={styles.button}>Add part</Text>
                     </View>
