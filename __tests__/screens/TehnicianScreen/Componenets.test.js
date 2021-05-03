@@ -34,7 +34,7 @@ describe('AddComponenet', () => {
     });
 })
 
-describe("ComponenetView", ()=> {
+describe("ComponentView", ()=> {
     const task = {
         taskId: 1,
         userId: 1,
@@ -61,5 +61,17 @@ describe("ComponenetView", ()=> {
         expect(flatlist.children.length).toBe(2);
     });
 
-   
+    it('Pritisak na Add part', () => {
+        const fja = jest.fn();
+        const navigation = {push: fja}
+        const {getByTestId} = render(
+            <AuthProvider children={
+               <ComponentView
+                   route={route}
+                   navigation={navigation}
+                />}/>
+        );
+        fireEvent.press(getByTestId("add"));
+        expect(fja).toHaveBeenCalled();
+    });   
 })
