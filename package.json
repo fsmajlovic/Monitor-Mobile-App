@@ -17,7 +17,6 @@
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
     "axios": "^0.21.1",
-    "babel-jest": "^26.6.3",
     "date-fns": "^2.19.0",
     "expo": "^40.0.1",
     "expo-file-system": "^10.0.0",
@@ -54,29 +53,18 @@
     "react-native-screens": "^2.18.1",
     "react-native-tab-view": "^3.0.0",
     "react-native-table-component": "^1.2.1",
-    "react-native-web": "^0.15.0",
-    "react-native-webview": "^11.3.2"
+    "react-native-test": "0.0.1",
+    "react-native-web": "^0.15.0"
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "@testing-library/jest-native": "^4.0.1",
     "@testing-library/react-native": "^7.2.0",
     "jest": "^26.6.3",
-    "jest-expo": "^41.0.0",
-    "react-test-renderer": "^17.0.2"
+    "jest-expo": "^41.0.0"
   },
-  "private": true,
-  "jest": {
-    "preset": "jest-expo",
-    "transformIgnorePatterns": [
-      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|@codler/react-native-keyboard-aware-scroll-view|react-navigation|@react-native-picker/|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
-    ],
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.{js,jsx}",
-      "!**/coverage/**",
-      "!**/node_modules/**",
-      "!**/babel.config.js",
-      "!**/jest.setup.js"
-    ]
-  }
+  "private": true
 }
