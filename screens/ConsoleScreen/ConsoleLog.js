@@ -108,6 +108,7 @@ export default function ConsoleLog({ navigation }) {
             <View style={styles.picker}>
                 <Picker
                     mode="dropdown"
+                    testID={'picker-sort'}
                     selectedValue={selectedSort}
                     onValueChange={(itemValue, itemIndex) => {
                         setSelectedSort(itemValue); if (itemValue == 0)

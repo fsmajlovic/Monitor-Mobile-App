@@ -214,6 +214,7 @@ export default function Console({ navigation }) {
     }
 
     const recommendFolder = async () => {
+        /*
         console.log("Pozvalo se ovo 1");
         if (edited) {
             setEdited(false);
@@ -232,7 +233,7 @@ export default function Console({ navigation }) {
         }
         else {
             setIndexFolder(indexFolder + 1);
-        }
+        } */
     }
 
     return (
@@ -243,6 +244,7 @@ export default function Console({ navigation }) {
                 <View style={styles.row}>
                     <Text style={styles.textArea}> {path}>  </Text>
                     <TextInput
+                        testID={'input'}
                         style={styles.inputArea}
                         value={current}
                         secureTextEntry={password}
@@ -291,8 +293,9 @@ export default function Console({ navigation }) {
             <View style={[styles.container1]}>
                 <View style={styles.buttons}>
                     <TouchableOpacity
+                        testID={'tab'}
                         style={styles.button}
-                    //    onPress={() => { recommendFolder(); }}
+                        onPress={() => { recommendFolder(); }}
                     >
                         <Text style={styles.buttonText}>Tab</Text>
                     </TouchableOpacity>
@@ -301,8 +304,3 @@ export default function Console({ navigation }) {
         </View>
     );
 }
-
-export function testZaJest(broj) {
-    if(broj % 2 == 0) return true;
-    else return false;
-  }

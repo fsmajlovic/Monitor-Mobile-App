@@ -7,7 +7,7 @@ export default function ConsoleLogRow({ rows }) {
     const tableHead = ["User: ", "Date: ", "Command: ", "Response: "];
 
     return (
-        <View>
+        <View testID={'console-log-row'}>
             {rows.map((row, index) => {
                 return (
                     <View key={index} style={styles.log} >

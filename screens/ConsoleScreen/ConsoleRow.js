@@ -5,7 +5,7 @@ import { styles } from './Styles'
 export default function ConsoleRow({ rows }) {
 
   return (
-    <View>
+    <View testID={'console-row'}>
       {rows.map((row, index) => {
         return (
           <View key={index} style={styles.row}>
