@@ -275,6 +275,7 @@ export default function Console({ navigation }) {
                             else if (restartCommand.length == 2) {
                                 sendRequest(restartCommand[0] + " " + restartCommand[1] + " " + input);
                                 setPassword(false);
+                                addRows("Restarting");
                                 deleteRestartCommand();
                             }
                             //ostale validne komande
