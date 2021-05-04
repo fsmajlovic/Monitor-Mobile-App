@@ -11,8 +11,6 @@ import { AuthContext } from '../../../contexts/authContext';
 import {userContext} from '../../../contexts/userContext';
 
 import * as APP from '../../../App';
-
-import * as FM from '../../../screens/AccessControlScreen/screens/FileManager';
 import { AuthProvider} from "../../../contexts/authContext";
 import { DeviceProvider } from "../../../contexts/DeviceContext";
 import AccessControlScreen from "../../../screens/AccessControlScreen/AccessControlScreen";
@@ -77,9 +75,11 @@ describe('Web View Render Testing', () => {
         );
         const view = screen.getByTestId("WVS_ID");
         expect(view.children.length).toBe(0);
+        
     });
     
 })
+
 
 
 
