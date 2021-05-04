@@ -31,7 +31,7 @@ function useSelectionChange(items) {
 export default function App({ route }) {
     const [items, setItems] = useState([]);
     const selectionMode = useSelectionChange(items);
-    
+
     //setFilesToSend(route.params)
 
     var { getSavedToken } = React.useContext(AuthContext);
@@ -124,55 +124,58 @@ export default function App({ route }) {
                         </List>
                     </Content>
                 </Container>
-                <Button title="Send" color='#0D47A1' onPress={async ()=>{
-                    let selectedMachines=items.filter((i) => i.selected);
-                    let deviceUids=[];
+                <Button title="Send" color='#0D47A1' onPress={async () => {
+                    let selectedMachines = items.filter((i) => i.selected);
+                    let deviceUids = [];
                     let token = await getSavedToken();
-                    for (let i = 0; i < selectedMachines.length; i++) deviceUids.push({deviceUid:selectedMachines[i].deviceUid});
+                    for (let i = 0; i < selectedMachines.length; i++) deviceUids.push({ deviceUid: selectedMachines[i].deviceUid });
                     //console.log(deviceUids)
-                    let filesToSend=[];
-                    filesToSend=route.params;
-                    console.log("kk ", filesToSend);
+                    let filesToSend = [];
+                    filesToSend = route.params;
+                    //console.log("kk ", filesToSend);
                     //console.log(filesToSend)
-                    //poziv rute agent/files/put
-                    //u body ce ici deviceUids i filesToSend
+
                     try {
-                        let response = await fetch(serverURL + "api/web/agent/files/put", {
-                          method: "POST",
-                          headers: {
-                            "Content-type": "application/json; charset=UTF-8",
-                            Accept: "text/html",
-                            Authorization: "Bearer " + token,
-                          },
-                          body: JSON.stringify({
-                            deviceUids: deviceUids,
-                            files: filesToSend
-                          }),
+                        let response = await fetch(serverURL + "api/agent/files/put", {
+                            method: "POST",
+                            headers: {
+                                "Content-type": "application/json; charset=UTF-8",
+                                Accept: "text/html",
+                                Authorization: "Bearer " + token,
+                            },
+                            body: JSON.stringify({
+                                deviceUids: deviceUids,
+                                files: filesToSend
+                            }),
                         });
-                        if (response.status == 400) {
-                            var jsonResponse = await response.json();
-                            if (jsonResponse.hasOwnProperty("error_id")) {
-                              console.log("Zahtjev nije validan.");
+
+                        var jsonResponse1 = await response.json();
+                        console.log(jsonResponse1);
+                        //console.log(jsonResponse1.errors)
+                        if (response.status == 200) {
+                            //console.log(jsonResponse1[0].errors[0].error)
+                            if (jsonResponse1[0].errors.length>0) {
+                                console.log("Zahtjev nije validan.");
+                                alert("Zahtjev nije validan - ne moze se slati folder")
                             }
-                          } else if (response.status == 200) {
-                            alert("Uspjesno poslano!");
-                            console.log(deviceUids);
+                            else alert("Uspjesno poslano!");
+                            //console.log(deviceUids);
                         } else if (response.status == 300) {
-                          alert("Folder nije validan");
+                            alert("Folder nije validan");
                         } else if (response.status == 400) {
                             alert("Pogrešan zahtjev")
                         } else if (response.status == 403) {
-                          //invalid token, trebalo bi dobaviti novi
+                            //invalid token, trebalo bi dobaviti novi
                         } else if (response.status == 404) {
-                          alert("File nije pronadjen");
+                            alert("File nije pronadjen");
                         } else {
-                          console.log("Promijenjen JSON zahtjeva?");
-                          alert("Greska pri slanju datoteke");                      
-                          console.log(response.status);
+                            console.log("Promijenjen JSON zahtjeva?");
+                            alert("Greska pri slanju datoteke");
+                            console.log(response.status);
                         }
-                      } catch (error) {
+                    } catch (error) {
                         console.log(error);
-                      }
+                    }
                 }}></Button>
             </Root>
         </>
