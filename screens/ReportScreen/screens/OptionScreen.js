@@ -29,26 +29,9 @@ const OptionScreen = ({ navigation }) => {
 
     const { activeDevice } = useContext(DeviceContext);
 
-  /*  const renderTabBar = props => (
-        <TabBar
-            {...props}
-            tabStyle={{width: 'auto'}} // here
-         //   indicatorStyle={{backgroundColor: 'red'}}
-            style={{fontWeight: 'bold'}}
-            labelStyle= { {
-                fontSize: 15,
-            }}
-        />
-    ); */
     return (
         <View style={styles.container} testID="view">
-            {/*
-            {
-                console.log(activeDevice.name + " " + activeDevice.location) // Ovako se pristupa lokaciji i imenu kliknutog uredjaja
-            }*/}
-            <TabView 
-             //   renderTabBar={renderTabBar}
-            //    labelStyle={{fontSize:10}}
+            <TabView
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
                 onIndexChange={setIndex}
@@ -65,7 +48,6 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     title: {
-    //    fontSize: 24,
         color: 'black',
         textAlign: 'center',
         marginBottom:20
