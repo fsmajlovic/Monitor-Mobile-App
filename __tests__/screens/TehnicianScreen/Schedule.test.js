@@ -8,4 +8,5 @@ import Schedule from '../../../screens/TehnicianScreen/screens/Schedule';
 it('renders the schedule', ()=> {
     const {getAllByTestId} = render(<AuthProvider children={<Schedule/>}/>);
     expect(getAllByTestId('kalendar').length).toBe(1);
+    //console.log
 })
