@@ -383,7 +383,7 @@ export default function ListItemVertical({
         );
       }}
     >
-      <View style={styles.container}>
+      <View style={styles.container} testID='LIV_ID_1'>
         <Image
           source={require("../../../assets/file-icon.jpg")}
           style={styles.photo}

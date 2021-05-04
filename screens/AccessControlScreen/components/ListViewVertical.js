@@ -24,7 +24,7 @@ import {
     copyFileFolder,
     moveFileFolder,
     deleteFileFolder
-   // shareFile
+    // shareFile
 } from "./ListItemVertical";
 import Dialog from "react-native-dialog";
 
@@ -255,12 +255,12 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
     let expoFileLocationShare = "";
     let openShareDialogAsync = async () => {
         if (!(await Sharing.isAvailableAsync())) {
-          alert(`Sharing isn't available on your platform`);
-          return;
+            alert(`Sharing isn't available on your platform`);
+            return;
         }
-      
+
         await Sharing.shareAsync(expoFileLocationShare);
-      };
+    };
 
     const share = async () => {
         let selectedItem;
@@ -281,8 +281,8 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
             }
             else {
                 alert('Datoteka nedostupna');
-            }           
-        }            
+            }
+        }
     }
 
     const move = async () => {
@@ -337,6 +337,17 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         navigation.pop();
         navigation.navigate("FileManager");
     };
+
+    const sendToAgents = async () => {
+        let files = [];
+        let selectedFiles = items.filter((i) => i.selected);
+        for (let i = 0; i < selectedFiles.length; i++) {
+            let extractedPath = selectedFiles[i].path.split('/').slice(0, -1).join('/')
+            files.push({fileName: selectedFiles[i].name, path: extractedPath})
+        }
+        //console.log(files)
+        navigation.navigate("ChoiceDevices",files);
+    }
 
     const renderItem = (item) => {
         return (
@@ -479,7 +490,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                             {
                                 name: "Send",
                                 method: async function () {
-                                    navigation.navigate("ChoiceDevices");
+                                    await sendToAgents();
                                 },
                             },
                             {

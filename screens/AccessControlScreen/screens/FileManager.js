@@ -71,7 +71,7 @@ export default function App({ navigation }) {
  
   return (
     <Provider>
-      <View style={styles.container}>
+      <View style={styles.container} testID="FM_ID">
         <ListViewVertical
           itemList={files}
           folderPath = {"allFiles/"+username + "/"}

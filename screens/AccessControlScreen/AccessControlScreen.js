@@ -2,7 +2,6 @@ import { StyleSheet, Text, View, Button, Image, ScrollView, TouchableOpacity } f
 import React, {useEffect, useState} from 'react'
 import {AuthContext} from '../../contexts/authContext';
 import {serverURL} from '../../appConfig';
-import ListView from './components/ListView';
 import ListViewVertical from './components/ListViewVertical';
 import { DeviceContext } from '../../contexts/DeviceContext';
 import { useContext } from 'react';
@@ -102,8 +101,8 @@ async function saveToExpoFileSystem() {
   var username = React.useContext(userContext);
 
   return(
-  <View style={styles.container}>
-    <View>
+  <View style={styles.container} testID="ACS_ID">
+    <View testID="ACS_ID_1">
       <TouchableOpacity onPress={async () => {
        let token = await getSavedToken();
        await postScreenshot(token, id, username);
@@ -120,12 +119,12 @@ async function saveToExpoFileSystem() {
       }}>
       <Text style={styles.loadScreenshotText}>Load Screenshot</Text></TouchableOpacity>
     </View>
-    <View style={{alignItems: 'center'}}>
+    <View style={{alignItems: 'center'}} testID="ACS_ID_2">
       <Image  source={{ uri: image }}
         style={styles.imageView}
       />
     </View>
-   <View>
+   <View testID="ACS_ID_3">
      { buttonPressed && <TouchableOpacity onPress={async () => {
        await saveToExpoFileSystem()
        await openShareDialogAsync()
