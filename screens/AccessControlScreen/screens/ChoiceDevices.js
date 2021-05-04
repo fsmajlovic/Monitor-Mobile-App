@@ -14,7 +14,7 @@ import { StyleSheet } from 'react-native';
 import { AuthContext } from '../../../contexts/authContext';
 import { machineURL, activeMachineURL } from '../../../appConfig';
 import axios from 'axios';
-
+import { serverURL } from "../../../appConfig";
 
 function useSelectionChange(items) {
     const [selectionMode, setSelectionMode] = useState(null);
@@ -124,18 +124,55 @@ export default function App({ route }) {
                         </List>
                     </Content>
                 </Container>
-                <Button title="Send" color='#0D47A1' onPress={()=>{
+                <Button title="Send" color='#0D47A1' onPress={async ()=>{
                     let selectedMachines=items.filter((i) => i.selected);
                     let deviceUids=[];
+                    let token = await getSavedToken();
                     for (let i = 0; i < selectedMachines.length; i++) deviceUids.push({deviceUid:selectedMachines[i].deviceUid});
                     //console.log(deviceUids)
                     let filesToSend=[];
                     filesToSend=route.params;
+                    console.log("kk ", filesToSend);
                     //console.log(filesToSend)
-
-
                     //poziv rute agent/files/put
                     //u body ce ici deviceUids i filesToSend
+                    try {
+                        let response = await fetch(serverURL + "api/web/agent/files/put", {
+                          method: "POST",
+                          headers: {
+                            "Content-type": "application/json; charset=UTF-8",
+                            Accept: "text/html",
+                            Authorization: "Bearer " + token,
+                          },
+                          body: JSON.stringify({
+                            deviceUids: deviceUids,
+                            files: filesToSend
+                          }),
+                        });
+                        if (response.status == 400) {
+                            var jsonResponse = await response.json();
+                            if (jsonResponse.hasOwnProperty("error_id")) {
+                              console.log("Zahtjev nije validan.");
+                            }
+                          } else if (response.status == 200) {
+                            alert("Uspjesno poslano!");
+                            console.log(deviceUids);
+                        } else if (response.status == 300) {
+                          alert("Folder nije validan");
+                        } else if (response.status == 400) {
+                            alert("Pogrešan zahtjev")
+                        } else if (response.status == 403) {
+                          //invalid token, trebalo bi dobaviti novi
+                        } else if (response.status == 404) {
+                          alert("File nije pronadjen");
+                        } else {
+                          console.log("Promijenjen JSON zahtjeva?");
+                          alert("Greska pri slanju datoteke");                      
+                          console.log(response.status);
+                        }
+                      } catch (error) {
+                        console.log(error);
+                      }
                 }}></Button>
             </Root>
         </>
