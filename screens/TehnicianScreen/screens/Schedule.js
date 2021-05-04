@@ -28,7 +28,7 @@ function Schedule(props) {
 
     const renderItem = (item) => {
 
-        return <TouchableOpacity style={{marginRight: 17, marginTop: 17}} onPress={() => props.navigation.navigate("TaskView", {machine:item.device,task: item})}>
+        return <TouchableOpacity  style={{marginRight: 17, marginTop: 17}} onPress={() => props.navigation.navigate("TaskView", {machine:item.device,task: item})}>
             <Card style={{ backgroundColor: getColor(item)}}>
                 <Card.Content>
                     <View style={styles.item}>
@@ -82,7 +82,7 @@ function Schedule(props) {
 
 
     return (
-        <View style={{flex: 1}}>
+        <View testID="kalendar" style={{flex: 1}}>
             <Agenda
                 items={items}
                 renderItem={renderItem}

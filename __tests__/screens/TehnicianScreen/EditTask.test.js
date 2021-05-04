@@ -1,5 +1,8 @@
-import {putTask, postTracker, timeDiffCalc} from '../../../screens/TehnicianScreen/screens/EditTask';
-
+import EditTask, {putTask, postTracker, timeDiffCalc} from '../../../screens/TehnicianScreen/screens/EditTask';
+import React from 'react';
+import TestRenderer from 'react-test-renderer';
+import { render, fireEvent } from '@testing-library/react-native';
+import { AuthProvider} from "../../../contexts/authContext";
 describe('EditTask', () => {
     it('time difference', () => {
         
@@ -81,3 +84,39 @@ it("posting new tracker", async () => {
     expect(data.time).toEqual("2021-05-02T10:03:06.042Z");
     expect(fetch).toHaveBeenCalledTimes(1);
 });
+
+it('renders text input components ', () => {
+  let d = new Date();
+  const mockRoute = {
+    params: { task: {
+      "taskId": 141,
+            "userId": 1,
+            "deviceId": null,
+            "startTime": "2021-05-02T10:03:06.042Z",
+            "location": "nova lokacija",
+            "description": "novi opis",
+            "endTime": "2021-05-02T11:03:06.042Z",
+            "statusId": 2,
+            "photoUploaded": false,
+            "device": null,
+            "status": null,
+            "user": null,
+            "components": [],
+            "userTrackers": [],
+            "userTaskId": 141,
+            "locationLongitutde": 43.87965827732308,
+            "locationLatitude": 18.397856907797973,
+            "time": "2021-05-02T10:03:06.042Z"
+    }
+    }
+  }
+
+  const mockNavigation = {
+    push: jest.fn()
+}
+
+   const {getAllByPlaceholderText} = render(<AuthProvider children={<EditTask navigation={mockNavigation} route={mockRoute}/>}/>);
+   
+  expect(getAllByPlaceholderText("Location...").length).toBe(1);
+  expect(getAllByPlaceholderText("Description...").length).toBe(1); 
+}) 
