@@ -51,15 +51,16 @@ const AddComponent = (props) => {
             }
         >
             {({ handleChange, handleSubmit, values }) => (
-                <View>
+                <View testID="views">
                     <View>
                         <Text style={styles.title}>Type</Text>
                         <TextInput style={styles.input} value={values.type}
                             onChangeText={handleChange('type')}
-                            placeholder={"Tastatura"}  />
+                            placeholder={"Tastatura"} 
+                            testID="TypeInput" />
                         <Text style={styles.title}>Name</Text>
                         <TextInput style={styles.input} value={values.name}
-                            onChangeText={handleChange('name')} />
+                            onChangeText={handleChange('name')} testID="NameInput" />
                     </View>
                     <Text style={styles.title}>Quantity</Text>
                     <View style={styles.numeric}>
@@ -82,7 +83,7 @@ const AddComponent = (props) => {
                     </View>
                     {/*<Button onPress={handleSubmit} title="Submit" />*/}
                     <View style={styles.submitView}>
-                        <TouchableOpacity onPress={() => {handleSubmit()}}>
+                        <TouchableOpacity testID="submit" onPress={() => {handleSubmit()}}>
                             <View style={styles.containerButton}>
                                 <Text style={styles.button}>Submit</Text>
                             </View>

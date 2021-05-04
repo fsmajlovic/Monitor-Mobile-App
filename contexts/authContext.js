@@ -11,3 +11,4 @@ export const AuthProvider = (props) => {
         </AuthContext.Provider>
     )
 }
+

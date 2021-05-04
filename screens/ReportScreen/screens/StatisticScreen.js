@@ -8,7 +8,7 @@ import StatisticsView from '../components/StatisticsView';
 const StatisticScreen = () => {
     const { activeDevice } = useContext(DeviceContext);
     return (
-        <View>
+        <View testID={'StatiscticView'}>
             <StatisticsView dataSet={activeDevice} />
         </View>
     )

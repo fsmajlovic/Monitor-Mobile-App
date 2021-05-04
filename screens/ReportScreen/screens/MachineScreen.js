@@ -11,27 +11,10 @@ import {userContext} from '../../../contexts/userContext';
 
 
 const MachineScreen = ({navigation}) => {
-    const { currentDevice, addActiveDevice, setTaskList } = useContext(DeviceContext); 
+    const { currentDevice, addActiveDevice, setTaskList } = useContext(DeviceContext);
     const { getSavedToken } = useContext(AuthContext);
     var username = React.useContext(userContext);
-  //   useEffect(() => {
-  //     updateTaskList();
-  //   }, [])
 
-  // const updateTaskList = async () => {
-  //   try {
-  //     let token = await getSavedToken();
-  //     let response = await axios.get(machineURL + `UserTasks/Device/${currentDevice.deviceId}`, { // Lista taskova
-  //       headers: {
-  //         'Authorization': `Bearer ${token}`
-  //       }
-  //     }
-  //     )
-  //     setTaskList(response.data.data)
-  //   } catch (e) {
-  //     console.log("Greška")
-  //   }
-  // }
 
   const activateDevice = async () => {
     try {
@@ -42,7 +25,7 @@ const MachineScreen = ({navigation}) => {
           user: username
         }
       },
-      { 
+      {
         headers: {
           'Authorization': `Bearer ${token}`
         },
@@ -54,10 +37,10 @@ const MachineScreen = ({navigation}) => {
   }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} testID={"machinescreen"}>
             <Text style={styles.title}> { currentDevice.name } </Text>
             <Text> { currentDevice.location } </Text>
-            
+
             <TouchableOpacity onPress = {async () => {
               await activateDevice()
               addActiveDevice(currentDevice)
@@ -98,7 +81,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#FFF",
     fontWeight: "bold",
-    
+
   },
 })
 

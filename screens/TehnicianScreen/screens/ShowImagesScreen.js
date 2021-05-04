@@ -4,7 +4,7 @@ import {AuthContext} from "../../../contexts/authContext";
 import {machineURL} from '../../../appConfig'
 
 const ShowImagesScreen = ({ route, navigation }) => {
-    const { machineId ,taskId, machine, task } = route.params;
+    const { task } = route.params;
     const { getSavedToken } = React.useContext(AuthContext);
     const [photos, setPhotos] = useState([]);
     const getImagesURL = machineURL + "upload/GetFile"
@@ -21,7 +21,7 @@ const ShowImagesScreen = ({ route, navigation }) => {
                     'Authorization': 'Bearer ' + token
                 },
                 body: JSON.stringify({
-                    machineUid: task.device.deviceUid, 
+                    machineUid: task.device.deviceUid,
                     taskId: task.taskId
                 })
             }).then((response) => {
@@ -50,7 +50,7 @@ const ShowImagesScreen = ({ route, navigation }) => {
     }
 
     return (
-        <View>
+        <View testID={"slike"}>
             <FlatList
                 data={photos}
                 renderItem={renderImage}

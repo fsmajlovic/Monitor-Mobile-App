@@ -5,7 +5,7 @@ import {AuthContext} from "../../../contexts/authContext";
 import { DeviceContext } from '../../../contexts/DeviceContext';
 
 
-function getStatisticalData(name,dataSet){
+export function getStatisticalData(name,dataSet){
     if(dataSet===undefined || dataSet.length==0) return [];
     let numberOfOccurrences=[];
     numberOfOccurrences.push([name,dataSet.deviceStatusLogs.length]);
@@ -14,20 +14,13 @@ function getStatisticalData(name,dataSet){
 
 const StatisticsView = (props) => {
     const { getSavedToken } = React.useContext(AuthContext);
-    const { activeDevice } = useContext(DeviceContext);
+    // const { activeDevice } = useContext(DeviceContext);
+    const activeDevice=props.dataSet;
     const [logs ,setLogs ] = useState([]);
 
     useEffect(() => {
         async function getData(getSavedToken) {
             let token = await getSavedToken();
-            //dobavljanje logova u zadnjih mjesec dana
-            let startDate=new Date();
-            startDate.setMonth(startDate.getMonth()-1);
-            let endDate=new Date();
-            let s1=startDate.toString();
-            let s2=endDate.toString();
-            let deviceId=22;
-            // +"&startDate="+startDate.toISOString()+"&endDate="+endDate.toISOString()
             fetch("https://si-2021.167.99.244.168.nip.io/api/device/GetDeviceLogs"+
                 "?deviceId="+activeDevice.deviceId, {
                 method: 'GET',
@@ -49,7 +42,7 @@ const StatisticsView = (props) => {
     const data=getStatisticalData(props.dataSet.name,logs);
     return (
         <ScrollView horizontal={false}>
-            <View style={styles.container}>
+            <View style={styles.container} testID={'tabela'}>
                 <Text style={{textAlign:"center"}}>
                     Statistika
                 </Text>
