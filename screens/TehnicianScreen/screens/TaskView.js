@@ -22,10 +22,11 @@ const TaskView = (props) => {
     })
 
     const { params } = props.route;
-    const { machine,task } = params;
+    //const { machine,task } = params;
+    const { task } = params;
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container}testID="view">
             <Text style={styles.description}> {task.description} </Text>
             <Text>Start: {moment(task.startTime).format('MMMM Do YYYY, h:mm:ss a')} </Text>
             <Text>End: {moment(task.endTime).format('MMMM Do YYYY, h:mm:ss a')} </Text>
@@ -41,7 +42,7 @@ const TaskView = (props) => {
                 //ovi parametri svakako ne trebaju, a bacaju izuzetak ako mašina nije definisana
                 // machineId: machine.deviceId,
                 // taskId: task.taskId,
-                machine: machine,
+                // machine: machine,
                 task: task
             })}>
                 <View style={styles.containerButton}>

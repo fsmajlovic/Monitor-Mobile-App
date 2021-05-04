@@ -59,7 +59,7 @@ const ReportScreen = ({ navigation }) => {
 
   return (
 
-    <View style={styles.container}>
+    <View style={styles.container} testID="view">
       <Text style={{alignSelf: 'center', color: 'black', fontSize: 35}}>Active</Text>
         <Text style={{alignSelf: 'center', color: '#0D47A1', fontSize: 25, fontWeight: 'bold'}}>IWMs</Text>
       <FlatList style={{flex: 1}}

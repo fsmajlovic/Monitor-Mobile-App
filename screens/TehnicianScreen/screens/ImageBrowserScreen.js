@@ -64,8 +64,8 @@ const ImageBrowserScreen = (props) => {
     const emptyStayComponent = <Text style={styles.emptyStay}>Empty =(</Text>;
 
     return (
-        <View style={[styles.flex, styles.container]}>
-            <ImageBrowser
+        <View style={[styles.flex, styles.container]} testID={"browserscreen"}>
+            <ImageBrowser  testID={"browserclick"}
                 max={4}
                 onChange={updateHandler}
                 callback={imagesCallback}

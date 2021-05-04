@@ -42,7 +42,7 @@ const ListItem = ({ item, navigation }) => {
     const { setCurrentDevice } = useContext(DeviceContext);
     return (
         <TouchableWithoutFeedback onPress={() => { navigation.push('MachineScreen'); setCurrentDevice(item) }}>
-            <View style={styles.container}>
+            <View style={styles.container} testID = {"listitem"}>
                 <Image source={require('../../../assets/monitor-icon.gif')} style={styles.photo} />
                 <View style={styles.container_text}>
                     <Text style={styles.title}> 
