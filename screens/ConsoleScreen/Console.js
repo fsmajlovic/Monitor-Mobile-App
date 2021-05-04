@@ -214,6 +214,7 @@ export default function Console({ navigation }) {
     }
 
     const recommendFolder = async () => {
+        /*
         console.log("Pozvalo se ovo 1");
         if (edited) {
             setEdited(false);
@@ -232,17 +233,18 @@ export default function Console({ navigation }) {
         }
         else {
             setIndexFolder(indexFolder + 1);
-        }
+        } */
     }
 
     return (
-        <View style={styles.componentContainer1}>
+        <View testID={'console'} style={styles.componentContainer1}>
 
             <ScrollView style={styles.scrollView}>
                 <ConsoleRow rows={rows} />
                 <View style={styles.row}>
                     <Text style={styles.textArea}> {path}>  </Text>
                     <TextInput
+                        testID={'input'}
                         style={styles.inputArea}
                         value={current}
                         secureTextEntry={password}
@@ -273,6 +275,7 @@ export default function Console({ navigation }) {
                             else if (restartCommand.length == 2) {
                                 sendRequest(restartCommand[0] + " " + restartCommand[1] + " " + input);
                                 setPassword(false);
+                                addRows("Restarting");
                                 deleteRestartCommand();
                             }
                             //ostale validne komande
@@ -291,8 +294,9 @@ export default function Console({ navigation }) {
             <View style={[styles.container1]}>
                 <View style={styles.buttons}>
                     <TouchableOpacity
+                        testID={'tab'}
                         style={styles.button}
-                    //    onPress={() => { recommendFolder(); }}
+                        onPress={() => { recommendFolder(); }}
                     >
                         <Text style={styles.buttonText}>Tab</Text>
                     </TouchableOpacity>
