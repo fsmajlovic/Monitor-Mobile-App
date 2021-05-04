@@ -5,7 +5,7 @@ import NumericInput from 'react-native-numeric-input';
 import { AuthContext } from '../../../contexts/authContext';
 
 
-async function submit({ token, type, name, quantity, taskId, task }) {
+export async function submit({ token, type, name, quantity, taskId, task }) {
     try {
         let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/Components", {
             method: 'POST',
@@ -22,6 +22,7 @@ async function submit({ token, type, name, quantity, taskId, task }) {
             }])
         });
         var json = await response.json();
+        return json.data;
     } catch (error) {
         console.error(error);
     }

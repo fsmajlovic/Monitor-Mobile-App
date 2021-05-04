@@ -9,7 +9,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import NumericInput from 'react-native-numeric-input';
 
 
-async function postTask({token, location, description, date, deviceId, duration}) {
+export async function postTask({token, location, description, date, deviceId, duration}) {
   try {
     const endTime = new Date(date);
     endTime.setHours(date.getHours() + duration.durationHr);
@@ -30,6 +30,7 @@ async function postTask({token, location, description, date, deviceId, duration}
       statusId: 1})
     });
     var json = await response.json();
+    return json.data;
   } catch (error) {
     console.error(error);
   }

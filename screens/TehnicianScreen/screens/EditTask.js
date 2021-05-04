@@ -10,7 +10,7 @@ import ModalDropdown from 'react-native-modal-dropdown';
 import NumericInput from 'react-native-numeric-input';
 import * as Location from 'expo-location';
 
-async function putTask({ token, location, description, date, taskId, deviceId, duration, status }) {
+export async function putTask({ token, location, description, date, taskId, deviceId, duration, status }) {
   try {
     const endTime = new Date(date);
     endTime.setHours(date.getHours() + duration.durationHr);
@@ -33,12 +33,13 @@ async function putTask({ token, location, description, date, taskId, deviceId, d
       })
     });
     var json = await response.json();
+    return json.data;
   } catch (error) {
     console.error(error);
   }
 };
 
-async function postTracker({ token, userTaskId, locationLongitude, locationLatitude, time }) {
+export async function postTracker({ token, userTaskId, locationLongitude, locationLatitude, time }) {
   try {
     let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks/Tracker", {
       method: 'POST',
@@ -58,12 +59,13 @@ async function postTracker({ token, userTaskId, locationLongitude, locationLatit
     //console.log(json);
     console.log("Test token: " + token);
     console.log("Task id: " + userTaskId);
+    return json.data;
   } catch (error) {
     console.error(error);
   }
 };
 
-function timeDiffCalc(dateStart, dateEnd) {
+export function timeDiffCalc(dateStart, dateEnd) {
   let diffInMilliSeconds = Math.abs(new Date(dateEnd) - new Date(dateStart)) / 1000;
 
   var diffHours = Math.floor((diffInMilliSeconds % 86400) / 3600);

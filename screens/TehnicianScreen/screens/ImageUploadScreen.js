@@ -8,7 +8,7 @@ import axios from 'axios';
 import {machineURL} from '../../../appConfig'
 
 
-async function putTask({ token, taskId, deviceId, startTime, endTime, location, description, statusId, photoUploaded }) {
+export async function putTask({ token, taskId, deviceId, startTime, endTime, location, description, statusId, photoUploaded }) {
   try {
 
     let response = await fetch("https://si-2021.167.99.244.168.nip.io/api/UserTasks/" + taskId, {
@@ -29,7 +29,7 @@ async function putTask({ token, taskId, deviceId, startTime, endTime, location, 
       })
     });
     var json = await response.json();
-    
+    return json.data;
   } catch (error) {
     console.error(error);
   }
