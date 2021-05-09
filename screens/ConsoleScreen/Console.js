@@ -257,7 +257,7 @@ export default function Console({ navigation }) {
                             let command = "";
                             command = args[0].toLowerCase();
 
-                            if(restartCommand.length != 2) addRows(path + "> " + event.nativeEvent.text);
+                            if (restartCommand.length != 2) addRows(path + "> " + event.nativeEvent.text);
 
                             //unesen restart
                             if (restartCommand.length == 0 && input.toLowerCase().includes("shutdown -r")) {
@@ -281,6 +281,11 @@ export default function Console({ navigation }) {
                             //ostale validne komande
                             else if ((group1.includes(command) && args.length == 1) || (group2.includes(command) && args.length >= 2) || group3.includes(command)) {
                                 sendRequest(input);
+                                
+                                if (group3.includes(command)) {
+                                    addRows("Shutting down...");
+                                    setPath("");
+                                }
                             }
                             //nevalidna komanda
                             else {
