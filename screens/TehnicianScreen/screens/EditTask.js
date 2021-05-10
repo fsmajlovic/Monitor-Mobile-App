@@ -5,7 +5,6 @@ import { Formik } from 'formik';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { AuthContext } from '../../../contexts/authContext';
-import DropDownPicker from 'react-native-dropdown-picker';
 import ModalDropdown from 'react-native-modal-dropdown';
 import NumericInput from 'react-native-numeric-input';
 import * as Location from 'expo-location';
@@ -55,7 +54,6 @@ async function postTracker({ token, userTaskId, locationLongitude, locationLatit
       })
     });
     var json = await response.json();
-    //console.log(json);
     console.log("Test token: " + token);
     console.log("Task id: " + userTaskId);
   } catch (error) {

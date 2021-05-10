@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import React, { useContext, useState } from 'react';
-import {Text, View, StyleSheet, Button, TextInput, TouchableOpacity} from 'react-native';
+import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import NumericInput from 'react-native-numeric-input';
 import { AuthContext } from '../../../contexts/authContext';
 
@@ -29,8 +29,6 @@ async function submit({ token, type, name, quantity, taskId, task }) {
 
 
 const AddComponent = (props) => {
-    const [type, setType] = useState("");
-    const [name, setName] = useState("");
     const [quantity, setQuantity] = useState(1);
     const { task } = props.route.params;
     const { getSavedToken } = useContext(AuthContext);
@@ -81,7 +79,6 @@ const AddComponent = (props) => {
                             leftButtonBackgroundColor='#0074e8'
                         />
                     </View>
-                    {/*<Button onPress={handleSubmit} title="Submit" />*/}
                     <View style={styles.submitView}>
                         <TouchableOpacity testID="submit" onPress={() => {handleSubmit()}}>
                             <View style={styles.containerButton}>
@@ -130,7 +127,6 @@ const styles = StyleSheet.create({
         paddingLeft: 10
     },
     title: {
-        // alignSelf: 'flex-start',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,

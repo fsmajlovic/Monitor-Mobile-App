@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, StyleSheet, Button } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import ListItem from './ListItem';
 
 
@@ -13,17 +13,12 @@ const ListView = ({ itemList, navigation }) => (
                 navigation={navigation}
             />}
         />
-        
     </View>
 );
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    button: {
-        color: 'red',
-        padding: 5
     }
 });
 

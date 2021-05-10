@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import { Text, View, Button, StyleSheet, TouchableOpacity} from 'react-native';
+import React, { useContext } from 'react';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { DeviceContext } from '../../../contexts/DeviceContext';
-import { activeMachineURL, machineURL } from '../../../appConfig'
+import { activeMachineURL } from '../../../appConfig'
 import axios from 'axios';
 import { AuthContext } from '../../../contexts/authContext';
-import {userContext} from '../../../contexts/userContext';
+import { userContext } from '../../../contexts/userContext';
 
 
 
 
 const MachineScreen = ({navigation}) => {
-    const { currentDevice, addActiveDevice, setTaskList } = useContext(DeviceContext);
+    const { currentDevice, addActiveDevice } = useContext(DeviceContext);
     const { getSavedToken } = useContext(AuthContext);
-    var username = React.useContext(userContext);
+    var username = useContext(userContext);
 
 
   const activateDevice = async () => {

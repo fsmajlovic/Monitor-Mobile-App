@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { StyleSheet, View, FlatList, ActivityIndicator, Text } from 'react-native';
 import ListItem from './components/ListItem';
 import { AuthContext } from '../../contexts/authContext';
-import { useContext } from 'react';
 import { DeviceContext } from '../../contexts/DeviceContext';
-import {machineURL, activeMachineURL} from '../../appConfig';
+import { machineURL, activeMachineURL } from '../../appConfig';
 import axios from 'axios';
 
 
 const ReportScreen = ({ navigation }) => {
-  const [state, setState] = useState(-1);
-  const { getSavedToken } = React.useContext(AuthContext);
-  const { setDevices, devices, page, setPage, loadMore, loading, setLoading } = useContext(DeviceContext);
+  const { getSavedToken } = useContext(AuthContext);
+  const { setDevices, devices, loadMore, loading } = useContext(DeviceContext);
 
   function filterActive(activeMachines, allMachines) {
     return activeMachines ? activeMachines.filter((machine) => {
@@ -29,12 +27,13 @@ const ReportScreen = ({ navigation }) => {
   useEffect(() => {
     async function getData(getSavedToken) {
       let token = await getSavedToken();
+      
       fetch(machineURL + `device/AllDevices`, {
         method: 'GET',
         headers: { "Authorization": "Bearer " + token },
-      }).then((response) => {
-        return response.json();
-      }).then(async (responseJson) => {
+      }).then((response) => response.json())
+      .then(async (responseJson) => {
+        
         let allMachines = responseJson.data;
         let activeMachines = [];
         try{
@@ -46,8 +45,6 @@ const ReportScreen = ({ navigation }) => {
         }catch(e){
           console.log(e)
         }
-        console.log("AKTIVNA" + JSON.stringify(activeMachines.data))
-        console.log("ALL MACHINES " + allMachines.data)
         setDevices(filterActive(activeMachines.data, allMachines));
       }).catch((error) => {
         console.error(error);

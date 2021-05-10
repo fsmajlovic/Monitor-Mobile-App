@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard, TouchableHighlight } from 'react-native'; 
+import React, { useState, useEffect, useContext } from 'react';
+import { StyleSheet, View, Button, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native'; 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Formik } from 'formik';
 import { Fontisto } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import {AuthContext} from '../../../contexts/authContext';
+import { AuthContext } from '../../../contexts/authContext';
 import ModalDropdown from 'react-native-modal-dropdown';
 import NumericInput from 'react-native-numeric-input';
 
@@ -47,7 +47,7 @@ export default function AddTask({navigation}) {
   const [device, setDevice] = useState({});
   const [devicesName, setDevicesName] = useState([]);
   const [locationName, setLocationName] = useState("");
-  var {getSavedToken} = React.useContext(AuthContext);
+  var { getSavedToken } = useContext(AuthContext);
   let deviceArray = ['No device selected'];
 
   useEffect(()=>{

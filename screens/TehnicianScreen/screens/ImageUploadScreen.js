@@ -1,11 +1,11 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
-import { Text, View, Button, Image, ScrollView, StyleSheet,FlatList,TextInput, TouchableOpacity} from 'react-native';
+import { Text, View, Image, StyleSheet,FlatList, TouchableOpacity} from 'react-native';
 
 import { DeviceContext } from '../../../contexts/DeviceContext';
-import {AuthContext} from '../../../contexts/authContext';
+import { AuthContext } from '../../../contexts/authContext';
 import axios from 'axios';
-import {machineURL} from '../../../appConfig'
+import { machineURL } from '../../../appConfig'
 
 
 async function putTask({ token, taskId, deviceId, startTime, endTime, location, description, statusId, photoUploaded }) {
@@ -48,9 +48,8 @@ const ImageUploadScreen = (props) => {
   
     const [photos, setPhotos] = useState([]);
     const [selected,setSelected] = useState(false);
-    const { currentDevice, taskList } = useContext(DeviceContext);
     const {getSavedToken} = useContext(AuthContext);
-    const [selectedTask, setSelectedTask] = useState("nesto");
+    
     
 
     const createFormData = (photo) => {
@@ -96,11 +95,8 @@ const ImageUploadScreen = (props) => {
     
     const uploadImages = async (token) => {
 
-    
-      //let token;
       let response;
       try {
-        //token = await getSavedToken();
         response = await axios.post(machineURL + 'upload/UploadFile', createFormData(photos, task.taskId),{
           headers:{
             'Authorization': `Bearer ${token}`

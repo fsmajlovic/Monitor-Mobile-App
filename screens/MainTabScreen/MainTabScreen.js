@@ -2,7 +2,7 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {Image,Text,TouchableOpacity } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 
 
 import HomeScreen from '../HomeScreen/HomeScreen';
@@ -33,55 +33,52 @@ import AddComponent from '../TehnicianScreen/screens/AddComponent';
 
 
 const HomeStack = createStackNavigator();
-//const ConsoleStack = createStackNavigator();
 const ReportStack = createStackNavigator();
-//const AccessControlStack = createStackNavigator();
 const TehnicianStack = createStackNavigator();
-
 
 const Tab = createMaterialBottomTabNavigator();
 
 const MainTabScreen = () => (
-    <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#0D47A1"
-      inactiveColor="lightgrey"
-      barStyle={{backgroundColor: 'white'}}
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeStackScreen}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarColor: '#E50914',
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-home" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Report"
-        component={ReportStackScreen}
-        options={{
-          tabBarLabel: 'Report',
-          tabBarColor: '#694fad',
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-book" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Tehnician"
-        component={TehnicianStackScreen}
-        options={{
-          tabBarLabel: 'Tech',
-          tabBarColor: '#e06d1b',
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-person" color={color} size={26} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
+  <Tab.Navigator
+    initialRouteName="Home"
+    activeColor="#0D47A1"
+    inactiveColor="lightgrey"
+    barStyle={{backgroundColor: 'white'}}
+  >
+    <Tab.Screen
+      name="Home"
+      component={HomeStackScreen}
+      options={{
+        tabBarLabel: 'Home',
+        tabBarColor: '#E50914',
+        tabBarIcon: ({ color }) => (
+          <Icon name="ios-home" color={color} size={26} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Report"
+      component={ReportStackScreen}
+      options={{
+        tabBarLabel: 'Report',
+        tabBarColor: '#694fad',
+        tabBarIcon: ({ color }) => (
+          <Icon name="ios-book" color={color} size={26} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Tehnician"
+      component={TehnicianStackScreen}
+      options={{
+        tabBarLabel: 'Tech',
+        tabBarColor: '#e06d1b',
+        tabBarIcon: ({ color }) => (
+          <Icon name="ios-person" color={color} size={26} />
+        ),
+      }}
+    />
+  </Tab.Navigator>
 );
 
 export default MainTabScreen;
@@ -96,18 +93,17 @@ export default MainTabScreen;
 
 
 const HomeStackScreen = ({navigation}) => (
-    <HomeStack.Navigator screenOptions={{
-            headerStyle: {
-            backgroundColor: '#0D47A1',
-            shadowOpacity: 0,
-            elevation: 0,
-            },
-            headerTintColor: 'white',
-            headerTitleStyle: {
-            fontWeight: 'bold'
-            }
-
-        }}>
+  <HomeStack.Navigator screenOptions={{
+          headerStyle: {
+          backgroundColor: '#0D47A1',
+          shadowOpacity: 0,
+          elevation: 0,
+          },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+          fontWeight: 'bold'
+        }
+  }}>
             <HomeStack.Screen name="Home" component={HomeScreen} options={{
               title:'Home',
               headerRight: () => (
@@ -150,24 +146,6 @@ const HomeStackScreen = ({navigation}) => (
     </HomeStack.Navigator>
     );
 
-    // const ConsoleStackScreen = ({navigation}) => (
-    //   <ConsoleStack.Navigator screenOptions={{
-    //           headerStyle: {
-    //           backgroundColor: 'transparent',
-    //           shadowOpacity: 0,
-    //           elevation: 0,
-    //           },
-    //           headerTintColor: 'black',
-    //           headerTitleStyle: {
-    //           fontWeight: 'bold'
-    //           }
-    //       }}>
-    //           <ConsoleStack.Screen name="Console" component={ConsoleScreen} options={{
-
-    //           }} />
-    //   </ConsoleStack.Navigator>
-    //   );
-
       const ReportStackScreen = ({navigation}) => (
         <ReportStack.Navigator screenOptions={{
                 headerStyle: {
@@ -190,69 +168,49 @@ const HomeStackScreen = ({navigation}) => (
         </ReportStack.Navigator>
         );
 
-        // const AccessControlStackScreen = ({navigation}) => (
-        //   <AccessControlStack.Navigator screenOptions={{
-        //           headerStyle: {
-        //           backgroundColor: 'transparent',
-        //           shadowOpacity: 0,
-        //           elevation: 0,
-        //           },
-        //           headerTintColor: 'black',
-        //           headerTitleStyle: {
-        //           fontWeight: 'bold'
-        //           }
-        //       }}>
-        //           <AccessControlStack.Screen name="AccessControl" component={AccessControlScreen} options={{
+        
+  const TehnicianStackScreen = ({navigation}) => (
+    <TehnicianStack.Navigator screenOptions={{
+            headerStyle: {
+            backgroundColor: '#0D47A1',
+            shadowOpacity: 0,
+            elevation: 0,
+            },
+            headerTintColor: 'white',
+            headerTitleStyle: {
+            fontWeight: 'bold'
+            }
+        }}>
+            <TehnicianStack.Screen name="Tehnician" component={TehnicianScreen} options={{
 
-        //           }} />
-        //           <AccessControlStack.Screen name="FileManager" component={FileManager} options={{
+            }} />
+              <TehnicianStack.Screen name = "AddTask" component={AddTask} options={{
 
-        //         }} />
-        //   </AccessControlStack.Navigator>
-        //   );
+            }} />
+            <TehnicianStack.Screen name = "Schedule" component={Schedule} options={{
 
-          const TehnicianStackScreen = ({navigation}) => (
-            <TehnicianStack.Navigator screenOptions={{
-                    headerStyle: {
-                    backgroundColor: '#0D47A1',
-                    shadowOpacity: 0,
-                    elevation: 0,
-                    },
-                    headerTintColor: 'white',
-                    headerTitleStyle: {
-                    fontWeight: 'bold'
-                    }
-                }}>
-                    <TehnicianStack.Screen name="Tehnician" component={TehnicianScreen} options={{
+            }} />
+            <TehnicianStack.Screen name = "EditTask" component={EditTask} options={{
 
-                    }} />
-                     <TehnicianStack.Screen name = "AddTask" component={AddTask} options={{
+            }} />
+            <TehnicianStack.Screen name="TaskView" component={TaskView} options={{
+              title: "Task"
+            }} />
+            <TehnicianStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{
+              title: 'Upload images'
+            }} />
 
-                    }} />
-                    <TehnicianStack.Screen name = "Schedule" component={Schedule} options={{
-
-                    }} />
-                    <TehnicianStack.Screen name = "EditTask" component={EditTask} options={{
-
-                    }} />
-                    <TehnicianStack.Screen name="TaskView" component={TaskView} options={{
-                      title: "Task"
-                    }} />
-                    <TehnicianStack.Screen name="ImageUploadScreen" component={ImageUploadScreen} options={{
-                      title: 'Upload images'
-                    }} />
-
-                    <TehnicianStack.Screen name="ImageBrowserScreen" component={ImageBrowserScreen} options={{
-                      title: 'Selected 0 files',
-                    }} />
-                    <TehnicianStack.Screen name="ShowImagesScreen" component={ShowImagesScreen} options={{
-                        title: 'Pictures'
-                    }} />
-                    <TehnicianStack.Screen name="ComponentView" component={ComponentView} options={{
-                      title: 'Parts'
-                    }} />
-                    <TehnicianStack.Screen name="AddComponent" component={AddComponent} options={{
-                      title: 'Add part'
-                    }} />
-            </TehnicianStack.Navigator>
-            );
+            <TehnicianStack.Screen name="ImageBrowserScreen" component={ImageBrowserScreen} options={{
+              title: 'Selected 0 files',
+            }} />
+            <TehnicianStack.Screen name="ShowImagesScreen" component={ShowImagesScreen} options={{
+                title: 'Pictures'
+            }} />
+            <TehnicianStack.Screen name="ComponentView" component={ComponentView} options={{
+              title: 'Parts'
+            }} />
+            <TehnicianStack.Screen name="AddComponent" component={AddComponent} options={{
+              title: 'Add part'
+            }} />
+    </TehnicianStack.Navigator>
+);

@@ -22,7 +22,6 @@ const TaskView = (props) => {
     })
 
     const { params } = props.route;
-    //const { machine,task } = params;
     const { task } = params;
 
     return (

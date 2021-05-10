@@ -1,7 +1,6 @@
-import React, { useContext, useState, Component } from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
-import { DeviceContext } from '../../../contexts/DeviceContext';
-import { TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import React, { useState } from 'react';
+import { StyleSheet, View} from 'react-native';
+import { TabView, SceneMap } from 'react-native-tab-view';
 import { useWindowDimensions } from 'react-native';
 import Console from '../../ConsoleScreen/Console';
 import ConsoleLog from '../../ConsoleScreen/ConsoleLog';
@@ -26,8 +25,6 @@ const OptionScreen = ({ navigation }) => {
         third: AccessControlScreen,
         fourth: StatisticScreen
     });
-
-    const { activeDevice } = useContext(DeviceContext);
 
     return (
         <View style={styles.container} testID="view">

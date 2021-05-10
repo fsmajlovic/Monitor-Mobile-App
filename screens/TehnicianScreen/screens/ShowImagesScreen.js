@@ -1,11 +1,11 @@
-import React, { useEffect, useState} from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {FlatList, Image, View} from "react-native";
 import {AuthContext} from "../../../contexts/authContext";
 import {machineURL} from '../../../appConfig'
 
 const ShowImagesScreen = ({ route, navigation }) => {
     const { task } = route.params;
-    const { getSavedToken } = React.useContext(AuthContext);
+    const { getSavedToken } = useContext(AuthContext);
     const [photos, setPhotos] = useState([]);
     const getImagesURL = machineURL + "upload/GetFile"
 

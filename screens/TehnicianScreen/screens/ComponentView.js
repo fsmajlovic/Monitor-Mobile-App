@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Text, TouchableOpacity, View, StyleSheet, FlatList, StatusBar } from 'react-native';
-import { machineURL } from '../../../appConfig';
 import { AuthContext } from '../../../contexts/authContext';
 
 const Item = ({ name, type, quantity }) => (

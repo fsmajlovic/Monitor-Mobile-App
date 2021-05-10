@@ -1,6 +1,6 @@
 import React from 'react';
 import { useContext } from 'react';
-import { View, Text, StyleSheet, Image, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableWithoutFeedback } from 'react-native';
 import { DeviceContext } from '../../../contexts/DeviceContext';
 
 const styles = StyleSheet.create({
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 });
 
 const ActiveListItem = ({ item, navigation }) => {
-    const { setActiveDevice, addActiveDevice } = useContext(DeviceContext);
+    const { setActiveDevice } = useContext(DeviceContext);
     return (
         <TouchableWithoutFeedback onPress={() => { setActiveDevice(item); navigation.push('Options'); }}>
             <View style={styles.container} testID="view">

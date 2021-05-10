@@ -48,7 +48,7 @@ function Schedule(props) {
 
 
 
-      useEffect(()=>{
+      useEffect(() => {
         async function getData(getSavedToken){
             try {
                 const token = await getSavedToken();

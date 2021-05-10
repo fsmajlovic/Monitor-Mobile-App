@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, ScrollView, Text, StyleSheet } from 'react-native';
-import {Table, Row, Rows} from 'react-native-table-component';
-import {AuthContext} from "../../../contexts/authContext";
-import { DeviceContext } from '../../../contexts/DeviceContext';
+import { Table, Row, Rows } from 'react-native-table-component';
+import { AuthContext } from "../../../contexts/authContext";
 
-
-export function getStatisticalData(name,dataSet){
+export function getStatisticalData(name, dataSet){
     if(dataSet===undefined || dataSet.length==0) return [];
     let numberOfOccurrences=[];
     numberOfOccurrences.push([name,dataSet.deviceStatusLogs.length]);
@@ -13,10 +11,9 @@ export function getStatisticalData(name,dataSet){
 }
 
 const StatisticsView = (props) => {
-    const { getSavedToken } = React.useContext(AuthContext);
-    // const { activeDevice } = useContext(DeviceContext);
-    const activeDevice=props.dataSet;
-    const [logs ,setLogs ] = useState([]);
+    const { getSavedToken } = useContext(AuthContext);
+    const activeDevice = props.dataSet;
+    const [logs, setLogs ] = useState([]);
 
     useEffect(() => {
         async function getData(getSavedToken) {
