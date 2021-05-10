@@ -37,7 +37,7 @@ export default function App({ route, navigation }) {
         let file = children[i];
         let correctZoneBirthtime = new Date(file['birthtime']);
         data.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: oldPath, birthtime: correctZoneBirthtime });
-        if(file['type'] == 'directory') {
+        if(file['type'] === 'directory') {
           data[data.length - 1]['children'] = file['children'];
         }
     }
@@ -101,7 +101,7 @@ async function copyOrMove(token,username,name,oldPath,newPath,navigation,action)
         user: username,
       }),
     });
-    if(response.status == 400) {
+    if(response.status === 400) {
         var jsonResponse = await response.json();
         if(jsonResponse.hasOwnProperty('error_id')) {
           //alert("Datoteka/Folder ne postoji!");
@@ -109,17 +109,17 @@ async function copyOrMove(token,username,name,oldPath,newPath,navigation,action)
         }
        
     }
-    else if(response.status == 200) {
+    else if(response.status === 200) {
       alert("Uspjesan copy/move");
       navigation.navigate("FileManager");
     }
-    else if(response.status == 403) {
+    else if(response.status === 403) {
       alert("Invalid JWT token");
     }
-    else if(response.status == 403) {
+    else if(response.status === 403) {
       //invalid token, trebalo bi dobaviti novi
     }
-    else if(response.status == 404) {
+    else if(response.status === 404) {
       alert("Datoteka ne postoji");
     }
     else {

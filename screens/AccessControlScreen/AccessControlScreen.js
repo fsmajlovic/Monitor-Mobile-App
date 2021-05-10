@@ -27,18 +27,18 @@ async function postScreenshot(token, id, username) {
       })
     });
 
-    if (response.status == 200) {
+    if (response.status === 200) {
       var json = await response.json();
       base64Icon = json["message"];
       buttonPressed = true;
     }
-    else if (response.status == 503) {
+    else if (response.status === 503) {
       alert("Servis nedostupan");
     }
-    else if (response.status == 403) {
+    else if (response.status === 403) {
       //invalid token, trebalo bi dobaviti novi
     }
-    else if (response.status == 404) {
+    else if (response.status === 404) {
       alert("Masina nije spojena sa serverom");
     }
     else {
@@ -47,7 +47,7 @@ async function postScreenshot(token, id, username) {
   } catch (error) {
     console.error(error);
   }
-};
+}
 
 
 export default function AccessControlScreen({ navigation }) {
@@ -62,9 +62,9 @@ export default function AccessControlScreen({ navigation }) {
     await Sharing.shareAsync(expoFileLocation);
   };
 
-  expoFileLocation = "";
-  fileData = "";
-  fileName = "";
+  var expoFileLocation = "";
+  var fileData = "";
+  var fileName = "";
   async function saveToExpoFileSystem() {
     fileData = base64Icon;
     fileName = "screenshot.jpg";
@@ -90,7 +90,7 @@ export default function AccessControlScreen({ navigation }) {
           let token = await getSavedToken();
           await postScreenshot(token, id, username);
 
-          if (currentUri == ' ') {
+          if (currentUri === ' ') {
             currentUri = "data:image/png;base64," + base64Icon;
             setImage(currentUri);
           }
@@ -158,8 +158,3 @@ const styles = StyleSheet.create({
   },
 
 });
-
-export function testZaJest(broj) {
-  if (broj % 2 == 0) return true;
-  else return false;
-}

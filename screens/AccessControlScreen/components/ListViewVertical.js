@@ -129,7 +129,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
             }
         }
         //rename moze jedino ako je samo jedan selektovan
-        if (selectedItemsNumber == 1) {
+        if (selectedItemsNumber === 1) {
             setFileName(selectedItem.name);
             setNewFileName(selectedItem.name);
             setPath(selectedItem.path);
@@ -140,7 +140,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
     async function makeFolder() {
         let exists = false;
         for (let i = 0; i < items.length; i++) {
-            if (items[i]["type"] == "directory" && items[i]["name"] == folderName) {
+            if (items[i]["type"] === "directory" && items[i]["name"] === folderName) {
                 exists = true;
             }
         }
@@ -163,13 +163,13 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                     user: username,
                 }),
             });
-            if (response.status == 200) {
+            if (response.status === 200) {
                 Alert.alert("Uspješno dodan folder");
                 navigation.pop();
                 navigation.navigate("FileManager");
-            } else if (response.status == 503) {
+            } else if (response.status === 503) {
                 alert("Servis nedostupan");
-            } else if (response.status == 403) {
+            } else if (response.status === 403) {
                 //invalid token, trebalo bi dobaviti novi
             } else {
                 console.log("Status" + response.status);
@@ -190,7 +190,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         }
         //Za pocetak copy moze za samo jedan selektovani item
         //Poslije ce trebati podrzati i vise oznacenih
-        if (selectedItemsNumber == 1) {
+        if (selectedItemsNumber === 1) {
             //console.log("Selektovani item: " + selectedItem.name + " path: " + selectedItem.path);
             navigation.navigate("ChoiceManager", { oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children'), action: "copy" });
         }
@@ -205,7 +205,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                 selectedItemsNumber++;
             }
         }
-        if (selectedItemsNumber == 1 && selectedItem.type === 'file') {
+        if (selectedItemsNumber === 1 && selectedItem.type === 'file') {
             let supportedExtensions = ['.log', '.txt', '.html', '.png', '.jpg', '.xml'];
             if (!supportedExtensions.includes(selectedItem.extension)) {
                 alert('Unsupported Format!');
@@ -243,7 +243,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                 selectedItemsNumber++;
             }
         }
-        if (selectedItemsNumber == 1 && selectedItem.type === 'file') {
+        if (selectedItemsNumber === 1 && selectedItem.type === 'file') {
             let token = await getSavedToken();
             await downloadFile(token, username, selectedItem.path, selectedItem.name, selectedItem.type, selectedItem.children, selectedItem.oldPath, isCopyDirectory, actionCopyMove, navigation, selectedItem.extension, false);
             expoFileLocationShare = FileSystem.documentDirectory + selectedItem.name;
@@ -268,7 +268,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         }
         //Za pocetak move moze za samo jedan selektovani item
         //Poslije ce trebati podrzati i vise oznacenih
-        if (selectedItemsNumber == 1) {
+        if (selectedItemsNumber === 1) {
             //console.log("Selektovani item: " + selectedItem.name + " path: " + selectedItem.path);
             navigation.navigate("ChoiceManager", { oldPath: selectedItem.path, isDirectory: selectedItem.hasOwnProperty('children'), action: "move" });
         }
@@ -280,7 +280,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         for (let i = 0; i < items.length; i++) {
             if (items[i].selected) {
                 selectedItem = items[i];
-                if (selectedItem.type == "directory" && selectedItem.children.length != 0) {
+                if (selectedItem.type === "directory" && selectedItem.children.length !== 0) {
 
                     Alert.alert(
                         'Alert',
@@ -328,7 +328,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
             >
                 <View style={styles.container}>
                     <Image
-                        source={item["type"] == "file" ? image_source_data : image_source_folder}
+                        source={item["type"] === "file" ? image_source_data : image_source_folder}
                         style={styles.photo}
                     />
                     <View style={styles.container_text}>
@@ -344,7 +344,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
 
     async function sortByName() {
         items.sort((a, b) => {
-            if (a.name.toLowerCase() == b.name.toLowerCase()) {
+            if (a.name.toLowerCase() === b.name.toLowerCase()) {
                 return 0;
             } else {
                 return a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 1;
@@ -368,7 +368,7 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
 
     async function sortByDate() {
         items.sort((d1, d2) => {
-            if (d1.birthtime == d2.birthtime) {
+            if (d1.birthtime === d2.birthtime) {
                 return 0;
             } else {
                 return d1.birthtime > d2.birthtime ? -1 : 1;
@@ -498,7 +498,8 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                 <Dialog.Input
                     value={newFilename}
                     onChangeText={(text) => setNewFileName(text)}
-                ></Dialog.Input>
+                >
+                </Dialog.Input>
                 <Dialog.Button label="Cancel" onPress={handleCancel} />
                 <Dialog.Button label="OK" onPress={handleOK} />
             </Dialog.Container>
@@ -507,9 +508,6 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
     selected: {
         backgroundColor: "lightblue",
         marginLeft: 0,

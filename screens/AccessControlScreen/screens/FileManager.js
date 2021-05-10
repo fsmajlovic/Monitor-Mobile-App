@@ -13,12 +13,11 @@ export default function App({ navigation }) {
   var [files, setFiles] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
- 
+
   React.useEffect(() => {
     const loadFiles = navigation.addListener('focus', () => {
       getFiles();
     });
- 
     return loadFiles;
   }, [navigation])
  
@@ -36,7 +35,7 @@ export default function App({ navigation }) {
         user: username
       }),
     });
-    if(response.status == 200) {
+    if(response.status === 200) {
       var jsonResponse = await response.json();
  
       var jsonResponseArray = jsonResponse['children'];
@@ -45,16 +44,16 @@ export default function App({ navigation }) {
         let file = jsonResponseArray[i];
         let correctZoneBirthtime = new Date(file['birthtime']);
         newDataSet.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: null, birthtime: correctZoneBirthtime, extension: file['extension'] });
-        if(file['type'] == 'directory') {
+        if(file['type'] === 'directory') {
           newDataSet[newDataSet.length - 1]['children'] = file['children'];
         }
       }
       setFiles(newDataSet);
     }
-    else if(response.status == 503) {
+    else if(response.status === 503) {
       alert("Servis nedostupan");
     }
-    else if(response.status == 403) {
+    else if(response.status === 403) {
       //invalid token, trebalo bi dobaviti novi
     }
     else {

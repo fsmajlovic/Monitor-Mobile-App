@@ -117,8 +117,7 @@ export default function App({ route }) {
                     let deviceUids = [];
                     let token = await getSavedToken();
                     for (let i = 0; i < selectedMachines.length; i++) deviceUids.push({ deviceUid: selectedMachines[i].deviceUid });
-                    let filesToSend = [];
-                    filesToSend = route.params;
+                    let filesToSend = route.params;
                     try {
                         let response = await fetch(serverURL + "api/agent/files/put", {
                             method: "POST",
@@ -134,19 +133,19 @@ export default function App({ route }) {
                         });
                         var jsonResponse1 = await response.json();
 
-                        if (response.status == 200) {
+                        if (response.status === 200) {
                             if (jsonResponse1[0].errors.length > 0) {
                                 alert("Zahtjev nije validan - ne moze se slati folder")
                             }
                             else alert("Uspjesno poslano!");
 
-                        } else if (response.status == 300) {
+                        } else if (response.status === 300) {
                             alert("Folder nije validan");
-                        } else if (response.status == 400) {
+                        } else if (response.status === 400) {
                             alert("Pogrešan zahtjev")
-                        } else if (response.status == 403) {
+                        } else if (response.status === 403) {
                             //invalid token, trebalo bi dobaviti novi
-                        } else if (response.status == 404) {
+                        } else if (response.status === 404) {
                             alert("File nije pronadjen");
                         } else {
                             alert("Greska pri slanju datoteke");
@@ -154,7 +153,8 @@ export default function App({ route }) {
                     } catch (error) {
                         console.log(error);
                     }
-                }}></Button>
+                }}>
+                </Button>
             </Root>
         </>
     );

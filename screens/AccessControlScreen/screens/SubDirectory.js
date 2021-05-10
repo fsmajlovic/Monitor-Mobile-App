@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import ListViewVertical from '../components/ListViewVertical';
-import {AuthContext} from '../../../contexts/authContext';
-import {userContext} from '../../../contexts/userContext';
 
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
 
@@ -10,8 +8,6 @@ export default function App({ route, navigation }) {
   var [files, setFiles] = useState([]);
   var [dirName, setDirName] = useState([]);
   var [folderName, setFolderName] = useState([]);
-  var { getSavedToken } = React.useContext(AuthContext);
-  var username = React.useContext(userContext);
 
   useEffect(() => {
     var data = [];
@@ -25,7 +21,7 @@ export default function App({ route, navigation }) {
         let file = children[i];
         let correctZoneBirthtime = new Date(file['birthtime']);
         data.push({ name: file['name'], id: (i + 1).toString(), image_url: image_url, type: file['type'], path: file['path'], oldPath: null, birthtime: correctZoneBirthtime, extension: file['extension'] });
-        if(file['type'] == 'directory') {
+        if(file['type'] === 'directory') {
           data[data.length - 1]['children'] = file['children'];
         }
     }
