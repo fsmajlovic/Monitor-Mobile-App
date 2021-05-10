@@ -1,13 +1,10 @@
-import {useNavigation} from "@react-navigation/native";
 import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system";
 import * as Permissions from "expo-permissions";
 import * as Sharing from "expo-sharing";
-import {AuthContext} from "../../../contexts/authContext";
-import {userContext} from "../../../contexts/userContext";
 import {serverURL} from "../../../appConfig";
 import React from "react";
-import {Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import {StyleSheet,} from "react-native";
 
 expoFileLocation = "";
 fileData = "";
@@ -332,43 +329,6 @@ export async function moveFileFolder(token, username, name, oldPath, newPath) {
   if (extractedNewPath == "") extractedNewPath = "/";
 
   await move(token, username, name, extractedOldPath, extractedNewPath);
-}
-
-export default function ListItemVertical({
-  name,
-  type,
-  path,
-  children,
-}) {
-  var { getSavedToken } = React.useContext(AuthContext);
-  var username = React.useContext(userContext);
-  const navigation = useNavigation();
-  return (
-    <TouchableOpacity
-      onPress={async () => {
-        let token = await getSavedToken();
-        await downloadFile(
-          token,
-          username,
-          path,
-          name,
-          type,
-          children,
-          navigation
-        );
-      }}
-    >
-      <View style={styles.container} testID='LIV_ID_1'>
-        <Image
-          source={require("../../../assets/file-icon.jpg")}
-          style={styles.photo}
-        />
-        <View style={styles.container_text}>
-          <Text style={styles.title}>{name}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
 }
 
 const styles = StyleSheet.create({
