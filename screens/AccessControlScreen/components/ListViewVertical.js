@@ -3,15 +3,12 @@ import { useNavigation } from "@react-navigation/native";
 import * as FileSystem from "expo-file-system";
 import {
     View,
-    FlatList,
     StyleSheet,
     TouchableOpacity,
     Image,
     Text,
-    Button,
     Alert,
 } from "react-native";
-import ListItemVertical from "./ListItemVertical";
 import { serverURL } from "../../../appConfig";
 import { AuthContext } from "../../../contexts/authContext";
 import { userContext } from "../../../contexts/userContext";
@@ -21,8 +18,6 @@ import * as Sharing from 'expo-sharing';
 import {
     downloadFile,
     renameFileFolder,
-    copyFileFolder,
-    moveFileFolder,
     deleteFileFolder
     // shareFile
 } from "./ListItemVertical";
@@ -106,10 +101,8 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         if (selectionMode) {
             toggleSelect(item);
         } else {
-            console.log("newpath: " + item.oldPath);
             //ovo je za download
             let token = await getSavedToken();
-            console.log("ACTION IZ ONPRESS: " + actionCopyMove);
             downloadFile(token, username, item.path, item.name, item.type, item.children, item.oldPath, isCopyDirectory, actionCopyMove, navigation, item.extension);
         }
     };
@@ -157,9 +150,6 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
     };
 
     async function makeFolder() {
-        console.log(folderName);
-        console.log(pathFolder);
-
         let exists = false;
         for (let i = 0; i < items.length; i++) {
             if (items[i]["type"] == "directory" && items[i]["name"] == folderName) {
@@ -172,7 +162,6 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
             setVisibleFolder(false);
             let newPath = pathFolder.split("allFiles/" + username + "/")[1];
             let token = await getSavedToken();
-            console.log("Token je: " + token);
             const response = await fetch(serverURL + "api/web/user/folder/create", {
                 method: "POST",
                 headers: {
@@ -190,10 +179,6 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
                 Alert.alert("Uspješno dodan folder");
                 navigation.pop();
                 navigation.navigate("FileManager");
-                /*var newItems = items;
-                        newItems.push({ name: folderName, id: '', image_url: image_url, type: 'directory', path: pathFolder })
-                        newItems[newItems.length - 1]['children'] = [];
-                        setItems(newItems)*/
             } else if (response.status == 503) {
                 alert("Servis nedostupan");
             } else if (response.status == 403) {
@@ -258,7 +243,6 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
             alert(`Sharing isn't available on your platform`);
             return;
         }
-
         await Sharing.shareAsync(expoFileLocationShare);
     };
 
@@ -304,14 +288,12 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
 
     const deleteFromServer = async () => {
         let selectedItem;
-
         let token = await getSavedToken();
         for (let i = 0; i < items.length; i++) {
             if (items[i].selected) {
                 selectedItem = items[i];
                 if (selectedItem.type == "directory" && selectedItem.children.length != 0) {
 
-                    //console.log("nije prazan folder")
                     Alert.alert(
                         'Alert',
                         'Folder ' + selectedItem.name + ' is not empty. Are you sure you want to delete it?',
@@ -343,10 +325,9 @@ export default function ListViewVertical({ itemList, folderPath, isDirectory, ac
         let selectedFiles = items.filter((i) => i.selected);
         for (let i = 0; i < selectedFiles.length; i++) {
             let extractedPath = selectedFiles[i].path.split('/').slice(0, -1).join('/')
-            files.push({fileName: selectedFiles[i].name, path: extractedPath})
+            files.push({ fileName: selectedFiles[i].name, path: extractedPath })
         }
-        //console.log(files)
-        navigation.navigate("ChoiceDevices",files);
+        navigation.navigate("ChoiceDevices", files);
     }
 
     const renderItem = (item) => {
@@ -596,7 +577,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: 'center',
     },
-    //TouchableOpacity
     TO: {
         marginLeft: 10,
         marginRight: 10,

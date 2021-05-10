@@ -1,20 +1,16 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ScrollView, Alert, TouchableOpacity, Card, Button, Touchable } from 'react-native';
-import { useEffect, useState } from 'react'
+import { StyleSheet, View } from 'react-native';
+import { useState } from 'react'
 import ListViewVertical from '../components/ListViewVertical';
 import { serverURL } from "../../../appConfig";
 import { AuthContext } from '../../../contexts/authContext';
 import {userContext} from '../../../contexts/userContext';
-import {Menu, Divider, Provider } from 'react-native-paper';
+import { Provider } from 'react-native-paper';
  
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
  
 export default function App({ navigation }) {
  
-  const [visible, setVisible] = React.useState(false);
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
   var [files, setFiles] = useState([]);
   var { getSavedToken } = React.useContext(AuthContext);
   var username = React.useContext(userContext);
@@ -63,8 +59,7 @@ export default function App({ navigation }) {
       //invalid token, trebalo bi dobaviti novi
     }
     else {
-      console.log("Status" + response.status)
-      console.log("Promijenjen JSON zahtjeva?");
+      //console.log("Promijenjen JSON zahtjeva?");
       alert("Greska pri dobavljanju liste datoteka");
     }
   }

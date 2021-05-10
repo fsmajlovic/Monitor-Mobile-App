@@ -12,7 +12,6 @@ import {
   Text,
   StyleSheet,
   Image,
-  Button,
   TouchableOpacity,
 } from "react-native";
 
@@ -44,7 +43,7 @@ async function getFile(name, token, username, path, downloadLocally) {
         fileData = jsonResponse["base64"];
         fileName = jsonResponse["fileName"];
         await saveToExpoFileSystem();
-        if(downloadLocally) await copyFromExpoFSToLocalFS();
+        if (downloadLocally) await copyFromExpoFSToLocalFS();
       }
     } else if (response.status == 503) {
       alert("Servis nedostupan");
@@ -53,7 +52,6 @@ async function getFile(name, token, username, path, downloadLocally) {
     } else if (response.status == 404) {
       alert("Datoteka vise ne postoji");
     } else {
-      console.log("Promijenjen JSON zahtjeva?");
       alert("Greska pri preuzimanju datoteke");
     }
   } catch (error) {
@@ -80,7 +78,6 @@ async function rename(token, username, path, name, newName) {
     if (response.status == 200) {
       var jsonResponse = await response.json();
       if (jsonResponse.hasOwnProperty("error_id")) {
-        //alert("Datoteka/Folder ne postoji!");
         console.log("Datoteka/Folder ne postoji!");
       }
     } else if (response.status == 503) {
@@ -90,7 +87,6 @@ async function rename(token, username, path, name, newName) {
     } else if (response.status == 404) {
       alert("Datoteka vise ne postoji");
     } else {
-      console.log("Promijenjen JSON zahtjeva?");
       alert("Greska pri preuzimanju datoteke");
     }
   } catch (error) {
@@ -117,7 +113,6 @@ async function move(token, username, name, oldPath, newPath) {
     if (response.status == 400) {
       var jsonResponse = await response.json();
       if (jsonResponse.hasOwnProperty("error_id")) {
-        //alert("Datoteka/Folder ne postoji!");
         console.log("Zahtjev nije uredu");
       }
     } else if (response.status == 200) {
@@ -129,7 +124,7 @@ async function move(token, username, name, oldPath, newPath) {
     } else if (response.status == 404) {
       alert("Datoteka ne postoji");
     } else {
-      console.log("Promijenjen JSON zahtjeva?");
+      //console.log("Promijenjen JSON zahtjeva?");
     }
   } catch (error) {
     console.log(error);
@@ -155,7 +150,6 @@ async function copy(token, username, name, oldPath, newPath) {
     if (response.status == 400) {
       var jsonResponse = await response.json();
       if (jsonResponse.hasOwnProperty("error_id")) {
-        //alert("Datoteka/Folder ne postoji!");
         console.log("Zahtjev nije uredu");
       }
     } else if (response.status == 200) {
@@ -175,9 +169,7 @@ async function copy(token, username, name, oldPath, newPath) {
 }
 
 async function deleteFile(name, token, username, path) {
-  console.log("brise se file")
   try {
-
     let response = await fetch(serverURL + "api/web/user/file/delete", {
       method: "POST",
       headers: {
@@ -194,7 +186,6 @@ async function deleteFile(name, token, username, path) {
     if (response.status == 200) {
       var jsonResponse = await response.json();
       if (jsonResponse.hasOwnProperty("error_id")) {
-        //alert("Datoteka/Folder ne postoji!");
         console.log("Datoteka ne postoji!");
       }
     } else if (response.status == 503) {
@@ -214,7 +205,6 @@ async function deleteFile(name, token, username, path) {
 
 
 async function deleteFolder(name, token, username, path) {
-  console.log("brise se folder")
   try {
     let response = await fetch(serverURL + "api/web/user/folder/delete", {
       method: "POST",
@@ -232,7 +222,6 @@ async function deleteFolder(name, token, username, path) {
     if (response.status == 200) {
       var jsonResponse = await response.json();
       if (jsonResponse.hasOwnProperty("error_id")) {
-        //alert("Datoteka/Folder ne postoji!");
         console.log("Folder ne postoji!");
       }
     } else if (response.status == 503) {
@@ -254,7 +243,6 @@ async function deleteFolder(name, token, username, path) {
 
 async function saveToExpoFileSystem() {
   expoFileLocation = FileSystem.documentDirectory + fileName;
-  console.log('lokacija' + expoFileLocation);
   FileSystem.writeAsStringAsync(expoFileLocation, fileData, {
     encoding: FileSystem.EncodingType.Base64,
   }).catch((error) => {
@@ -278,39 +266,35 @@ async function copyFromExpoFSToLocalFS() {
     console.log(error);
   }
 }
-export async function downloadFile(token, username, path,name,type,children,oldPath,isDirectory,action,navigation,extension,downloadLocally = true){
-  console.log(path)
-  
+export async function downloadFile(token, username, path, name, type, children, oldPath, isDirectory, action, navigation, extension, downloadLocally = true) {
   var extractedPath = path.split("allFiles/" + username)[1];
   extractedPath = extractedPath.split(name)[0];
-  if(extractedPath == "") extractedPath = "/";
-  if(type == 'file') {
-    await getFile(name,token,username,extractedPath,downloadLocally);
+  if (extractedPath == "") extractedPath = "/";
+  if (type == 'file') {
+    await getFile(name, token, username, extractedPath, downloadLocally);
   }
-  else if(type == 'directory') {
-    if(oldPath == null)
-      navigation.push("SubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath, extension: extension});
+  else if (type == 'directory') {
+    if (oldPath == null)
+      navigation.push("SubDirectory", { name: name, type: type, path: path, children: children, oldPath: oldPath, extension: extension });
     else
-      navigation.push("ChoiceSubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath, isDirectory: isDirectory, action: action});
+      navigation.push("ChoiceSubDirectory", { name: name, type: type, path: path, children: children, oldPath: oldPath, isDirectory: isDirectory, action: action });
   }
 }
 
 
 //SHARE FAJLA
-export async function shareFile(token, username, path,name,type,children,oldPath,isDirectory,action,navigation,extension,downloadLocally = true){
-  console.log(path)
-  
+export async function shareFile(token, username, path, name, type, children, oldPath, isDirectory, action, navigation, extension, downloadLocally = true) {
   var extractedPath = path.split("allFiles/" + username)[1];
   extractedPath = extractedPath.split(name)[0];
-  if(extractedPath == "") extractedPath = "/";
-  if(type == 'file') {
-    await getFile(name,token,username,extractedPath,downloadLocally);
+  if (extractedPath == "") extractedPath = "/";
+  if (type == 'file') {
+    await getFile(name, token, username, extractedPath, downloadLocally);
   }
-  else if(type == 'directory') {
-    if(oldPath == null)
-      navigation.push("SubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath, extension: extension});
+  else if (type == 'directory') {
+    if (oldPath == null)
+      navigation.push("SubDirectory", { name: name, type: type, path: path, children: children, oldPath: oldPath, extension: extension });
     else
-      navigation.push("ChoiceSubDirectory", {name: name, type: type, path: path, children: children, oldPath: oldPath, isDirectory: isDirectory, action: action});
+      navigation.push("ChoiceSubDirectory", { name: name, type: type, path: path, children: children, oldPath: oldPath, isDirectory: isDirectory, action: action });
   }
 }
 
@@ -333,7 +317,6 @@ export async function deleteFileFolder(username, token, path, name, type) {
 }
 
 export async function copyFileFolder(token, username, name, oldPath, newPath) {
-  console.log(oldPath + name + newPath);
   var extractedOldPath = oldPath.split("allFiles/" + username)[1];
   extractedOldPath = extractedOldPath.split(name)[0];
   if (extractedOldPath == "") extractedOldPath = "/";
@@ -346,7 +329,6 @@ export async function copyFileFolder(token, username, name, oldPath, newPath) {
 }
 
 export async function moveFileFolder(token, username, name, oldPath, newPath) {
-  console.log(oldPath + name + newPath);
   var extractedOldPath = oldPath.split("allFiles/" + username)[1];
   extractedOldPath = extractedOldPath.split(name)[0];
   if (extractedOldPath == "") extractedOldPath = "/";
@@ -360,7 +342,6 @@ export async function moveFileFolder(token, username, name, oldPath, newPath) {
 
 export default function ListItemVertical({
   name,
-  image_url,
   type,
   path,
   children,
