@@ -1,19 +1,13 @@
-import { useNavigation } from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
 import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system";
 import * as Permissions from "expo-permissions";
 import * as Sharing from "expo-sharing";
-import { AuthContext } from "../../../contexts/authContext";
-import { userContext } from "../../../contexts/userContext";
-import { serverURL } from "../../../appConfig";
+import {AuthContext} from "../../../contexts/authContext";
+import {userContext} from "../../../contexts/userContext";
+import {serverURL} from "../../../appConfig";
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
 
 expoFileLocation = "";
 fileData = "";

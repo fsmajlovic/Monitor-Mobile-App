@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Image, View } from "react-native";
+import React, {useEffect, useState} from 'react';
+import {Button, Image, StyleSheet, View} from "react-native";
 
-import {
-    List,
-    ListItem,
-    Text,
-    Container,
-    Root,
-    Content,
-} from 'native-base';
-import { StyleSheet } from 'react-native';
-import { AuthContext } from '../../../contexts/authContext';
-import { machineURL, activeMachineURL } from '../../../appConfig';
+import {Container, Content, List, ListItem, Root, Text,} from 'native-base';
+import {AuthContext} from '../../../contexts/authContext';
+import {activeMachineURL, serverURL} from '../../../appConfig';
 import axios from 'axios';
-import { serverURL } from "../../../appConfig";
 
 function useSelectionChange(items) {
     const [selectionMode, setSelectionMode] = useState(null);

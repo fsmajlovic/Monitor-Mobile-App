@@ -1,29 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, {useEffect, useState} from "react";
+import {useNavigation} from "@react-navigation/native";
 import * as FileSystem from "expo-file-system";
-import {
-    View,
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    Text,
-    Alert,
-} from "react-native";
-import { serverURL } from "../../../appConfig";
-import { AuthContext } from "../../../contexts/authContext";
-import { userContext } from "../../../contexts/userContext";
+import {Alert, Image, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import {serverURL} from "../../../appConfig";
+import {AuthContext} from "../../../contexts/authContext";
+import {userContext} from "../../../contexts/userContext";
 import SelectionListHeader from "./SelectionListHeader";
 import * as Sharing from 'expo-sharing';
 
-import {
-    downloadFile,
-    renameFileFolder,
-    deleteFileFolder
-    // shareFile
-} from "./ListItemVertical";
+import {deleteFileFolder, downloadFile, renameFileFolder} from "./ListItemVertical";
 import Dialog from "react-native-dialog";
 
-import { List, Content, Container, Root } from "native-base";
+import {Container, Content, List, Root} from "native-base";
 
 var image_source_folder = require("../../../assets/file-icon.jpg");
 var image_source_data = require("../../../assets/paper-icon.png");

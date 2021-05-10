@@ -1,13 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Image, FlatList, ScrollView, Alert, TouchableOpacity, Card, Button, Touchable } from 'react-native';
-import { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import ListViewVertical from '../components/ListViewVertical';
-import { serverURL } from "../../../appConfig";
-import { AuthContext } from '../../../contexts/authContext';
+import {serverURL} from "../../../appConfig";
+import {AuthContext} from '../../../contexts/authContext';
 import {userContext} from '../../../contexts/userContext';
-import {Menu, Divider, Provider } from 'react-native-paper';
-import { copyAsync } from 'expo-file-system';
+import {Provider} from 'react-native-paper';
 
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
 

@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import { View, StyleSheet, Text,} from 'react-native';
+import React, {useState} from 'react';
 import {WebView} from 'react-native-webview';
 
 export default function WebViewScreen({route, navigation}) {

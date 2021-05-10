@@ -1,12 +1,11 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { useState } from 'react'
+import React, {useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import ListViewVertical from '../components/ListViewVertical';
-import { serverURL } from "../../../appConfig";
-import { AuthContext } from '../../../contexts/authContext';
+import {serverURL} from "../../../appConfig";
+import {AuthContext} from '../../../contexts/authContext';
 import {userContext} from '../../../contexts/userContext';
-import { Provider } from 'react-native-paper';
- 
+import {Provider} from 'react-native-paper';
+
 var image_url = "https://static.thenounproject.com/png/59103-200.png";
  
 export default function App({ navigation }) {

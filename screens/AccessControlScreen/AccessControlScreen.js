@@ -1,10 +1,9 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react'
-import { AuthContext } from '../../contexts/authContext';
-import { serverURL } from '../../appConfig';
-import { DeviceContext } from '../../contexts/DeviceContext';
-import { useContext } from 'react';
-import { userContext } from '../../contexts/userContext';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useContext, useState} from 'react'
+import {AuthContext} from '../../contexts/authContext';
+import {serverURL} from '../../appConfig';
+import {DeviceContext} from '../../contexts/DeviceContext';
+import {userContext} from '../../contexts/userContext';
 import * as Sharing from 'expo-sharing';
 import * as FileSystem from 'expo-file-system';
 

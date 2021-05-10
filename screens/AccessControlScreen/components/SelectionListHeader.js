@@ -1,15 +1,6 @@
 import React from 'react';
 
-import {
-  Text,
-  Body,
-  Header,
-  Left,
-  Icon,
-  Right,
-  Button,
-  ActionSheet,
-} from 'native-base';
+import {ActionSheet, Body, Button, Header, Icon, Left, Right, Text,} from 'native-base';
 
 function SelectionListHeader(props) {
   const onPressSelectionActions = () => {
