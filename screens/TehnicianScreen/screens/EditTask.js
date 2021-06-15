@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
   },
   input2: {
     width: 250,
-    height: 130,
+    height: 110,
     padding: 10,
     borderWidth: 1,
     borderColor: 'black',
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
   },
   conainerIcon: {
     flexDirection: "row",
-    marginVertical: 15,
+    marginVertical: 13,
   },
   text: {
     fontSize: 16
