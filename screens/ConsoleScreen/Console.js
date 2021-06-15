@@ -63,9 +63,9 @@ export default function Console({ navigation }) {
         setRestartCommand([]);
     };
 
-    //   useEffect(() => {
-    //       getFoldersInCurrentPath();
-    //   }, [path]);
+    useEffect(() => {
+        getFoldersInCurrentPath();
+    }, [path]);
 
     const getUser = async () => {
         setUser(true);
@@ -105,6 +105,7 @@ export default function Console({ navigation }) {
                 console.log("konekcija " + res.message)
                 if (!(username === 'undefined'))
                     setConnected(true);
+                //???????????????????????????????????????????????????????????                   
                 //   getFoldersInCurrentPath();
             });
     }
@@ -214,8 +215,8 @@ export default function Console({ navigation }) {
     }
 
     const recommendFolder = async () => {
-        /*
-        console.log("Pozvalo se ovo 1");
+
+        console.log("Pozvalo se ovo 2");
         if (edited) {
             setEdited(false);
             setIndexFolder(0);
@@ -233,7 +234,7 @@ export default function Console({ navigation }) {
         }
         else {
             setIndexFolder(indexFolder + 1);
-        } */
+        }
     }
 
     return (
