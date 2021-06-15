@@ -269,7 +269,7 @@ export default function EditTask({route, navigation}) {
                   navigation.popToTop()
                 }} />
 
-              <View style={{ paddingTop: 15 }}>
+              <View style={{ paddingTop: 12 }}>
                 <Button title="Check-In" onPress={
                   async () => {
                     let token = await getSavedToken();
